@@ -1,0 +1,10 @@
+{
+	"db":{
+		"Server": "localhost",
+		"UserID":"root",
+		"Password":"GinoCosta123",
+		"Database":"bdcine",
+		"Port":3306
+	},
+	"AppPort":8081
+}
