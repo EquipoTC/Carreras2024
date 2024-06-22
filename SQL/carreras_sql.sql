@@ -25,9 +25,11 @@ CREATE TABLE info_dispositivo(
 
 DELIMITER //
 
+# DISPOSITIVOS
+
 CREATE PROCEDURE sp_add_dispositivo(IN a_disp_descripcion TEXT, a_disp_latitud FLOAT, a_disp_longitud FLOAT, a_disp_habilitado BOOLEAN)
 BEGIN
-		INSERT INTO dispositivo(disp_descripcion, disp_latitud, disp_longitud, disp_habilitado) 
+		INSERT INTO dispositivo(disp_descripcion, disp_latitud_actual, disp_longitud_actual, disp_habilitado) 
 		VALUES(
 			a_disp_descripcion,
 			a_disp_latitud,
@@ -35,6 +37,13 @@ BEGIN
 			a_disp_habilitado
 		);
 END //
+
+CREATE PROCEDURE sp_read_dispositivo_count()
+BEGIN
+		SELECT COUNT(*) FROM dispositivo;
+END //
+
+# INFORMACION DISPOSITIVOS
 
 CREATE PROCEDURE sp_add_info_dispositivo(IN a_info_disp_id INT UNSIGNED, a_info_latitud FLOAT, a_info_longitud FLOAT)
 BEGIN
@@ -61,6 +70,12 @@ BEGIN
 END //
 
 DELIMITER ;
+
+CALL sp_add_dispositivo("Descripción", -30.768056, 60.676532, TRUE);
+CALL sp_add_dispositivo("Descripción", -30.768056, 60.676532, TRUE);
+CALL sp_add_dispositivo("Descripción", -30.768056, 60.676532, TRUE);
+
+CALL sp_read_dispositivo_count();
 
 CALL sp_add_info_dispositivo(1, 2, 2);
 CALL sp_add_info_dispositivo(1, 500, 26.54);

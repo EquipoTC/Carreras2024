@@ -68,6 +68,11 @@ func ObtenerDispositivos(w http.ResponseWriter, r *http.Request) {
 	ObtenerConsultaJSON(w, r, query)
 }
 
+func ObtenerDispositivosCount(w http.ResponseWriter, r *http.Request) {
+	query := "CALL sp_read_dispositivo_count()"
+	ObtenerConsultaJSON(w, r, query)
+}
+
 func ObtenerInfoDispositivo(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT * FROM info_dispositivo"
 	ObtenerConsultaJSON(w, r, query)
