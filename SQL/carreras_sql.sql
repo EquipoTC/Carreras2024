@@ -38,9 +38,9 @@ BEGIN
 		);
 END //
 
-CREATE PROCEDURE sp_read_dispositivo_count()
+CREATE PROCEDURE sp_read_dispositivos()
 BEGIN
-		SELECT COUNT(*) FROM dispositivo;
+	SELECT * FROM Dispositivo;
 END //
 
 # INFORMACION DISPOSITIVOS
@@ -71,11 +71,9 @@ END //
 
 DELIMITER ;
 
-CALL sp_add_dispositivo("Descripción", -30.768056, 60.676532, TRUE);
-CALL sp_add_dispositivo("Descripción", -30.768056, 60.676532, TRUE);
-CALL sp_add_dispositivo("Descripción", -30.768056, 60.676532, TRUE);
-
-CALL sp_read_dispositivo_count();
+CALL sp_add_dispositivo("Dispositivo 1", -30.768056, 60.676532, TRUE);
+CALL sp_add_dispositivo("Dispositivo 2", 30.160236, -60.61532, TRUE);
+CALL sp_add_dispositivo("Dispositivo 3", 10.712316, 100.676532, TRUE);
 
 CALL sp_add_info_dispositivo(1, 2, 2);
 CALL sp_add_info_dispositivo(1, 500, 26.54);

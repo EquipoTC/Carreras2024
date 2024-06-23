@@ -64,12 +64,7 @@ func InsertarSala(w http.ResponseWriter, r *http.Request) {
 }
 
 func ObtenerDispositivos(w http.ResponseWriter, r *http.Request) {
-	query := "SELECT * FROM dispositivo"
-	ObtenerConsultaJSON(w, r, query)
-}
-
-func ObtenerDispositivosCount(w http.ResponseWriter, r *http.Request) {
-	query := "CALL sp_read_dispositivo_count()"
+	query := "CALL sp_read_dispositivos()"
 	ObtenerConsultaJSON(w, r, query)
 }
 
