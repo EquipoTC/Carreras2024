@@ -30,6 +30,7 @@ func main() {
 	// Definicion de rutas
 	router.HandleFunc("/info", app.ObtenerInfoDispositivo)
 	router.HandleFunc("/disp", app.ObtenerDispositivos)
+	router.HandleFunc("/disp/position/{dispID}", app.ObterDispositivoPosicion)
 	/*
 		router.HandleFunc("/", app.Inicio)                                    // Muestra un mensaje en pantalla
 		router.HandleFunc("/index", app.Index)                                // Muestra una pagina web utilizando templates

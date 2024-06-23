@@ -43,6 +43,11 @@ BEGIN
 	SELECT * FROM Dispositivo;
 END //
 
+CREATE PROCEDURE sp_read_dispositivo_position(IN a_disp_id INT UNSIGNED)
+BEGIN
+	SELECT disp_latitud_actual, disp_longitud_actual FROM Dispositivo WHERE disp_id = a_disp_id;
+END //
+
 # INFORMACION DISPOSITIVOS
 
 CREATE PROCEDURE sp_add_info_dispositivo(IN a_info_disp_id INT UNSIGNED, a_info_latitud FLOAT, a_info_longitud FLOAT)
@@ -71,9 +76,9 @@ END //
 
 DELIMITER ;
 
-CALL sp_add_dispositivo("Dispositivo 1", -30.768056, 60.676532, TRUE);
-CALL sp_add_dispositivo("Dispositivo 2", 30.160236, -60.61532, TRUE);
-CALL sp_add_dispositivo("Dispositivo 3", 10.712316, 100.676532, TRUE);
+CALL sp_add_dispositivo("Gino", -30.768056, 60.676532, TRUE);
+CALL sp_add_dispositivo("Stefano", 30.160236, -60.61532, TRUE);
+CALL sp_add_dispositivo("Jeremias", 10.712316, 100.676532, TRUE);
 
 CALL sp_add_info_dispositivo(1, 2, 2);
 CALL sp_add_info_dispositivo(1, 500, 26.54);
