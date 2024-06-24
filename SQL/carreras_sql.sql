@@ -76,6 +76,11 @@ BEGIN
 	SELECT * FROM info_dispositivo;
 END //
 
+CREATE PROCEDURE sp_read_info_dispositivo(IN a_info_disp_id INT UNSIGNED)
+BEGIN
+	SELECT * FROM info_dispositivo WHERE info_disp_id = a_info_disp_id;
+END //
+
 CREATE PROCEDURE sp_remove_info_disp(IN a_info_disp_id INT UNSIGNED)
 BEGIN
 	CREATE TEMPORARY TABLE ultima_informacion AS (
@@ -97,11 +102,12 @@ CALL sp_add_dispositivo("Jeremias", 10.712316, 100.676532, TRUE);
 
 CALL sp_add_info_dispositivo(1, 2, 2);
 CALL sp_add_info_dispositivo(1, 500, 26.54);
-CALL sp_add_info_dispositivo(1, 200, 3.102);
 CALL sp_add_info_dispositivo(2, 300, 700.53);
 CALL sp_add_info_dispositivo(2, 700, 309.2);
 CALL sp_add_info_dispositivo(2, 1000, 120.3);
+CALL sp_add_info_dispositivo(1, 200, 3.102);
 CALL sp_add_info_dispositivo(2, 1200, 120.3);
-CALL sp_add_info_dispositivo(1, 800, 1230);
+CALL sp_add_info_dispositivo(3, 800, 1230);
+CALL sp_add_info_dispositivo(3, 1200, 1230);
 
 CALL sp_read_info_dispositivos();

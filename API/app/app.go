@@ -75,7 +75,14 @@ func ObterDispositivoPosicion(w http.ResponseWriter, r *http.Request) {
 	ObtenerConsultaJSON(w, r, query)
 }
 
-func ObtenerInfoDispositivo(w http.ResponseWriter, r *http.Request) {
+func ObtenerInfoDispositivos(w http.ResponseWriter, r *http.Request) {
 	query := "CALL sp_read_info_dispositivos()"
+	ObtenerConsultaJSON(w, r, query)
+}
+
+func ObtenerInfoDispositivo(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	dispID := vars["dispID"]
+	query := "CALL sp_read_info_dispositivo(" + dispID + ")"
 	ObtenerConsultaJSON(w, r, query)
 }

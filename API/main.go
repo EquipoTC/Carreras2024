@@ -28,7 +28,8 @@ func main() {
 	fmt.Println("Servidor corriendo...")
 
 	// Definicion de rutas
-	router.HandleFunc("/info", app.ObtenerInfoDispositivo)
+	router.HandleFunc("/info", app.ObtenerInfoDispositivos)
+	router.HandleFunc("/info/{dispID}", app.ObtenerInfoDispositivo)
 	router.HandleFunc("/disp", app.ObtenerDispositivos)
 	router.HandleFunc("/disp/position/{dispID}", app.ObterDispositivoPosicion)
 	/*
