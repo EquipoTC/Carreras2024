@@ -43,6 +43,15 @@ BEGIN
 	SELECT * FROM Dispositivo;
 END //
 
+CREATE PROCEDURE sp_update_dispositivo_position(IN a_disp_id INT UNSIGNED, a_disp_latitud FLOAT, a_disp_longitud FLOAT)
+BEGIN
+	UPDATE dispositivo 
+	SET 
+		disp_latitud_actual = a_disp_latitud, 
+		disp_longitud_actual = a_disp_longitud 
+	WHERE disp_id = a_disp_id;
+END //
+
 CREATE PROCEDURE sp_read_dispositivo_position(IN a_disp_id INT UNSIGNED)
 BEGIN
 	SELECT disp_latitud_actual, disp_longitud_actual FROM Dispositivo WHERE disp_id = a_disp_id;
@@ -59,6 +68,7 @@ BEGIN
 		a_info_longitud
 	);
 	CALL sp_remove_info_disp(a_info_disp_id);
+	CALL sp_update_dispositivo_position(a_info_disp_id, a_info_latitud, a_info_longitud);
 END //
 
 CREATE PROCEDURE sp_read_info_dispositivos()
