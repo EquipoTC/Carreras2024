@@ -61,6 +61,11 @@ BEGIN
 	CALL sp_remove_info_disp(a_info_disp_id);
 END //
 
+CREATE PROCEDURE sp_read_info_dispositivos()
+BEGIN
+	SELECT * FROM info_dispositivo;
+END //
+
 CREATE PROCEDURE sp_remove_info_disp(IN a_info_disp_id INT UNSIGNED)
 BEGIN
 	CREATE TEMPORARY TABLE ultima_informacion AS (
@@ -89,4 +94,4 @@ CALL sp_add_info_dispositivo(2, 1000, 120.3);
 CALL sp_add_info_dispositivo(2, 1200, 120.3);
 CALL sp_add_info_dispositivo(1, 800, 1230);
 
-SELECT * FROM info_dispositivo WHERE info_disp_id = 1;
+CALL sp_read_info_dispositivos();

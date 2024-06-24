@@ -41,6 +41,6 @@ func main() {
 		router.HandleFunc("/localidades", app.ObtenerLocalidades)
 	*/
 	// Inicio del servicio en el puerto configurado
-	fmt.Printf("localhost:" + strconv.Itoa(Config.AppConfig.Port))
+	fmt.Printf("http://localhost:" + strconv.Itoa(Config.AppConfig.Port))
 	http.ListenAndServe(":"+strconv.Itoa(Config.AppConfig.Port), router)
 }

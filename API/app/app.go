@@ -76,6 +76,6 @@ func ObterDispositivoPosicion(w http.ResponseWriter, r *http.Request) {
 }
 
 func ObtenerInfoDispositivo(w http.ResponseWriter, r *http.Request) {
-	query := "SELECT * FROM info_dispositivo"
+	query := "CALL sp_read_info_dispositivos()"
 	ObtenerConsultaJSON(w, r, query)
 }
