@@ -9,7 +9,7 @@ CREATE TABLE dispositivo(
 	disp_latitud_actual FLOAT,
 	disp_longitud_actual FLOAT,
 	disp_fecha_ingreso TIMESTAMP DEFAULT (NOW()),
-	disp_fecha_modificacion TIMESTAMP DEFAULT (NULL),
+	disp_fecha_modificacion TIMESTAMP DEFAULT (NOW()),
 	disp_habilitado BOOLEAN NOT NULL DEFAULT(TRUE),
 	PRIMARY KEY(disp_id)
 );
@@ -40,7 +40,7 @@ END //
 
 CREATE PROCEDURE sp_read_dispositivos()
 BEGIN
-	SELECT * FROM Dispositivo;
+	SELECT * FROM Dispositivo WHERE disp_habilitado = 1;
 END //
 
 CREATE PROCEDURE sp_update_dispositivo_position(IN a_disp_id INT UNSIGNED, a_disp_latitud FLOAT, a_disp_longitud FLOAT)
@@ -50,11 +50,6 @@ BEGIN
 		disp_latitud_actual = a_disp_latitud, 
 		disp_longitud_actual = a_disp_longitud 
 	WHERE disp_id = a_disp_id;
-END //
-
-CREATE PROCEDURE sp_read_dispositivo_position(IN a_disp_id INT UNSIGNED)
-BEGIN
-	SELECT disp_latitud_actual, disp_longitud_actual FROM Dispositivo WHERE disp_id = a_disp_id;
 END //
 
 # INFORMACION DISPOSITIVOS
