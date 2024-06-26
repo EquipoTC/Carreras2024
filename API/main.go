@@ -31,14 +31,13 @@ func main() {
 	router.HandleFunc("/info", app.ObtenerInfoDispositivos)
 	router.HandleFunc("/info/{dispID}", app.ObtenerInfoDispositivo)
 	router.HandleFunc("/disp", app.ObtenerDispositivos)
-	/*
-		router.HandleFunc("/", app.Inicio)                                    // Muestra un mensaje en pantalla
-		router.HandleFunc("/index", app.Index)                                // Muestra una pagina web utilizando templates
-		router.HandleFunc("/sucesos", app.ObtenerSucesos)                     // Obtiene el listado de sucesos en JSON
-		router.HandleFunc("/suceso/{suceID}", app.ObtenerSuceso)              // Obtiene los datos de un suceso en JSON recibiendo por parametro GET el Id de suceso
-		router.HandleFunc("/insertar_sala", app.InsertarSala).Methods("POST") // Inserta una sala, enviandole los datos a insertar atravez de un metodo POST
+	router.HandleFunc("/", app.Inicio) // Muestra un mensaje en pantalla
+	/*router.HandleFunc("/index", app.Index)                                // Muestra una pagina web utilizando templates
+	router.HandleFunc("/sucesos", app.ObtenerSucesos)                     // Obtiene el listado de sucesos en JSON
+	router.HandleFunc("/suceso/{suceID}", app.ObtenerSuceso)              // Obtiene los datos de un suceso en JSON recibiendo por parametro GET el Id de suceso
+	router.HandleFunc("/insertar_sala", app.InsertarSala).Methods("POST") // Inserta una sala, enviandole los datos a insertar atravez de un metodo POST
 
-		router.HandleFunc("/localidades", app.ObtenerLocalidades)
+	router.HandleFunc("/localidades", app.ObtenerLocalidades)
 	*/
 	// Inicio del servicio en el puerto configurado
 	fmt.Printf("http://localhost:" + strconv.Itoa(Config.AppConfig.Port))
