@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using API;
 using GMap.NET;
 using GMap.NET.MapProviders;
-using Mapa;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -62,18 +61,14 @@ namespace DispositivoManager
 
         public List<InformationModel> Information = new List<InformationModel>();
 
-        public async void Update_Information()
+        public async Task<List<InformationModel>> Update_Information()
         {
             string respuesta = await APIRequests.GetHttp("/info/" + Id);
             JObject json = JObject.Parse(respuesta);
             Information = JsonConvert.DeserializeObject<List<InformationModel>>(json["data"].ToString());
             Latitud_Actual = Information[Information.Count-1].Latitud_Actual;
             Longitud_Actual = Information[Information.Count-1].Longitud_Actual;
-        }
-
-        public string Get_Position_Message()
-        {
-            return Descripcion + "\n Latitud:" + Latitud_Actual + "\n Longitud:" + Longitud_Actual;
+            return Information;
         }
 
         public PointLatLng Get_Current_Position()
@@ -84,6 +79,11 @@ namespace DispositivoManager
         private PointLatLng Get_Position_by_Id(int id)
         {
             return new PointLatLng(Information[id].Latitud_Actual, Information[id].Longitud_Actual);
+        }
+
+        public string Get_Position_Message()
+        {
+            return Descripcion + "\n Latitud:" + Latitud_Actual + "\n Longitud:" + Longitud_Actual;
         }
 
         public double Calculate_Velocity(int end = 1)
@@ -109,6 +109,7 @@ namespace DispositivoManager
             }
             return totalDistance / totalTime;
         }
+
     }
     internal class InformationModel
     {

@@ -35,10 +35,9 @@
             this.txtLatitud = new System.Windows.Forms.TextBox();
             this.comboDisp = new System.Windows.Forms.ComboBox();
             this.checkPinPos = new System.Windows.Forms.CheckBox();
-            this.checkPinZoom = new System.Windows.Forms.CheckBox();
+            this.labelVelGPS = new System.Windows.Forms.Label();
             this.trackZoom = new System.Windows.Forms.TrackBar();
             this.labelZoom = new System.Windows.Forms.Label();
-            this.labelVelGPS = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackZoom)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,7 +114,9 @@
             // checkPinPos
             // 
             this.checkPinPos.AutoSize = true;
-            this.checkPinPos.Location = new System.Drawing.Point(419, 200);
+            this.checkPinPos.Checked = true;
+            this.checkPinPos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkPinPos.Location = new System.Drawing.Point(423, 225);
             this.checkPinPos.Name = "checkPinPos";
             this.checkPinPos.Size = new System.Drawing.Size(81, 17);
             this.checkPinPos.TabIndex = 7;
@@ -123,52 +124,41 @@
             this.checkPinPos.UseVisualStyleBackColor = true;
             this.checkPinPos.CheckedChanged += new System.EventHandler(this.checkPinPosition_Changed);
             // 
-            // checkPinZoom
+            // labelVelGPS
             // 
-            this.checkPinZoom.AutoSize = true;
-            this.checkPinZoom.Location = new System.Drawing.Point(418, 223);
-            this.checkPinZoom.Name = "checkPinZoom";
-            this.checkPinZoom.Size = new System.Drawing.Size(71, 17);
-            this.checkPinZoom.TabIndex = 8;
-            this.checkPinZoom.Text = "Pin Zoom";
-            this.checkPinZoom.UseVisualStyleBackColor = true;
+            this.labelVelGPS.AutoSize = true;
+            this.labelVelGPS.Location = new System.Drawing.Point(420, 196);
+            this.labelVelGPS.Name = "labelVelGPS";
+            this.labelVelGPS.Size = new System.Drawing.Size(129, 26);
+            this.labelVelGPS.TabIndex = 11;
+            this.labelVelGPS.Text = "Velocidad GPS:\r\nVelocidad GPS Promedio:";
             // 
             // trackZoom
             // 
-            this.trackZoom.Location = new System.Drawing.Point(459, 246);
+            this.trackZoom.Location = new System.Drawing.Point(467, 245);
             this.trackZoom.Maximum = 18;
             this.trackZoom.Minimum = 1;
             this.trackZoom.Name = "trackZoom";
             this.trackZoom.Size = new System.Drawing.Size(104, 45);
             this.trackZoom.TabIndex = 9;
             this.trackZoom.Value = 10;
-            this.trackZoom.ValueChanged += new System.EventHandler(this.TrackZoom_Value_Changed);
+            this.trackZoom.ValueChanged += new System.EventHandler(this.zoomTrack_Changed);
             // 
             // labelZoom
             // 
             this.labelZoom.AutoSize = true;
-            this.labelZoom.Location = new System.Drawing.Point(418, 247);
+            this.labelZoom.Location = new System.Drawing.Point(424, 245);
             this.labelZoom.Name = "labelZoom";
             this.labelZoom.Size = new System.Drawing.Size(37, 13);
             this.labelZoom.TabIndex = 10;
             this.labelZoom.Text = "Zoom:";
             // 
-            // labelVelGPS
-            // 
-            this.labelVelGPS.AutoSize = true;
-            this.labelVelGPS.Location = new System.Drawing.Point(417, 278);
-            this.labelVelGPS.Name = "labelVelGPS";
-            this.labelVelGPS.Size = new System.Drawing.Size(82, 13);
-            this.labelVelGPS.TabIndex = 11;
-            this.labelVelGPS.Text = "Velocidad GPS:";
-            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(601, 424);
+            this.ClientSize = new System.Drawing.Size(754, 424);
             this.Controls.Add(this.labelVelGPS);
             this.Controls.Add(this.labelZoom);
             this.Controls.Add(this.trackZoom);
-            this.Controls.Add(this.checkPinZoom);
             this.Controls.Add(this.checkPinPos);
             this.Controls.Add(this.comboDisp);
             this.Controls.Add(this.labelLatitud);
@@ -192,10 +182,9 @@
         private System.Windows.Forms.TextBox txtLatitud;
         private System.Windows.Forms.ComboBox comboDisp;
         private System.Windows.Forms.CheckBox checkPinPos;
-        private System.Windows.Forms.CheckBox checkPinZoom;
+        private System.Windows.Forms.Label labelVelGPS;
         private System.Windows.Forms.TrackBar trackZoom;
         private System.Windows.Forms.Label labelZoom;
-        private System.Windows.Forms.Label labelVelGPS;
     }
 }
 

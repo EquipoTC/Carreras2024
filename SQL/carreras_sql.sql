@@ -36,6 +36,12 @@ BEGIN
 			a_disp_longitud,
 			a_disp_habilitado
 		);
+		SET @dispositivo_last_id = 
+			SELECT @dispositivo_last_id := id
+			FROM mi_tabla 
+			ORDER BY disp_id DESC 
+			LIMIT 1;
+		CALL sp_add_info_dispositivo(@dispositivo_last_id, disp_latitud_actual, disp_longitud_actual);
 END //
 
 CREATE PROCEDURE sp_read_dispositivos()
@@ -91,18 +97,15 @@ END //
 
 DELIMITER ;
 
-CALL sp_add_dispositivo("Gino", -30.768056, 60.676532, TRUE);
+CALL sp_add_dispositivo("Auto 1", -34.697542172654494, -58.460152137859886, TRUE);
 CALL sp_add_dispositivo("Stefano", 30.160236, -60.61532, TRUE);
 CALL sp_add_dispositivo("Jeremias", 10.712316, 100.676532, TRUE);
 
-CALL sp_add_info_dispositivo(1, 2, 2);
-CALL sp_add_info_dispositivo(1, 500, 26.54);
-CALL sp_add_info_dispositivo(2, 300, 700.53);
-CALL sp_add_info_dispositivo(2, 700, 309.2);
-CALL sp_add_info_dispositivo(2, 1000, 120.3);
-CALL sp_add_info_dispositivo(1, 200, 3.102);
-CALL sp_add_info_dispositivo(2, 1200, 120.3);
-CALL sp_add_info_dispositivo(3, 800, 1230);
-CALL sp_add_info_dispositivo(3, 1200, 1230);
+CALL sp_add_info_dispositivo(1, -34.697520342012, -58.459875233068644);
+CALL sp_add_info_dispositivo(1, -34.697461087381946, -58.45931763026985);
+CALL sp_add_info_dispositivo(1, -34.6974049513775, -58.458957274719594);
+CALL sp_add_info_dispositivo(1, -34.69646447616117, -58.4566121190984);
+CALL sp_add_info_dispositivo(1, -34.695094255992906, -58.45638967537533);
+CALL sp_add_info_dispositivo(1, -34.69364659574044, -58.456172775626776);
 
 CALL sp_read_info_dispositivos();
