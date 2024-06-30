@@ -36,12 +36,11 @@ BEGIN
 			a_disp_longitud,
 			a_disp_habilitado
 		);
-		SET @dispositivo_last_id = 
-			SELECT @dispositivo_last_id := id
-			FROM mi_tabla 
+		SELECT @last_dispositivo_id := disp_id
+			FROM dispositivo 
 			ORDER BY disp_id DESC 
 			LIMIT 1;
-		CALL sp_add_info_dispositivo(@dispositivo_last_id, disp_latitud_actual, disp_longitud_actual);
+		CALL sp_add_info_dispositivo(@last_dispositivo_id, a_disp_latitud, a_disp_longitud);
 END //
 
 CREATE PROCEDURE sp_read_dispositivos()
