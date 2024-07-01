@@ -66,6 +66,10 @@ namespace DispositivoManager
             string respuesta = await APIRequests.GetHttp("/info/" + Id);
             JObject json = JObject.Parse(respuesta);
             Information = JsonConvert.DeserializeObject<List<InformationModel>>(json["data"].ToString());
+            if(Information == null)
+            {
+                return Information;
+            }
             Latitud_Actual = Information[Information.Count-1].Latitud_Actual;
             Longitud_Actual = Information[Information.Count-1].Longitud_Actual;
             return Information;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Timers;
+using System.Diagnostics;
 
 // Dependencias
 using GMap.NET;
@@ -9,6 +9,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using DispositivoManager;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace Mapa
 {
@@ -16,24 +17,22 @@ namespace Mapa
     {
         GMarkerGoogle marker;
         GMapOverlay markerOverlay;
+        Stopwatch cronometro = new Stopwatch();
+        List<LapInfo> lapList = new List<LapInfo>();
         public Form1()
         {
+            Console.WriteLine("Funciona");
             InitializeComponent();
             Dispositivos.Create_List();
             Setup_Map();
             Setup_Marker();
             Fill_Dispositivo_Box();
-            // Creación Timer
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 2000; //1000 miliseconds = 1 seconds
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Tick);
-            timer.Start();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
             await Dispositivos.current.Update_Information();
-            if (InvokeRequired)
+            if (InvokeRequired && Dispositivos.current.Information != null)
             {
                 BeginInvoke(new Action(() => Search_Selected_Dispositivo()));
             }
@@ -85,8 +84,8 @@ namespace Mapa
             // Texts
             txtLatitud.Text = dispositivo_position.Lat.ToString();
             txtLongitud.Text = dispositivo_position.Lng.ToString();
-            labelVelGPS.Text = "Velocidad GPS: " + Dispositivos.current.Calculate_Velocity() + " km/h.\n" +
-                "Velocidad GPS Promedio: " + Dispositivos.current.Calculate_Velocity(5) + " km/h";
+            txtVelGPS.Text = Dispositivos.current.Calculate_Velocity() + " km/h.";
+            txtVelGPSPromedio.Text = Dispositivos.current.Calculate_Velocity(5) + " km/h";
             // Pins
             gmapControl.Position = checkPinPos.Checked ? dispositivo_position : gmapControl.Position;
         }
@@ -117,5 +116,52 @@ namespace Mapa
         {
             gmapControl.Zoom = trackZoom.Value;
         }
+
+        private void playBtn_Click(object sender, EventArgs e)
+        {
+            if (!cronometro.IsRunning)
+            {
+                cronometro.Start();
+                CronometroTimer.Enabled = true;
+                
+                return;
+            }
+            cronometro.Stop();
+        }
+
+        private void lapBtn_Click(object sender, EventArgs e)
+        {
+            if (cronometro.ElapsedMilliseconds == 0)
+            {
+                return;
+            }
+            lapList.Insert(0, (new LapInfo(lapListBox.Items.Count, TimeSpan.Zero)));
+            lapList[0].Total_Time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
+            lapList[0].Elapsed_Time = lapList[0].Total_Time;
+            lapList[0].Elapsed_Time = lapList.Count == 1 ? lapList[0].Elapsed_Time : lapList[0].Elapsed_Time - lapList[1].Elapsed_Time;
+            lapListBox.Items.Insert(0, lapList[0].ToString());
+        }
+
+        private void Cronometro_Tick(object sender, EventArgs e)
+        {
+            TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
+            cronometroTextBox.Text = time.ToString(@"hh\:mm\:ss\:fff");
+        }
+    }
+}
+
+internal class LapInfo
+{
+    public int Id { get; set; }
+    public TimeSpan Elapsed_Time { get; set; }
+    public TimeSpan Total_Time = TimeSpan.Zero;
+    public LapInfo(int a_Id, TimeSpan a_Elapsed_Time)
+    {
+        Id = a_Id;
+        Elapsed_Time = a_Elapsed_Time;
+    }
+    public override string ToString()
+    {
+        return $"Lap {Id+1}: + {Elapsed_Time.ToString(@"hh\:mm\:ss\:fff")} / {Total_Time.ToString(@"hh\:mm\:ss\:fff")}";
     }
 }
