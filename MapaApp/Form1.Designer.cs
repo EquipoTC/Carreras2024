@@ -83,7 +83,7 @@
             this.gmapControl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gmapControl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gmapControl.ShowTileGridLines = false;
-            this.gmapControl.Size = new System.Drawing.Size(949, 575);
+            this.gmapControl.Size = new System.Drawing.Size(984, 561);
             this.gmapControl.TabIndex = 0;
             this.gmapControl.Zoom = 0D;
             // 
@@ -102,9 +102,9 @@
             this.panel1.Controls.Add(this.lapListBox);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(418, 0);
+            this.panel1.Location = new System.Drawing.Point(453, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(531, 575);
+            this.panel1.Size = new System.Drawing.Size(531, 561);
             this.panel1.TabIndex = 17;
             // 
             // lapListBox
@@ -115,7 +115,7 @@
             this.lapListBox.ItemHeight = 16;
             this.lapListBox.Location = new System.Drawing.Point(0, 327);
             this.lapListBox.Name = "lapListBox";
-            this.lapListBox.Size = new System.Drawing.Size(531, 248);
+            this.lapListBox.Size = new System.Drawing.Size(531, 234);
             this.lapListBox.TabIndex = 32;
             // 
             // panel2
@@ -272,7 +272,7 @@
             this.trackZoom.Name = "trackZoom";
             this.trackZoom.Size = new System.Drawing.Size(104, 45);
             this.trackZoom.TabIndex = 36;
-            this.trackZoom.Value = 10;
+            this.trackZoom.Value = 18;
             this.trackZoom.ValueChanged += new System.EventHandler(this.zoomTrack_Changed);
             // 
             // checkPinPos
@@ -336,9 +336,11 @@
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(949, 575);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.gmapControl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);

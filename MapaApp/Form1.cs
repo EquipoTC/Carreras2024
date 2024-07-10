@@ -1,70 +1,38 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 // Dependencias
-using GMap.NET;
-using GMap.NET.MapProviders;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
 using DispositivoManager;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace Mapa
 {
     public partial class Form1 : Form
     {
-        GMarkerGoogle marker;
-        GMapOverlay markerOverlay;
+        //API o Dependencia que se usa
+        GoogleMapControl map;
+
         Stopwatch cronometro = new Stopwatch();
         List<LapInfo> lapList = new List<LapInfo>();
         public Form1()
         {
-            Console.WriteLine("Funciona");
             InitializeComponent();
+            map = new GoogleMapControl(gmapControl);
+            map.Set_Map_Zoom(trackZoom.Value);
             Dispositivos.Create_List();
-            Setup_Map();
-            Setup_Marker();
             Fill_Dispositivo_Box();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
             await Dispositivos.current.Update_Information();
-            if (InvokeRequired && Dispositivos.current.Information != null)
+            if(Dispositivos.current.Information == null)
             {
-                BeginInvoke(new Action(() => Search_Selected_Dispositivo()));
+                Console.WriteLine("La información del dispositivo " + Dispositivos.current.Descripcion + " es nula!");
+                return;
             }
-        }
-
-        private void Setup_Map()
-        {
-            gmapControl.DragButton = MouseButtons.Left;
-            gmapControl.CanDragMap = false;
-            gmapControl.MapProvider = GMapProviders.GoogleMap;
-            gmapControl.Position = Dispositivos.current.Get_Current_Position();
-            gmapControl.MinZoom = 1;
-            gmapControl.MaxZoom = 18;
-            gmapControl.Zoom = 16;
-            trackZoom.Value = (int)gmapControl.Zoom;
-            gmapControl.MouseWheelZoomEnabled = false;
-            gmapControl.AutoScroll = true;
-        }
-
-        private void Setup_Marker()
-        {
-            markerOverlay = new GMapOverlay("Marcador");
-            marker = new GMarkerGoogle(new PointLatLng(0, 0), GMarkerGoogleType.red);
-            markerOverlay.Markers.Add(marker);
-        }
-
-        private void Set_Marker_Position_on_Current()
-        {
-            marker.ToolTipMode = MarkerTooltipMode.Always;
-            marker.ToolTipText = Dispositivos.current.Get_Position_Message();
-            marker.Position = Dispositivos.current.Get_Current_Position();
-            Console.WriteLine("Posicion:" + Dispositivos.current.Get_Current_Position());
+            Search_Selected_Dispositivo();
         }
 
         public void Fill_Dispositivo_Box()
@@ -78,16 +46,16 @@ namespace Mapa
 
         private void Search_Selected_Dispositivo()
         {
-            PointLatLng dispositivo_position = Dispositivos.current.Get_Current_Position();
-            Set_Marker_Position_on_Current();
-            gmapControl.Overlays.Add(markerOverlay);
+            LatLng dispositivo_position = Dispositivos.current.Get_Current_Position();
+            map.Set_Marker_on_Current();
             // Texts
-            txtLatitud.Text = dispositivo_position.Lat.ToString();
-            txtLongitud.Text = dispositivo_position.Lng.ToString();
-            txtVelGPS.Text = Dispositivos.current.Calculate_Velocity() + " km/h.";
-            txtVelGPSPromedio.Text = Dispositivos.current.Calculate_Velocity(5) + " km/h";
+            txtLatitud.Text = dispositivo_position.lat.ToString();
+            txtLongitud.Text = dispositivo_position.lng.ToString();
+            txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current) + " km/h.";
+            txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current, 5) + " km/h";
             // Pins
-            gmapControl.Position = checkPinPos.Checked ? dispositivo_position : gmapControl.Position;
+            if (!checkPinPos.Checked) { return; }
+            map.Set_Map_Position(dispositivo_position);
         }
 
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
@@ -98,17 +66,11 @@ namespace Mapa
 
         private void checkPinPosition_Changed(object sender, EventArgs e)
         {
+            map.Toggle_Movement();
             if (checkPinPos.Checked)
             {
-                gmapControl.Position = Dispositivos.current.Get_Current_Position();
-                gmapControl.CanDragMap = false;
-                gmapControl.MouseWheelZoomEnabled = false;
-                gmapControl.Zoom = trackZoom.Value;
-            }
-            else
-            {
-                gmapControl.CanDragMap = true;
-                gmapControl.MouseWheelZoomEnabled = true;
+                map.Set_Map_Position(Dispositivos.current.Get_Current_Position());
+                map.Set_Map_Zoom(trackZoom.Value);
             }
         }
 
