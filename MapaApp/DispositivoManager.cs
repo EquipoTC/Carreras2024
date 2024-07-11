@@ -66,9 +66,15 @@ namespace DispositivoManager
             {
                 return Information;
             }
-            Latitud_Actual = Information[Information.Count-1].Latitud_Actual;
-            Longitud_Actual = Information[Information.Count-1].Longitud_Actual;
+            Latitud_Actual = Information[Information.Count-1].Latitud;
+            Longitud_Actual = Information[Information.Count-1].Longitud;
             return Information;
+        }
+
+        public InformationModel Get_Last_Information()
+        {
+            if (Information.Count == 0 || Information == null) { return null; }
+            return Information[Information.Count-1];
         }
 
         public LatLng Get_Current_Position()
@@ -78,7 +84,7 @@ namespace DispositivoManager
 
         public LatLng Get_Position_by_Id(int id)
         {
-            return new LatLng(Information[id].Latitud_Actual, Information[id].Longitud_Actual);
+            return new LatLng(Information[id].Latitud, Information[id].Longitud);
         }
 
         public string Get_Position_Message()
@@ -95,12 +101,27 @@ namespace DispositivoManager
         public string Disp_Id { get; set; }
 
         [JsonProperty("info_latitud")]
-        public double Latitud_Actual { get; set; }
+        public double Latitud { get; set; }
 
         [JsonProperty("info_longitud")]
-        public double Longitud_Actual { get; set; }
+        public double Longitud { get; set; }
 
         [JsonProperty("info_fecha_ingreso")]
         public DateTime Fecha_Ingreso { get; set; }
+
+        [JsonProperty("info_corriente")]
+        public double Corriente { get; set; }
+
+        [JsonProperty("info_tension")]
+        public double Tension { get; set; }
+
+        [JsonProperty("info_energia")]
+        public double Energia { get; set; }
+
+        [JsonProperty("info_potencia")]
+        public double Potencia { get; set; }
+
+        [JsonProperty("info_velocidad")]
+        public double Velocidad { get; set; }
     }
 }

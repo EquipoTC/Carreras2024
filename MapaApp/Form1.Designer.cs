@@ -35,13 +35,19 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.lapListBox = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.txtVelGPSPromedio = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtVelGPS = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.txtVelDisp = new System.Windows.Forms.TextBox();
+            this.txtPotencia = new System.Windows.Forms.TextBox();
             this.labelPotencia = new System.Windows.Forms.Label();
+            this.txtEnergia = new System.Windows.Forms.TextBox();
+            this.labelEnergia = new System.Windows.Forms.Label();
+            this.txtTension = new System.Windows.Forms.TextBox();
+            this.labelTension = new System.Windows.Forms.Label();
+            this.txtVelGPSPromedio = new System.Windows.Forms.TextBox();
+            this.labelVelGPSProm = new System.Windows.Forms.Label();
+            this.txtVelGPS = new System.Windows.Forms.TextBox();
+            this.labelVelGPS = new System.Windows.Forms.Label();
+            this.txtCorriente = new System.Windows.Forms.TextBox();
+            this.txtVelDisp = new System.Windows.Forms.TextBox();
+            this.labelCorriente = new System.Windows.Forms.Label();
             this.labelVelDisp = new System.Windows.Forms.Label();
             this.lapBtn = new System.Windows.Forms.Button();
             this.playBtn = new System.Windows.Forms.Button();
@@ -120,13 +126,19 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.txtVelGPSPromedio);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.txtVelGPS);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.textBox2);
-            this.panel2.Controls.Add(this.txtVelDisp);
+            this.panel2.Controls.Add(this.txtPotencia);
             this.panel2.Controls.Add(this.labelPotencia);
+            this.panel2.Controls.Add(this.txtEnergia);
+            this.panel2.Controls.Add(this.labelEnergia);
+            this.panel2.Controls.Add(this.txtTension);
+            this.panel2.Controls.Add(this.labelTension);
+            this.panel2.Controls.Add(this.txtVelGPSPromedio);
+            this.panel2.Controls.Add(this.labelVelGPSProm);
+            this.panel2.Controls.Add(this.txtVelGPS);
+            this.panel2.Controls.Add(this.labelVelGPS);
+            this.panel2.Controls.Add(this.txtCorriente);
+            this.panel2.Controls.Add(this.txtVelDisp);
+            this.panel2.Controls.Add(this.labelCorriente);
             this.panel2.Controls.Add(this.labelVelDisp);
             this.panel2.Controls.Add(this.lapBtn);
             this.panel2.Controls.Add(this.playBtn);
@@ -146,73 +158,124 @@
             this.panel2.Size = new System.Drawing.Size(531, 327);
             this.panel2.TabIndex = 31;
             // 
+            // txtPotencia
+            // 
+            this.txtPotencia.Location = new System.Drawing.Point(333, 175);
+            this.txtPotencia.Name = "txtPotencia";
+            this.txtPotencia.ReadOnly = true;
+            this.txtPotencia.Size = new System.Drawing.Size(100, 20);
+            this.txtPotencia.TabIndex = 56;
+            // 
+            // labelPotencia
+            // 
+            this.labelPotencia.AutoSize = true;
+            this.labelPotencia.Location = new System.Drawing.Point(333, 159);
+            this.labelPotencia.Name = "labelPotencia";
+            this.labelPotencia.Size = new System.Drawing.Size(49, 13);
+            this.labelPotencia.TabIndex = 55;
+            this.labelPotencia.Text = "Potencia";
+            // 
+            // txtEnergia
+            // 
+            this.txtEnergia.Location = new System.Drawing.Point(227, 175);
+            this.txtEnergia.Name = "txtEnergia";
+            this.txtEnergia.ReadOnly = true;
+            this.txtEnergia.Size = new System.Drawing.Size(100, 20);
+            this.txtEnergia.TabIndex = 54;
+            // 
+            // labelEnergia
+            // 
+            this.labelEnergia.AutoSize = true;
+            this.labelEnergia.Location = new System.Drawing.Point(224, 159);
+            this.labelEnergia.Name = "labelEnergia";
+            this.labelEnergia.Size = new System.Drawing.Size(45, 13);
+            this.labelEnergia.TabIndex = 53;
+            this.labelEnergia.Text = "Energía";
+            // 
+            // txtTension
+            // 
+            this.txtTension.Location = new System.Drawing.Point(121, 175);
+            this.txtTension.Name = "txtTension";
+            this.txtTension.ReadOnly = true;
+            this.txtTension.Size = new System.Drawing.Size(100, 20);
+            this.txtTension.TabIndex = 52;
+            // 
+            // labelTension
+            // 
+            this.labelTension.AutoSize = true;
+            this.labelTension.Location = new System.Drawing.Point(118, 159);
+            this.labelTension.Name = "labelTension";
+            this.labelTension.Size = new System.Drawing.Size(45, 13);
+            this.labelTension.TabIndex = 51;
+            this.labelTension.Text = "Tensión";
+            // 
             // txtVelGPSPromedio
             // 
-            this.txtVelGPSPromedio.Location = new System.Drawing.Point(226, 55);
+            this.txtVelGPSPromedio.Location = new System.Drawing.Point(121, 128);
             this.txtVelGPSPromedio.Name = "txtVelGPSPromedio";
             this.txtVelGPSPromedio.ReadOnly = true;
             this.txtVelGPSPromedio.Size = new System.Drawing.Size(100, 20);
             this.txtVelGPSPromedio.TabIndex = 50;
             // 
-            // label2
+            // labelVelGPSProm
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(223, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 13);
-            this.label2.TabIndex = 49;
-            this.label2.Text = "Velocidad GPS Promedio";
+            this.labelVelGPSProm.AutoSize = true;
+            this.labelVelGPSProm.Location = new System.Drawing.Point(119, 99);
+            this.labelVelGPSProm.Name = "labelVelGPSProm";
+            this.labelVelGPSProm.Size = new System.Drawing.Size(79, 26);
+            this.labelVelGPSProm.TabIndex = 49;
+            this.labelVelGPSProm.Text = "Velocidad GPS\r\n(Promedio)";
             // 
             // txtVelGPS
             // 
-            this.txtVelGPS.Location = new System.Drawing.Point(120, 55);
+            this.txtVelGPS.Location = new System.Drawing.Point(15, 128);
             this.txtVelGPS.Name = "txtVelGPS";
             this.txtVelGPS.ReadOnly = true;
             this.txtVelGPS.Size = new System.Drawing.Size(100, 20);
             this.txtVelGPS.TabIndex = 48;
             // 
-            // label1
+            // labelVelGPS
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(117, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
-            this.label1.TabIndex = 47;
-            this.label1.Text = "Velocidad GPS";
+            this.labelVelGPS.AutoSize = true;
+            this.labelVelGPS.Location = new System.Drawing.Point(14, 112);
+            this.labelVelGPS.Name = "labelVelGPS";
+            this.labelVelGPS.Size = new System.Drawing.Size(79, 13);
+            this.labelVelGPS.TabIndex = 47;
+            this.labelVelGPS.Text = "Velocidad GPS";
             // 
-            // textBox2
+            // txtCorriente
             // 
-            this.textBox2.Location = new System.Drawing.Point(120, 102);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 46;
+            this.txtCorriente.Location = new System.Drawing.Point(15, 175);
+            this.txtCorriente.Name = "txtCorriente";
+            this.txtCorriente.ReadOnly = true;
+            this.txtCorriente.Size = new System.Drawing.Size(100, 20);
+            this.txtCorriente.TabIndex = 46;
             // 
             // txtVelDisp
             // 
-            this.txtVelDisp.Location = new System.Drawing.Point(358, 55);
+            this.txtVelDisp.Location = new System.Drawing.Point(227, 128);
             this.txtVelDisp.Name = "txtVelDisp";
             this.txtVelDisp.ReadOnly = true;
             this.txtVelDisp.Size = new System.Drawing.Size(100, 20);
             this.txtVelDisp.TabIndex = 45;
             // 
-            // labelPotencia
+            // labelCorriente
             // 
-            this.labelPotencia.AutoSize = true;
-            this.labelPotencia.Location = new System.Drawing.Point(117, 86);
-            this.labelPotencia.Name = "labelPotencia";
-            this.labelPotencia.Size = new System.Drawing.Size(49, 13);
-            this.labelPotencia.TabIndex = 44;
-            this.labelPotencia.Text = "Potencia";
+            this.labelCorriente.AutoSize = true;
+            this.labelCorriente.Location = new System.Drawing.Point(12, 159);
+            this.labelCorriente.Name = "labelCorriente";
+            this.labelCorriente.Size = new System.Drawing.Size(49, 13);
+            this.labelCorriente.TabIndex = 44;
+            this.labelCorriente.Text = "Corriente";
             // 
             // labelVelDisp
             // 
             this.labelVelDisp.AutoSize = true;
-            this.labelVelDisp.Location = new System.Drawing.Point(355, 39);
+            this.labelVelDisp.Location = new System.Drawing.Point(224, 99);
             this.labelVelDisp.Name = "labelVelDisp";
-            this.labelVelDisp.Size = new System.Drawing.Size(125, 13);
+            this.labelVelDisp.Size = new System.Drawing.Size(74, 26);
             this.labelVelDisp.TabIndex = 43;
-            this.labelVelDisp.Text = "Velocidad del Dispositivo";
+            this.labelVelDisp.Text = "Velocidad del \r\nDispositivo";
             // 
             // lapBtn
             // 
@@ -258,7 +321,7 @@
             // labelZoom
             // 
             this.labelZoom.AutoSize = true;
-            this.labelZoom.Location = new System.Drawing.Point(9, 159);
+            this.labelZoom.Location = new System.Drawing.Point(13, 222);
             this.labelZoom.Name = "labelZoom";
             this.labelZoom.Size = new System.Drawing.Size(37, 13);
             this.labelZoom.TabIndex = 37;
@@ -266,7 +329,7 @@
             // 
             // trackZoom
             // 
-            this.trackZoom.Location = new System.Drawing.Point(52, 159);
+            this.trackZoom.Location = new System.Drawing.Point(56, 222);
             this.trackZoom.Maximum = 18;
             this.trackZoom.Minimum = 1;
             this.trackZoom.Name = "trackZoom";
@@ -280,7 +343,7 @@
             this.checkPinPos.AutoSize = true;
             this.checkPinPos.Checked = true;
             this.checkPinPos.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkPinPos.Location = new System.Drawing.Point(12, 128);
+            this.checkPinPos.Location = new System.Drawing.Point(224, 71);
             this.checkPinPos.Name = "checkPinPos";
             this.checkPinPos.Size = new System.Drawing.Size(81, 17);
             this.checkPinPos.TabIndex = 35;
@@ -303,7 +366,7 @@
             // labelLatitud
             // 
             this.labelLatitud.AutoSize = true;
-            this.labelLatitud.Location = new System.Drawing.Point(11, 39);
+            this.labelLatitud.Location = new System.Drawing.Point(13, 52);
             this.labelLatitud.Name = "labelLatitud";
             this.labelLatitud.Size = new System.Drawing.Size(39, 13);
             this.labelLatitud.TabIndex = 33;
@@ -311,7 +374,7 @@
             // 
             // txtLatitud
             // 
-            this.txtLatitud.Location = new System.Drawing.Point(11, 55);
+            this.txtLatitud.Location = new System.Drawing.Point(13, 68);
             this.txtLatitud.Name = "txtLatitud";
             this.txtLatitud.ReadOnly = true;
             this.txtLatitud.Size = new System.Drawing.Size(100, 20);
@@ -320,7 +383,7 @@
             // labelLongitud
             // 
             this.labelLongitud.AutoSize = true;
-            this.labelLongitud.Location = new System.Drawing.Point(12, 86);
+            this.labelLongitud.Location = new System.Drawing.Point(119, 52);
             this.labelLongitud.Name = "labelLongitud";
             this.labelLongitud.Size = new System.Drawing.Size(48, 13);
             this.labelLongitud.TabIndex = 31;
@@ -328,7 +391,7 @@
             // 
             // txtLongitud
             // 
-            this.txtLongitud.Location = new System.Drawing.Point(12, 102);
+            this.txtLongitud.Location = new System.Drawing.Point(118, 68);
             this.txtLongitud.Name = "txtLongitud";
             this.txtLongitud.ReadOnly = true;
             this.txtLongitud.Size = new System.Drawing.Size(100, 20);
@@ -357,7 +420,16 @@
         private System.Windows.Forms.Timer MapTimer;
         private System.Windows.Forms.Timer CronometroTimer;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ListBox lapListBox;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox txtVelGPSPromedio;
+        private System.Windows.Forms.Label labelVelGPSProm;
+        private System.Windows.Forms.TextBox txtVelGPS;
+        private System.Windows.Forms.Label labelVelGPS;
+        private System.Windows.Forms.TextBox txtCorriente;
+        private System.Windows.Forms.TextBox txtVelDisp;
+        private System.Windows.Forms.Label labelCorriente;
+        private System.Windows.Forms.Label labelVelDisp;
         private System.Windows.Forms.Button lapBtn;
         private System.Windows.Forms.Button playBtn;
         private System.Windows.Forms.Label cronometroLabel;
@@ -370,15 +442,12 @@
         private System.Windows.Forms.TextBox txtLatitud;
         private System.Windows.Forms.Label labelLongitud;
         private System.Windows.Forms.TextBox txtLongitud;
-        private System.Windows.Forms.ListBox lapListBox;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox txtVelDisp;
+        private System.Windows.Forms.TextBox txtTension;
+        private System.Windows.Forms.Label labelTension;
+        private System.Windows.Forms.TextBox txtPotencia;
         private System.Windows.Forms.Label labelPotencia;
-        private System.Windows.Forms.Label labelVelDisp;
-        private System.Windows.Forms.TextBox txtVelGPS;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtVelGPSPromedio;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtEnergia;
+        private System.Windows.Forms.Label labelEnergia;
     }
 }
 

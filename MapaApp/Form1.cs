@@ -46,22 +46,27 @@ namespace Mapa
 
         private void Search_Selected_Dispositivo()
         {
-            LatLng dispositivo_position = Dispositivos.current.Get_Current_Position();
+            InformationModel info = Dispositivos.current.Get_Last_Information();
             map.Set_Marker_on_Current();
             // Texts
-            txtLatitud.Text = dispositivo_position.lat.ToString();
-            txtLongitud.Text = dispositivo_position.lng.ToString();
-            txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current) + " km/h.";
+            txtLatitud.Text = info.Latitud.ToString();
+            txtLongitud.Text = info.Longitud.ToString();
+            txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current) + " km/h";
             txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current, 5) + " km/h";
+            txtVelDisp.Text = info.Velocidad.ToString() + " km/h";
+            txtCorriente.Text = info.Corriente.ToString() + " A";
+            txtTension.Text = info.Tension.ToString() + " V";
+            txtEnergia.Text = info.Energia.ToString() + " kWh";
+            txtPotencia.Text = info.Potencia.ToString() + " W";
             // Pins
             if (!checkPinPos.Checked) { return; }
-            map.Set_Map_Position(dispositivo_position);
+            map.Set_Map_Position(new LatLng(info.Latitud, info.Longitud));
         }
 
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
         {
             Dispositivos.current = Dispositivos.list[comboDisp.SelectedIndex];
-            Search_Selected_Dispositivo();
+            Timer_Tick(MapTimer, EventArgs.Empty);
         }
 
         private void checkPinPosition_Changed(object sender, EventArgs e)
@@ -84,10 +89,12 @@ namespace Mapa
             if (!cronometro.IsRunning)
             {
                 cronometro.Start();
+                playBtn.Text = "Stop";
                 CronometroTimer.Enabled = true;
                 
                 return;
             }
+            playBtn.Text = "Play";
             cronometro.Stop();
         }
 
@@ -109,6 +116,7 @@ namespace Mapa
             TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
             cronometroTextBox.Text = time.ToString(@"hh\:mm\:ss\:fff");
         }
+
     }
 }
 
