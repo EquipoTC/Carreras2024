@@ -32,14 +32,14 @@ DELIMITER //
 
 # DISPOSITIVOS
 
-CREATE PROCEDURE sp_add_dispositivo
-	(
+CREATE PROCEDURE sp_add_dispositivo(
 	IN 
-		a_disp_descripcion TEXT, a_disp_latitud FLOAT, a_disp_longitud FLOAT, a_disp_habilitado BOOLEAN
-	)
+		a_disp_descripcion TEXT, a_disp_latitud FLOAT, a_disp_longitud FLOAT, 
+		a_disp_habilitado BOOLEAN, a_info_corriente FLOAT, a_info_tension FLOAT, 
+		a_info_energia FLOAT, a_info_potencia FLOAT, a_info_velocidad FLOAT
+)
 BEGIN
-		INSERT INTO dispositivo
-		(
+		INSERT INTO dispositivo(
 			disp_descripcion, disp_latitud_actual, disp_longitud_actual, disp_habilitado
 		) 
 		VALUES(
@@ -52,7 +52,11 @@ BEGIN
 			FROM dispositivo 
 			ORDER BY disp_id DESC 
 			LIMIT 1;
-		CALL sp_add_info_dispositivo(@last_dispositivo_id, a_disp_latitud, a_disp_longitud);
+		CALL sp_add_info_dispositivo(
+			@last_dispositivo_id, a_disp_latitud, a_disp_longitud, 
+			a_info_corriente, a_info_tension, a_info_energia, 
+			a_info_potencia, a_info_velocidad
+		);
 END //
 
 CREATE PROCEDURE sp_read_dispositivos()
@@ -60,11 +64,10 @@ BEGIN
 	SELECT * FROM Dispositivo WHERE disp_habilitado = 1;
 END //
 
-CREATE PROCEDURE sp_update_dispositivo_position
-	(
+CREATE PROCEDURE sp_update_dispositivo_position(
 	IN 
-		a_disp_id INT UNSIGNED, a_disp_latitud FLOAT, a_disp_longitud FLOAT
-	)
+	a_disp_id INT UNSIGNED, a_disp_latitud FLOAT, a_disp_longitud FLOAT
+)
 BEGIN
 	UPDATE dispositivo 
 	SET 
@@ -75,16 +78,14 @@ END //
 
 # INFORMACION DISPOSITIVOS
 
-CREATE PROCEDURE sp_add_info_dispositivo
-	(
+CREATE PROCEDURE sp_add_info_dispositivo(
 	IN 
 		a_info_disp_id INT UNSIGNED, a_info_latitud FLOAT, a_info_longitud FLOAT, 
 		a_info_corriente FLOAT, a_info_tension FLOAT, a_info_energia FLOAT, 
 		a_info_potencia FLOAT, a_info_velocidad FLOAT
 	)
 BEGIN
-	INSERT INTO info_dispositivo
-	(
+	INSERT INTO info_dispositivo(
 		info_disp_id, info_latitud, info_longitud, info_corriente, info_tension, 
 		info_energia, info_potencia, info_velocidad
 	) 
@@ -114,22 +115,23 @@ END //
 
 CREATE PROCEDURE sp_remove_info_disp(IN a_info_disp_id INT UNSIGNED)
 BEGIN
-	CREATE TEMPORARY TABLE ultima_informacion AS (
+	CREATE TEMPORARY TABLE ultima_informacion AS(
 		SELECT info_id FROM info_dispositivo 
 		WHERE info_disp_id = a_info_disp_id
 		ORDER BY info_id DESC
 		LIMIT 1000 # limite de informacion por dispositivo
 	);
 	DELETE FROM info_dispositivo
-	WHERE info_id NOT IN (SELECT * FROM ultima_informacion) && info_disp_id = a_info_disp_id;
+	WHERE info_id NOT IN
+		(SELECT * FROM ultima_informacion) && info_disp_id = a_info_disp_id;
 	DROP TABLE IF EXISTS ultima_informacion;
 END //
 
 DELIMITER ;
 
-CALL sp_add_dispositivo("Auto 1", -34.697542172654494, -58.460152137859886, TRUE);
-CALL sp_add_dispositivo("Stefano", 30.160236, -60.61532, TRUE);
-CALL sp_add_dispositivo("Jeremias", 10.712316, 100.676532, TRUE);
+CALL sp_add_dispositivo("Auto 1", -34.697542172654494, -58.460152137859886, TRUE, 10, 20, 30, 50, 5);
+CALL sp_add_dispositivo("Stefano", 30.160236, -60.61532, TRUE, 30, 20, 30, 10, 8);
+CALL sp_add_dispositivo("Jeremias", 10.712316, 100.676532, TRUE, 0, 2, 10, 2, 20);
 
 CALL sp_add_info_dispositivo(1, -34.697520342012, -58.459875233068644, 0, 1, 25, 30, 20);
 CALL sp_add_info_dispositivo(1, -34.697461087381946, -58.45931763026985, 0, 1, 25, 30, 20);
