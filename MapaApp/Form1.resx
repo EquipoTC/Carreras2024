@@ -123,4 +123,19 @@
   <metadata name="CronometroTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>125, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="configIcon.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAAQ9JREFUSEvtk0FOAkEQRXvpyrAS2aqBs4BLPIIs9ADeRhZKAlwD4iU4AltZERL8
+        b2Z+YjqTjHb3Tn/ykpqqmqpMVU34l3RuKKqRuBNz4QbYt4JYlh7ESRyEixt8xMhJ1os4CgquRb8BGx8x
+        crK0FxS7rp5qDQQ+YtlyA4paxRrEI+IroNiIpqJryeT8SH4x1lBwkq/COdg3glin7sW78MvYE9Em53Tq
+        QiyEZ9nGSpBD7q/FYlzoUzwK7psFzhqf40lL7ImdoMATjkj4iJFDbpJ831fVUwgfYlublY9Y1p3HDSi+
+        qc38Bl0jehbEkkfUtuTLhiJL9plyii4UsxTJZ/pd/FRvwoWxx6K43ODPKoQvBhhyGQE0Ry0AAAAASUVO
+        RK5CYII=
+</value>
+  </data>
+  <metadata name="configTransition.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>274, 17</value>
+  </metadata>
 </root>

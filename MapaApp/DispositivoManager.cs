@@ -16,7 +16,7 @@ namespace DispositivoManager
 
         public static async void Create_List()
         {
-            string respuesta = await APIRequests.GetHttp("/disp");
+            string respuesta = await APIRequests.GetHttp("/disp", APIRequests.api_url);
             JObject json = JObject.Parse(respuesta);
             list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
         }
@@ -59,7 +59,7 @@ namespace DispositivoManager
 
         public async Task<List<InformationModel>> Update_Information()
         {
-            string respuesta = await APIRequests.GetHttp("/info/" + Id);
+            string respuesta = await APIRequests.GetHttp("/info/" + Id, APIRequests.api_url);
             JObject json = JObject.Parse(respuesta);
             Information = JsonConvert.DeserializeObject<List<InformationModel>>(json["data"].ToString());
             if(Information == null)

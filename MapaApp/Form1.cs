@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 // Dependencias
 using DispositivoManager;
+using API;
 
 namespace Mapa
 {
@@ -20,6 +21,7 @@ namespace Mapa
             InitializeComponent();
             map = new GoogleMapControl(gmapControl);
             map.Set_Map_Zoom(trackZoom.Value);
+            txtAPIUrl.Text = APIRequests.api_url;
             Dispositivos.Create_List();
             Fill_Dispositivo_Box();
         }
@@ -117,6 +119,39 @@ namespace Mapa
             cronometroTextBox.Text = time.ToString(@"hh\:mm\:ss\:fff");
         }
 
+        private void config_Click(object sender, EventArgs e)
+        {
+            panelConfig.Visible = !panelConfig.Visible;
+            panelConfig.Height = 0;
+            configTransition.Start();
+        }
+
+        private void configTransition_Tick(object sender, EventArgs e)
+        {
+            panelConfig.Height += 8;
+            if(panelConfig.Height > 45)
+            {
+                configTransition.Stop();
+            }
+        }
+
+        private async void APIUrl_Changed(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar != (char)Keys.Enter)
+            {
+                return;
+            }
+            Cursor.Current = Cursors.WaitCursor;
+            string result = await APIRequests.GetHttp("/", txtAPIUrl.Text);
+            Cursor.Current = Cursors.Default;
+            if (result.StartsWith("ERROR"))
+            {
+                MessageBox.Show("La dirección de la API no es válida o no está accesible.");
+                return;
+            }
+            MessageBox.Show("La dirección de la API Cambio!");
+            APIRequests.api_url = txtAPIUrl.Text;
+        }
     }
 }
 

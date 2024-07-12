@@ -10,15 +10,22 @@ namespace API
 {
     internal class APIRequests
     {
-
-        const string api_url = "http://localhost:3000";
+        
+        public static string api_url = "http://localhost:3000";
         //Verbs
-        public static async Task<string> GetHttp(string url, string api = api_url)
+        public static async Task<string> GetHttp(string url, string api)
         {
-            WebRequest request = WebRequest.Create(api + url);
-            WebResponse response = request.GetResponse();
-            StreamReader sr = new StreamReader(response.GetResponseStream());
-            return await sr.ReadToEndAsync();
+            try
+            {
+                WebRequest request = WebRequest.Create(api + url);
+                WebResponse response = request.GetResponse();
+                StreamReader sr = new StreamReader(response.GetResponseStream());
+                return await sr.ReadToEndAsync();
+            }
+            catch (Exception ex)
+            {
+                return "ERROR: " + ex.Message;
+            }
         }
     }
 }
