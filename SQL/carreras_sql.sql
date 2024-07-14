@@ -32,6 +32,43 @@ DELIMITER //
 
 # DISPOSITIVOS
 
+CREATE PROCEDURE sp_get_dispositivo(
+	IN 
+		a_disp_descripcion TEXT, a_disp_latitud FLOAT, a_disp_longitud FLOAT,
+		a_info_corriente FLOAT, a_info_tension FLOAT, a_info_energia FLOAT, 
+		a_info_potencia FLOAT, a_info_velocidad FLOAT
+	)
+BEGIN
+	SELECT @a_id := disp_id 
+		FROM dispositivo 
+		WHERE disp_descripcion = a_disp_descripcion;
+	
+	IF (@a_id IS NULL) THEN
+		CALL sp_add_dispositivo(
+			a_disp_descripcion, 
+			a_disp_latitud, 
+			a_disp_longitud, 
+			TRUE,
+			a_info_corriente,
+			a_info_tension,
+			a_info_energia,
+			a_info_potencia,
+			a_info_velocidad
+		);
+	ELSE
+		CALL sp_add_info_dispositivo(
+			@a_id, 
+			a_disp_latitud, 
+			a_disp_longitud,
+			a_info_corriente,
+			a_info_tension,
+			a_info_energia,
+			a_info_potencia,
+			a_info_velocidad
+		);
+	END IF;
+END //
+
 CREATE PROCEDURE sp_add_dispositivo(
 	IN 
 		a_disp_descripcion TEXT, a_disp_latitud FLOAT, a_disp_longitud FLOAT, 
