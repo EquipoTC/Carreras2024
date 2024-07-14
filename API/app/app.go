@@ -79,3 +79,22 @@ func ObtenerInfoDispositivo(w http.ResponseWriter, r *http.Request) {
 	query := "CALL sp_read_info_dispositivo(" + dispID + ")"
 	ObtenerConsultaJSON(w, r, query)
 }
+
+func InsertarDispositivo(w http.ResponseWriter, r *http.Request) {
+
+	if body := GetBody(r); body != nil {
+		descripcion := ObtenerParametroPOST(body, "descripcion")
+		latitud := ObtenerParametroPOST(body, "latitud")
+		longitud := ObtenerParametroPOST(body, "longitud")
+		corriete := ObtenerParametroPOST(body, "corriente")
+		tension := ObtenerParametroPOST(body, "tension")
+		energia := ObtenerParametroPOST(body, "energia")
+		potencia := ObtenerParametroPOST(body, "potencia")
+		velocidad := ObtenerParametroPOST(body, "velocidad")
+
+		query := "CALL sp_get_dispositivo(" + Comillas(descripcion) + ", " + latitud + ", " + longitud + ", " + corriete + ", " + tension + ", " + energia + ", " + potencia + ", " + velocidad + ")"
+		ObtenerConsultaJSON(w, r, query)
+	} else {
+		http.Error(w, "No se puede leer el body", http.StatusBadRequest)
+	}
+}
