@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 //Dependencias
 using GMap.NET;
@@ -101,6 +102,26 @@ namespace Mapa
                 return 0;
             }
             return totalDistance / totalTime;
+        }
+        public void Draw_Route_of_Dispositivo(DispositivoModel disp, int end = 1)
+        {
+            if (disp.Information.Count < 2)
+            {
+                return;
+            }
+            GMapOverlay rutaOverlay = new GMapOverlay("Ruta");
+            List<PointLatLng> puntos = new List<PointLatLng>();
+            for (int i = disp.Information.Count - 1; i > 0; i--)
+            {
+                puntos.Add(PointConvert(disp.Get_Position_by_Id(i)));
+                if (i == (disp.Information.Count - end))
+                {
+                    break;
+                }
+            }
+            GMapRoute rutaPuntos = new GMapRoute(puntos, "Ruta");
+            rutaOverlay.Routes.Add(rutaPuntos);
+            control.Overlays.Add(rutaOverlay);
         }
     }
 }

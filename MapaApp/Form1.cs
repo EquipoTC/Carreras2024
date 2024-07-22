@@ -43,6 +43,10 @@ namespace Mapa
             {
                 comboDisp.Items.Add(dispositivo_desc);
             }
+            if(comboDisp.Items.Count == 0)
+            {
+                return;
+            }
             comboDisp.SelectedIndex = 0;
         }
 
@@ -63,6 +67,7 @@ namespace Mapa
             // Pins
             if (!checkPinPos.Checked) { return; }
             map.Set_Map_Position(new LatLng(info.Latitud, info.Longitud));
+            map.Draw_Route_of_Dispositivo(Dispositivos.current, 5);
         }
 
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
@@ -151,6 +156,18 @@ namespace Mapa
             }
             MessageBox.Show("La dirección de la API Cambio!");
             APIRequests.api_url = txtAPIUrl.Text;
+        }
+
+        private async void btnActualizar_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var lista = await Dispositivos.Create_List();
+            if(lista == null || lista.Count == 0)
+            {
+                MessageBox.Show("No se encontraron dispositivos.");
+                return;
+            }
+            MessageBox.Show("Se actualizo la lista de dispositivos.");
         }
     }
 }

@@ -14,16 +14,21 @@ namespace DispositivoManager
         public static List<DispositivoModel> list = new List<DispositivoModel>();
         public static DispositivoModel current = new DispositivoModel();
 
-        public static async void Create_List()
+        public static async Task<List<DispositivoModel>> Create_List()
         {
             string respuesta = await APIRequests.GetHttp("/disp", APIRequests.api_url);
             JObject json = JObject.Parse(respuesta);
             list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
+            return list;
         }
 
         public static List<String> Get_Descripciones()
         {
             List<string> desc_list = new List<string>();
+            if (list == null)
+            {
+                return desc_list;
+            }
             foreach (var desc in list)
             {
                 desc_list.Add(desc.Descripcion);

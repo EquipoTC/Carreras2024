@@ -68,6 +68,7 @@
             this.txtLatitud = new System.Windows.Forms.TextBox();
             this.labelLongitud = new System.Windows.Forms.Label();
             this.txtLongitud = new System.Windows.Forms.TextBox();
+            this.btnActualizar = new System.Windows.Forms.Button();
             this.configTransition = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -165,6 +166,7 @@
             this.panelMain.Controls.Add(this.txtLatitud);
             this.panelMain.Controls.Add(this.labelLongitud);
             this.panelMain.Controls.Add(this.txtLongitud);
+            this.panelMain.Controls.Add(this.btnActualizar);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Name = "panelMain";
@@ -476,6 +478,16 @@
             this.txtLongitud.Size = new System.Drawing.Size(100, 20);
             this.txtLongitud.TabIndex = 30;
             // 
+            // btnActualizar
+            // 
+            this.btnActualizar.Location = new System.Drawing.Point(135, 46);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(73, 23);
+            this.btnActualizar.TabIndex = 33;
+            this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            // 
             // configTransition
             // 
             this.configTransition.Interval = 10;
@@ -544,6 +556,7 @@
         private System.Windows.Forms.Label labelAPIUrl;
         private System.Windows.Forms.TextBox txtAPIUrl;
         private System.Windows.Forms.Timer configTransition;
+        private System.Windows.Forms.Button btnActualizar;
     }
 }
 
