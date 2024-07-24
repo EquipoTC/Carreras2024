@@ -28,6 +28,11 @@ namespace Mapa
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
+            if(Dispositivos.list == null || Dispositivos.list.Count == 0)
+            {
+                Console.WriteLine("No se encontraron dispositivos.");
+                return;
+            }
             await Dispositivos.current.Update_Information();
             if(Dispositivos.current.Information == null)
             {
@@ -48,13 +53,13 @@ namespace Mapa
         public void Fill_Dispositivo_Box()
         {
             comboDisp.Items.Clear();
+            if(Dispositivos.list == null)
+            {
+                return;
+            }
             foreach (string dispositivo_desc in Dispositivos.Get_Descripciones())
             {
                 comboDisp.Items.Add(dispositivo_desc);
-            }
-            if(comboDisp.Items.Count == 0)
-            {
-                return;
             }
             comboDisp.SelectedIndex = 0;
         }
