@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS Carreras;
 CREATE DATABASE Carreras;
 
 USE Carreras;
+SET SQL_SAFE_UPDATES = 0;
 
 CREATE TABLE dispositivo(
 	disp_id INT UNSIGNED AUTO_INCREMENT,
@@ -98,7 +99,7 @@ END //
 
 CREATE PROCEDURE sp_read_dispositivos()
 BEGIN
-	SELECT * FROM Dispositivo WHERE disp_habilitado = 1;
+	SELECT * FROM dispositivo WHERE disp_habilitado = 1;
 END //
 
 CREATE PROCEDURE sp_update_dispositivo_position(
@@ -152,12 +153,14 @@ END //
 
 CREATE PROCEDURE sp_remove_info_disp(IN a_info_disp_id INT UNSIGNED)
 BEGIN
-	CREATE TEMPORARY TABLE ultima_informacion AS(
+	SELECT * FROM dispositivo;
+	CREATE TABLE ultima_informacion(info_id INT PRIMARY KEY) AS(
 		SELECT info_id FROM info_dispositivo 
 		WHERE info_disp_id = a_info_disp_id
 		ORDER BY info_id DESC
 		LIMIT 1000 # limite de informacion por dispositivo
 	);
+    SELECT COUNT(*) as "Test" FROM dispositivo;
 	DELETE FROM info_dispositivo
 	WHERE info_id NOT IN
 		(SELECT * FROM ultima_informacion) && info_disp_id = a_info_disp_id;
@@ -166,15 +169,9 @@ END //
 
 DELIMITER ;
 
-CALL sp_add_dispositivo("Auto 1", -34.697542172654494, -58.460152137859886, TRUE, 10, 20, 30, 50, 5);
-CALL sp_add_dispositivo("Stefano", 30.160236, -60.61532, TRUE, 30, 20, 30, 10, 8);
-CALL sp_add_dispositivo("Jeremias", 10.712316, 100.676532, TRUE, 0, 2, 10, 2, 20);
+CALL sp_add_dispositivo('Auto 1', -34.697542172654494, -58.460152137859886, TRUE, 10, 20, 30, 50, 5);
+CALL sp_add_dispositivo('Stefano', 30.160236, -60.61532, TRUE, 30, 20, 30, 10, 8);
+CALL sp_add_dispositivo('Jeremias', 10.712316, 100.676532, TRUE, 0, 2, 10, 2, 20);
 
 CALL sp_add_info_dispositivo(1, -34.697520342012, -58.459875233068644, 0, 1, 25, 30, 20);
 CALL sp_add_info_dispositivo(1, -34.697461087381946, -58.45931763026985, 0, 1, 25, 30, 20);
-/*CALL sp_add_info_dispositivo(1, -34.6974049513775, -58.458957274719594);
-CALL sp_add_info_dispositivo(1, -34.69646447616117, -58.4566121190984);
-CALL sp_add_info_dispositivo(1, -34.695094255992906, -58.45638967537533);
-CALL sp_add_info_dispositivo(1, -34.69364659574044, -58.456172775626776);*/
-
-CALL sp_read_info_dispositivos();
