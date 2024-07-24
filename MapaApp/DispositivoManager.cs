@@ -22,7 +22,7 @@ namespace DispositivoManager
             return list;
         }
 
-        public static List<String> Get_Descripciones()
+        public static List<string> Get_Descripciones()
         {
             List<string> desc_list = new List<string>();
             if (list == null)

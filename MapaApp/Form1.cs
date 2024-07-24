@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // Dependencias
 using DispositivoManager;
@@ -22,8 +23,7 @@ namespace Mapa
             map = new GoogleMapControl(gmapControl);
             map.Set_Map_Zoom(trackZoom.Value);
             txtAPIUrl.Text = APIRequests.api_url;
-            Dispositivos.Create_List();
-            Fill_Dispositivo_Box();
+            Update_Dispositivos();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -34,7 +34,15 @@ namespace Mapa
                 Console.WriteLine("La información del dispositivo " + Dispositivos.current.Descripcion + " es nula!");
                 return;
             }
+            map.Overlays_Tick();
             Search_Selected_Dispositivo();
+        }
+
+        public async Task<bool> Update_Dispositivos()
+        {
+           var result = await Dispositivos.Create_List();
+           Fill_Dispositivo_Box();
+           return result == null ? false : true;
         }
 
         public void Fill_Dispositivo_Box()
@@ -53,7 +61,6 @@ namespace Mapa
         private void Search_Selected_Dispositivo()
         {
             InformationModel info = Dispositivos.current.Get_Last_Information();
-            map.Set_Marker_on_Current();
             // Texts
             txtLatitud.Text = info.Latitud.ToString();
             txtLongitud.Text = info.Longitud.ToString();
@@ -67,7 +74,6 @@ namespace Mapa
             // Pins
             if (!checkPinPos.Checked) { return; }
             map.Set_Map_Position(new LatLng(info.Latitud, info.Longitud));
-            map.Draw_Route_of_Dispositivo(Dispositivos.current, 5);
         }
 
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
@@ -161,8 +167,8 @@ namespace Mapa
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            var lista = await Dispositivos.Create_List();
-            if(lista == null || lista.Count == 0)
+            bool existen_dispositivos = await Update_Dispositivos();
+            if(!existen_dispositivos)
             {
                 MessageBox.Show("No se encontraron dispositivos.");
                 return;

@@ -19,6 +19,7 @@ namespace Mapa
     }
     interface MapControl
     {
+        void Overlays_Tick();
         void Setup_Map();
         void Setup_Marker();
         void Set_Marker_on_Current();

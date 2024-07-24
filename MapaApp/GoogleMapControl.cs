@@ -16,18 +16,32 @@ namespace Mapa
         GMapControl control;
         GMarkerGoogle marker;
         GMapOverlay markerOverlay;
+        GMapOverlay rutaOverlay;
 
         public GoogleMapControl(GMapControl map_control)
         {
             control = map_control;
+            rutaOverlay = new GMapOverlay("Ruta");
             Setup_Map();
             Setup_Marker();
         }
+
 
         public PointLatLng PointConvert(LatLng point) 
         {
             return new PointLatLng(point.lat, point.lng);
         }
+
+        public void Overlays_Tick()
+        {
+            control.Overlays.Clear();
+            control.Overlays.Add(markerOverlay);
+            control.Overlays.Add(rutaOverlay);
+            Draw_Route_of_Dispositivo(Dispositivos.current, 5);
+            Set_Marker_on_Current();
+            
+        }
+
         public void Setup_Map()
         {
             control.DragButton = MouseButtons.Left;
@@ -53,7 +67,6 @@ namespace Mapa
             marker.ToolTipMode = MarkerTooltipMode.Always;
             marker.ToolTipText = Dispositivos.current.Get_Position_Message();
             marker.Position = PointConvert(Dispositivos.current.Get_Current_Position());
-            control.Overlays.Add(markerOverlay);
             Console.WriteLine("Posición:" + Dispositivos.current.Get_Current_Position());
         }
 
@@ -105,11 +118,11 @@ namespace Mapa
         }
         public void Draw_Route_of_Dispositivo(DispositivoModel disp, int end = 1)
         {
+            rutaOverlay.Routes.Clear();
             if (disp.Information.Count < 2)
             {
                 return;
             }
-            GMapOverlay rutaOverlay = new GMapOverlay("Ruta");
             List<PointLatLng> puntos = new List<PointLatLng>();
             for (int i = disp.Information.Count - 1; i > 0; i--)
             {
@@ -121,7 +134,6 @@ namespace Mapa
             }
             GMapRoute rutaPuntos = new GMapRoute(puntos, "Ruta");
             rutaOverlay.Routes.Add(rutaPuntos);
-            control.Overlays.Add(rutaOverlay);
         }
     }
 }
