@@ -97,7 +97,7 @@ func ObtenerConsultaJSON(w http.ResponseWriter, r *http.Request, consultaSQL str
 	}
 
 }
-func ObtenerParametroPOST(body []byte, name string) string {
+func ObtenerParametroPOSTOLD(body []byte, name string) string {
 
 	// Declara un mapa para almacenar los datos del JSON.
 	var jsonData map[string]interface{}
@@ -116,6 +116,25 @@ func ObtenerParametroPOST(body []byte, name string) string {
 	}
 
 	return ""
+}
+
+func ObtenerParametroPOST(body []byte, name string) string {
+    // Declara un mapa para almacenar los datos del JSON.
+    var jsonData map[string]interface{}
+
+    // Deserializa el JSON en el mapa.
+    err := json.Unmarshal(body, &jsonData)
+    if err != nil {
+        return ""
+    }
+
+    value, existe := jsonData[name]
+    if existe {
+        // Convierte el valor a cadena usando fmt.Sprintf
+        return fmt.Sprintf("%v", value)
+    }
+
+    return ""
 }
 
 func Comillas(value string) string {
