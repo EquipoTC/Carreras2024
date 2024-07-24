@@ -82,7 +82,7 @@ func ObtenerConsultaJSON(w http.ResponseWriter, r *http.Request, consultaSQL str
 	// Ejecutar la consulta SQL
 	resultado, err := ConsultarSQL(consultaSQL)
 	if err != nil {
-		http.Error(w, "Error al obtener sucesos: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Error al obtener datos de consulta: "+consultaSQL + " .error:"+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
