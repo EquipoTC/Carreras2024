@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.gmapControl = new GMap.NET.WindowsForms.GMapControl();
             this.MapTimer = new System.Windows.Forms.Timer(this.components);
             this.CronometroTimer = new System.Windows.Forms.Timer(this.components);
@@ -221,7 +220,7 @@
             // 
             this.configIcon.BackColor = System.Drawing.Color.Transparent;
             this.configIcon.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.configIcon.Image = ((System.Drawing.Image)(resources.GetObject("configIcon.Image")));
+            this.configIcon.Image = global::Mapa.Properties.Resources.config;
             this.configIcon.Location = new System.Drawing.Point(0, 0);
             this.configIcon.Name = "configIcon";
             this.configIcon.Size = new System.Drawing.Size(29, 28);
@@ -499,7 +498,7 @@
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.gmapControl);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);
