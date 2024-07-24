@@ -149,14 +149,12 @@ END //
 
 CREATE PROCEDURE sp_remove_info_disp(IN a_info_disp_id INT UNSIGNED)
 BEGIN
-	SELECT * FROM dispositivo;
 	CREATE TABLE ultima_informacion(info_id INT PRIMARY KEY) AS(
 		SELECT info_id FROM info_dispositivo 
 		WHERE info_disp_id = a_info_disp_id
 		ORDER BY info_id DESC
 		LIMIT 1000 # limite de informacion por dispositivo
 	);
-    SELECT COUNT(*) as "Test" FROM dispositivo;
 	DELETE FROM info_dispositivo
 	WHERE info_id NOT IN
 		(SELECT * FROM ultima_informacion) && info_disp_id = a_info_disp_id;
