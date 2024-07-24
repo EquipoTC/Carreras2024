@@ -86,12 +86,8 @@ BEGIN
 			a_disp_longitud,
 			a_disp_habilitado
 		);
-		SELECT @last_dispositivo_id := disp_id
-			FROM dispositivo 
-			ORDER BY disp_id DESC 
-			LIMIT 1;
 		CALL sp_add_info_dispositivo(
-			@last_dispositivo_id, a_disp_latitud, a_disp_longitud, 
+			LAST_INSERT_ID(), a_disp_latitud, a_disp_longitud, 
 			a_info_corriente, a_info_tension, a_info_energia, 
 			a_info_potencia, a_info_velocidad
 		);
