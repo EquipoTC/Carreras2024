@@ -47,6 +47,7 @@ namespace Mapa
 
         public void Fill_Dispositivo_Box()
         {
+            comboDisp.Items.Clear();
             foreach (string dispositivo_desc in Dispositivos.Get_Descripciones())
             {
                 comboDisp.Items.Add(dispositivo_desc);
