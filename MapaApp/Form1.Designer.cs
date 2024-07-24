@@ -498,7 +498,7 @@
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.gmapControl);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);
