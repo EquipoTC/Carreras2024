@@ -53,7 +53,7 @@ namespace Mapa
         public void Fill_Dispositivo_Box()
         {
             comboDisp.Items.Clear();
-            if(Dispositivos.list == null)
+            if(Dispositivos.list == null || Dispositivos.list.Count == 0)
             {
                 return;
             }
@@ -152,12 +152,20 @@ namespace Mapa
             }
         }
 
-        private async void APIUrl_Changed(object sender, KeyPressEventArgs e)
+        private async void btnActualizar_Click(object sender, EventArgs e)
         {
-            if(e.KeyChar != (char)Keys.Enter)
+            Cursor.Current = Cursors.WaitCursor;
+            bool existen_dispositivos = await Update_Dispositivos();
+            if(!existen_dispositivos)
             {
+                MessageBox.Show("No se encontraron dispositivos.");
                 return;
             }
+            MessageBox.Show("Se actualizo la lista de dispositivos.");
+        }
+
+        private async void btnAPIAccept_Click(object sender, EventArgs e)
+        {
             Cursor.Current = Cursors.WaitCursor;
             string result = await APIRequests.GetHttp("/", txtAPIUrl.Text);
             Cursor.Current = Cursors.Default;
@@ -170,16 +178,9 @@ namespace Mapa
             APIRequests.api_url = txtAPIUrl.Text;
         }
 
-        private async void btnActualizar_Click(object sender, EventArgs e)
+        private void txtAPIUrl_TextChanged(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            bool existen_dispositivos = await Update_Dispositivos();
-            if(!existen_dispositivos)
-            {
-                MessageBox.Show("No se encontraron dispositivos.");
-                return;
-            }
-            MessageBox.Show("Se actualizo la lista de dispositivos.");
+            btnAPIAccept.Enabled = txtAPIUrl.Text != APIRequests.api_url;
         }
     }
 }
