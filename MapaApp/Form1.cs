@@ -33,8 +33,10 @@ namespace Mapa
                 Console.WriteLine("No se encontraron dispositivos.");
                 return;
             }
+            Cursor.Current = Cursors.WaitCursor;
             await Dispositivos.current.Update_Information();
-            if(Dispositivos.current.Information == null)
+            Cursor.Current = Cursors.Default;
+            if (Dispositivos.current.Information == null)
             {
                 Console.WriteLine("La información del dispositivo " + Dispositivos.current.Descripcion + " es nula!");
                 return;
@@ -45,7 +47,16 @@ namespace Mapa
 
         public async Task<bool> Update_Dispositivos()
         {
+           Cursor.Current = Cursors.WaitCursor;
            var result = await Dispositivos.Create_List();
+           await Task.Run(() =>
+           {
+               Parallel.ForEach(Dispositivos.list, async disp =>
+               {
+                    await disp.Update_Information();
+               });
+           });
+           Cursor.Current = Cursors.Default;
            Fill_Dispositivo_Box();
            return result == null ? false : true;
         }
@@ -85,7 +96,6 @@ namespace Mapa
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
         {
             Dispositivos.current = Dispositivos.list[comboDisp.SelectedIndex];
-            Timer_Tick(MapTimer, EventArgs.Empty);
         }
 
         private void checkPinPosition_Changed(object sender, EventArgs e)
@@ -154,7 +164,6 @@ namespace Mapa
 
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
             bool existen_dispositivos = await Update_Dispositivos();
             if(!existen_dispositivos)
             {
