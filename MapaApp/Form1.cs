@@ -20,53 +20,66 @@ namespace Mapa
         public Form1()
         {
             InitializeComponent();
+            Start_Program();
+        }
+
+        private async void Start_Program()
+        {
             map = new GoogleMapControl(gmapControl);
             map.Set_Map_Zoom(trackZoom.Value);
             txtAPIUrl.Text = APIRequests.api_url;
-            Update_Dispositivos();
+            await Task.Delay(500);
+            Cursor.Current = Cursors.WaitCursor;
+            await Update_Dispositivos();
+            MessageBox.Show("Cargado con exito. No se encontraron dispositivos.");
         }
 
-        private async void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            if(Dispositivos.list == null || Dispositivos.list.Count == 0)
-            {
-                Console.WriteLine("No se encontraron dispositivos.");
-                return;
-            }
-            Cursor.Current = Cursors.WaitCursor;
+            Console.WriteLine("Timer Tick");
+            Task update_information = Task.Run(() => Update_Dispositivos_Information());
+            Search_Selected_Dispositivo();
+        }
+
+        public async void Update_Dispositivos_Information()
+        {
+            Console.WriteLine("Actualizando Informacion Dispositivos...");
             await Dispositivos.current.Update_Information();
-            Cursor.Current = Cursors.Default;
-            if (Dispositivos.current.Information == null)
+            if (Dispositivos.current.Information == null || Dispositivos.current.Information.Count == 0)
             {
                 Console.WriteLine("La información del dispositivo " + Dispositivos.current.Descripcion + " es nula!");
                 return;
             }
-            map.Overlays_Tick();
-            Search_Selected_Dispositivo();
+            Console.WriteLine("Informacion actualizada.");
         }
 
         public async Task<bool> Update_Dispositivos()
         {
-           Cursor.Current = Cursors.WaitCursor;
+           MapTimer.Stop();
+           Console.WriteLine("Actualizando Dispositivos...");
            var result = await Dispositivos.Create_List();
            await Task.Run(() =>
            {
+               if(result == null) { return; }
                Parallel.ForEach(Dispositivos.list, async disp =>
                {
                     await disp.Update_Information();
                });
            });
+           if (result != null){
+                Fill_Dispositivo_Box();
+                MapTimer.Start();
+           }
            Cursor.Current = Cursors.Default;
-           Fill_Dispositivo_Box();
+           Console.WriteLine("Dispositivos Actualizados.");
            return result == null ? false : true;
         }
 
         public void Fill_Dispositivo_Box()
         {
-            comboDisp.Items.Clear();
-            if(Dispositivos.list == null || Dispositivos.list.Count == 0)
+            if(comboDisp.Items.Count > 0) // Por alguna razon hay que checkear si tiene items si no se rompe.
             {
-                return;
+                comboDisp.Items.Clear();
             }
             foreach (string dispositivo_desc in Dispositivos.Get_Descripciones())
             {
@@ -77,6 +90,7 @@ namespace Mapa
 
         private void Search_Selected_Dispositivo()
         {
+            map.Overlays_Tick();
             InformationModel info = Dispositivos.current.Get_Last_Information();
             // Texts
             txtLatitud.Text = info.Latitud.ToString();
@@ -96,6 +110,7 @@ namespace Mapa
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
         {
             Dispositivos.current = Dispositivos.list[comboDisp.SelectedIndex];
+            Search_Selected_Dispositivo();
         }
 
         private void checkPinPosition_Changed(object sender, EventArgs e)

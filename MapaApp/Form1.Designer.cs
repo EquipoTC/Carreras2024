@@ -107,7 +107,6 @@
             // 
             // MapTimer
             // 
-            this.MapTimer.Enabled = true;
             this.MapTimer.Interval = 2000;
             this.MapTimer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
