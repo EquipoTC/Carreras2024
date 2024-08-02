@@ -11,7 +11,7 @@ namespace API
     internal class APIRequests
     {
         
-        public static string api_url = "http://localhost:3000";
+        public static string api_url = "https://carreras2024.onrender.com/";
         //Verbs
         public static async Task<string> GetHttp(string url, string api)
         {

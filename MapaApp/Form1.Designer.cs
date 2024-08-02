@@ -422,9 +422,9 @@
             // 
             this.trackZoom.Location = new System.Drawing.Point(56, 233);
             this.trackZoom.Maximum = 18;
-            this.trackZoom.Minimum = 1;
+            this.trackZoom.Minimum = 6;
             this.trackZoom.Name = "trackZoom";
-            this.trackZoom.Size = new System.Drawing.Size(104, 45);
+            this.trackZoom.Size = new System.Drawing.Size(163, 45);
             this.trackZoom.TabIndex = 36;
             this.trackZoom.Value = 18;
             this.trackZoom.ValueChanged += new System.EventHandler(this.zoomTrack_Changed);

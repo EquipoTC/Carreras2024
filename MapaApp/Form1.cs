@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 // Dependencias
 using DispositivoManager;
 using API;
+using System.Threading;
 
 namespace Mapa
 {
@@ -29,19 +30,28 @@ namespace Mapa
             map.Set_Map_Zoom(trackZoom.Value);
             txtAPIUrl.Text = APIRequests.api_url;
             await Task.Delay(500);
+            this.Enabled = false;
             Cursor.Current = Cursors.WaitCursor;
             await Update_Dispositivos();
-            MessageBox.Show("Cargado con exito. No se encontraron dispositivos.");
+            this.Enabled = true;
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Cargado con exito.");
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             Console.WriteLine("Timer Tick");
-            Task update_information = Task.Run(() => Update_Dispositivos_Information());
-            Search_Selected_Dispositivo();
+            Task update_information = Task.Run(() => Update_Current_Information());
+            try
+            {
+                Search_Selected_Dispositivo();
+            } catch (Exception ex)
+            {
+                Console.WriteLine("ERROR AL BUSCAR EL DISPOSITIVO! " + ex.Message);
+            }
         }
 
-        public async void Update_Dispositivos_Information()
+        public async void Update_Current_Information()
         {
             Console.WriteLine("Actualizando Informacion Dispositivos...");
             await Dispositivos.current.Update_Information();
@@ -70,7 +80,6 @@ namespace Mapa
                 Fill_Dispositivo_Box();
                 MapTimer.Start();
            }
-           Cursor.Current = Cursors.Default;
            Console.WriteLine("Dispositivos Actualizados.");
            return result == null ? false : true;
         }
@@ -92,6 +101,7 @@ namespace Mapa
         {
             map.Overlays_Tick();
             InformationModel info = Dispositivos.current.Get_Last_Information();
+            if (info == null) { return; }
             // Texts
             txtLatitud.Text = info.Latitud.ToString();
             txtLongitud.Text = info.Longitud.ToString();
@@ -179,8 +189,12 @@ namespace Mapa
 
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
+            Cursor.Current = Cursors.WaitCursor;
             bool existen_dispositivos = await Update_Dispositivos();
-            if(!existen_dispositivos)
+            Cursor.Current = Cursors.Default;
+            this.Enabled = true;
+            if (!existen_dispositivos)
             {
                 MessageBox.Show("No se encontraron dispositivos.");
                 return;
@@ -191,7 +205,9 @@ namespace Mapa
         private async void btnAPIAccept_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
+            this.Enabled = false;
             string result = await APIRequests.GetHttp("/", txtAPIUrl.Text);
+            this.Enabled = true;
             Cursor.Current = Cursors.Default;
             if (result.StartsWith("ERROR"))
             {
