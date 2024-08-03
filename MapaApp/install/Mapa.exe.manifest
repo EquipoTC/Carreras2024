@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Mapa.exe" size="35744">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Mapa.exe" size="38304">
       <assemblyIdentity name="Mapa" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XC2t2JuK2ozULVLjT/kXyZt85s3TRepxd/+DoF/4WhY=</dsig:DigestValue>
+        <dsig:DigestValue>hgdkkzypEK9c1R14TTu8ZXlTUKgKXvFVZI4wkK5h8rg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

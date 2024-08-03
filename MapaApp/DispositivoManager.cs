@@ -17,10 +17,6 @@ namespace DispositivoManager
         public static async Task<List<DispositivoModel>> Create_List()
         {
             string respuesta = await APIRequests.GetHttp("/disp", APIRequests.api_url);
-            if(respuesta.Contains("ERROR"))
-            {
-                return null;
-            }
             JObject json = JObject.Parse(respuesta);
             list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
             return list;
@@ -69,16 +65,8 @@ namespace DispositivoManager
         public async Task<List<InformationModel>> Update_Information()
         {
             string respuesta = await APIRequests.GetHttp("/info/" + Id, APIRequests.api_url);
-            if (respuesta.Contains("ERROR"))
-            {
-                return Information;
-            }
             JObject json = JObject.Parse(respuesta);
             Information = JsonConvert.DeserializeObject<List<InformationModel>>(json["data"].ToString());
-            if(Information == null)
-            {
-                return Information;
-            }
             Latitud_Actual = Information[Information.Count-1].Latitud;
             Longitud_Actual = Information[Information.Count-1].Longitud;
             return Information;

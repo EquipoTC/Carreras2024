@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DispositivoManager;
 using API;
 using System.Threading;
+using System.IO;
 
 namespace Mapa
 {
@@ -28,60 +29,83 @@ namespace Mapa
         {
             map = new GoogleMapControl(gmapControl);
             map.Set_Map_Zoom(trackZoom.Value);
-            txtAPIUrl.Text = APIRequests.api_url;
+            Set_App_Config();
             await Task.Delay(500);
-            this.Enabled = false;
-            Cursor.Current = Cursors.WaitCursor;
-            await Update_Dispositivos();
-            this.Enabled = true;
-            Cursor.Current = Cursors.Default;
+            SwitchFreezeUI();
+            try
+            {
+                await Update_Dispositivos();
+            }
+            catch
+            {
+                MessageBox.Show("Cargado con exito. No se encontraron dispositivos.");
+                SwitchFreezeUI();
+                await Task.Run(() => Cronometro_Tick());
+                return;
+            }
+            SwitchFreezeUI();
             MessageBox.Show("Cargado con exito.");
+            await Task.Run(() => Cronometro_Tick());
+        }
+
+        private void Set_App_Config()
+        {
+            Create_Config_File();
+            string[] lines = File.ReadAllLines(Path.Combine(Application.StartupPath, "Config", "config.txt"));
+            Action[] settings = new Action[]
+            {
+                () => API.APIRequests.api_url = lines[0].Remove(0, lines[0].IndexOf(':')+1),
+            };
+            foreach (Action setting in settings)
+            {
+                setting();
+            }
+            txtAPIUrl.Text = APIRequests.api_url;
+        }
+
+        private void Create_Config_File()
+        {
+            string configDirectory = Path.Combine(Application.StartupPath, "Config");
+            if (Directory.Exists(configDirectory))
+            {
+                return;
+            }
+            Directory.CreateDirectory(configDirectory);
+            using (StreamWriter sw = new StreamWriter(Path.Combine(configDirectory, "config.txt")))
+            {
+                sw.WriteLine("API:" + API.APIRequests.api_url);
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             Console.WriteLine("Timer Tick");
             Task update_information = Task.Run(() => Update_Current_Information());
-            try
-            {
-                Search_Selected_Dispositivo();
-            } catch (Exception ex)
-            {
-                Console.WriteLine("ERROR AL BUSCAR EL DISPOSITIVO! " + ex.Message);
-            }
+            Search_Selected_Dispositivo();
         }
 
         public async void Update_Current_Information()
         {
             Console.WriteLine("Actualizando Informacion Dispositivos...");
             await Dispositivos.current.Update_Information();
-            if (Dispositivos.current.Information == null || Dispositivos.current.Information.Count == 0)
-            {
-                Console.WriteLine("La información del dispositivo " + Dispositivos.current.Descripcion + " es nula!");
-                return;
-            }
             Console.WriteLine("Informacion actualizada.");
         }
 
-        public async Task<bool> Update_Dispositivos()
+        public async Task Update_Dispositivos()
         {
            MapTimer.Stop();
            Console.WriteLine("Actualizando Dispositivos...");
-           var result = await Dispositivos.Create_List();
+           List<DispositivoModel> result = await Dispositivos.Create_List();
            await Task.Run(() =>
            {
-               if(result == null) { return; }
                Parallel.ForEach(Dispositivos.list, async disp =>
                {
-                    await disp.Update_Information();
+                   await disp.Update_Information();
                });
            });
-           if (result != null){
-                Fill_Dispositivo_Box();
-                MapTimer.Start();
-           }
+           Fill_Dispositivo_Box();
+           MapTimer.Start();
            Console.WriteLine("Dispositivos Actualizados.");
-           return result == null ? false : true;
         }
 
         public void Fill_Dispositivo_Box()
@@ -144,8 +168,6 @@ namespace Mapa
             {
                 cronometro.Start();
                 playBtn.Text = "Stop";
-                CronometroTimer.Enabled = true;
-                
                 return;
             }
             playBtn.Text = "Play";
@@ -165,10 +187,27 @@ namespace Mapa
             lapListBox.Items.Insert(0, lapList[0].ToString());
         }
 
-        private void Cronometro_Tick(object sender, EventArgs e)
+        private async Task Cronometro_Tick()
         {
-            TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
-            cronometroTextBox.Text = time.ToString(@"hh\:mm\:ss\:fff");
+            while (true)
+            {
+                await Task.Delay(100);
+                if (!cronometro.IsRunning) { continue; }
+                TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
+                cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
+            }
+        }
+        
+        private void cronometroText_Update(string time)
+        {
+            if (cronometroTextBox.InvokeRequired)
+            {
+                cronometroTextBox.Invoke(new Action<string>(cronometroText_Update), time);
+            }
+            else
+            {
+                cronometroTextBox.Text = time;
+            }
         }
 
         private void config_Click(object sender, EventArgs e)
@@ -189,38 +228,27 @@ namespace Mapa
 
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            Cursor.Current = Cursors.WaitCursor;
-            bool existen_dispositivos = await Update_Dispositivos();
-            Cursor.Current = Cursors.Default;
-            this.Enabled = true;
-            if (!existen_dispositivos)
+            SwitchFreezeUI();
+            playBtn_Click(this, EventArgs.Empty);
+            try
             {
-                MessageBox.Show("No se encontraron dispositivos.");
+                await Update_Dispositivos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se encontraron dispositivos: " + ex.Message);
+                SwitchFreezeUI();
                 return;
             }
+            SwitchFreezeUI();
             MessageBox.Show("Se actualizo la lista de dispositivos.");
         }
 
-        private async void btnAPIAccept_Click(object sender, EventArgs e)
+        private void SwitchFreezeUI()
         {
-            Cursor.Current = Cursors.WaitCursor;
-            this.Enabled = false;
-            string result = await APIRequests.GetHttp("/", txtAPIUrl.Text);
-            this.Enabled = true;
-            Cursor.Current = Cursors.Default;
-            if (result.StartsWith("ERROR"))
-            {
-                MessageBox.Show("La dirección de la API no es válida o no está accesible.");
-                return;
-            }
-            MessageBox.Show("La dirección de la API Cambio!");
-            APIRequests.api_url = txtAPIUrl.Text;
-        }
-
-        private void txtAPIUrl_TextChanged(object sender, EventArgs e)
-        {
-            btnAPIAccept.Enabled = txtAPIUrl.Text != APIRequests.api_url;
+            this.UseWaitCursor = !this.UseWaitCursor;
+            panelMain.Enabled = !panelMain.Enabled;
+            panelConfig.Enabled = !panelConfig.Enabled;
         }
     }
 }

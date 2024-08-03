@@ -31,12 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.gmapControl = new GMap.NET.WindowsForms.GMapControl();
             this.MapTimer = new System.Windows.Forms.Timer(this.components);
-            this.CronometroTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.lapListBox = new System.Windows.Forms.ListBox();
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelConfig = new System.Windows.Forms.Panel();
-            this.btnAPIAccept = new System.Windows.Forms.Button();
             this.txtAPIUrl = new System.Windows.Forms.TextBox();
             this.labelAPIUrl = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -110,10 +108,6 @@
             this.MapTimer.Interval = 2000;
             this.MapTimer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
-            // CronometroTimer
-            // 
-            this.CronometroTimer.Tick += new System.EventHandler(this.Cronometro_Tick);
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.lapListBox);
@@ -176,7 +170,6 @@
             // 
             this.panelConfig.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panelConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelConfig.Controls.Add(this.btnAPIAccept);
             this.panelConfig.Controls.Add(this.txtAPIUrl);
             this.panelConfig.Controls.Add(this.labelAPIUrl);
             this.panelConfig.Location = new System.Drawing.Point(0, 28);
@@ -185,23 +178,13 @@
             this.panelConfig.TabIndex = 58;
             this.panelConfig.Visible = false;
             // 
-            // btnAPIAccept
-            // 
-            this.btnAPIAccept.Location = new System.Drawing.Point(335, 14);
-            this.btnAPIAccept.Name = "btnAPIAccept";
-            this.btnAPIAccept.Size = new System.Drawing.Size(75, 23);
-            this.btnAPIAccept.TabIndex = 2;
-            this.btnAPIAccept.Text = "Aceptar";
-            this.btnAPIAccept.UseVisualStyleBackColor = true;
-            this.btnAPIAccept.Click += new System.EventHandler(this.btnAPIAccept_Click);
-            // 
             // txtAPIUrl
             // 
+            this.txtAPIUrl.Enabled = false;
             this.txtAPIUrl.Location = new System.Drawing.Point(71, 16);
             this.txtAPIUrl.Name = "txtAPIUrl";
             this.txtAPIUrl.Size = new System.Drawing.Size(255, 20);
             this.txtAPIUrl.TabIndex = 1;
-            this.txtAPIUrl.TextChanged += new System.EventHandler(this.txtAPIUrl_TextChanged);
             // 
             // labelAPIUrl
             // 
@@ -529,7 +512,6 @@
 
         private GMap.NET.WindowsForms.GMapControl gmapControl;
         private System.Windows.Forms.Timer MapTimer;
-        private System.Windows.Forms.Timer CronometroTimer;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox lapListBox;
         private System.Windows.Forms.Panel panelMain;
@@ -567,7 +549,6 @@
         private System.Windows.Forms.TextBox txtAPIUrl;
         private System.Windows.Forms.Timer configTransition;
         private System.Windows.Forms.Button btnActualizar;
-        private System.Windows.Forms.Button btnAPIAccept;
     }
 }
 
