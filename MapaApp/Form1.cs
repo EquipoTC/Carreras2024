@@ -19,6 +19,7 @@ namespace Mapa
 
         Stopwatch cronometro = new Stopwatch();
         List<LapInfo> lapList = new List<LapInfo>();
+
         public Form1()
         {
             InitializeComponent();
@@ -176,24 +177,36 @@ namespace Mapa
 
         private void lapBtn_Click(object sender, EventArgs e)
         {
-            if (cronometro.ElapsedMilliseconds == 0)
-            {
-                return;
-            }
-            lapList.Insert(0, (new LapInfo(lapListBox.Items.Count, TimeSpan.Zero)));
-            lapList[0].Total_Time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
-            lapList[0].Elapsed_Time = lapList[0].Total_Time;
-            lapList[0].Elapsed_Time = lapList.Count == 1 ? lapList[0].Elapsed_Time : lapList[0].Elapsed_Time - lapList[1].Elapsed_Time;
-            lapListBox.Items.Insert(0, lapList[0].ToString());
+			if (cronometro.ElapsedMilliseconds == 0)
+			{
+				return;
+			}
+			lapList.Insert(0, new LapInfo(lapListBox.Items.Count, cronometro.Elapsed));
+			if (lapList.Count == 1)
+			{
+				lapList[0].Total_Time = cronometro.Elapsed;
+				lapListBox.Items.Insert(0, lapList[0].ToString());
+				return;
+			}
+			if (cronometro.Elapsed - lapList[1].Total_Time == TimeSpan.Zero)
+			{
+				lapList[0].Total_Time = cronometro.Elapsed;
+				lapList[0].Elapsed_Time = TimeSpan.Zero;
+				lapListBox.Items.Insert(0, lapList[0].ToString());
+				return;
+			}
+            lapList[0].Total_Time = cronometro.Elapsed;
+			lapList[0].Elapsed_Time = lapList[0].Total_Time - lapList[1].Total_Time;
+			lapListBox.Items.Insert(0, lapList[0].ToString());
         }
 
         private async Task Cronometro_Tick()
         {
             while (true)
             {
-                await Task.Delay(100);
+                await Task.Delay(50);
                 if (!cronometro.IsRunning) { continue; }
-                TimeSpan time = new TimeSpan(0, 0, 0, 0, (int)cronometro.ElapsedMilliseconds);
+				TimeSpan time = cronometro.Elapsed;
                 cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
             }
         }
@@ -265,6 +278,6 @@ internal class LapInfo
     }
     public override string ToString()
     {
-        return $"Lap {Id+1}: + {Elapsed_Time.ToString(@"hh\:mm\:ss\:fff")} / {Total_Time.ToString(@"hh\:mm\:ss\:fff")}";
+        return $"Vuelta {Id+1}: + {Elapsed_Time.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {Total_Time.ToString(@"hh\:mm\:ss\:fff")}";
     }
 }
