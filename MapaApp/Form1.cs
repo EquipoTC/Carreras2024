@@ -10,6 +10,7 @@ using API;
 using System.Threading;
 using System.IO;
 using System.Net.Http;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Mapa
 {
@@ -170,14 +171,15 @@ namespace Mapa
         private void playBtn_Click(object sender, EventArgs e)
         {
             if (!cronometro.IsRunning)
-            {
-                cronometro.Start();
+			{
+				cronometro.Start();
                 playBtn.Text = "Stop";
                 return;
             }
             playBtn.Text = "Play";
             cronometro.Stop();
-        }
+			cronometroText_Update(cronometro.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
+		}
 
         private void lapBtn_Click(object sender, EventArgs e)
         {
