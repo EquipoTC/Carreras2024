@@ -16,10 +16,10 @@ namespace DispositivoManager
 
         public static async Task<List<DispositivoModel>> Create_List()
         {
-            string respuesta = await APIRequests.GetHttp("/disp", APIRequests.api_url);
-            JObject json = JObject.Parse(respuesta);
-            list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
-            return list;
+			string respuesta = await APIRequests.GetHttp("/disp", APIRequests.api_url);
+			JObject json = JObject.Parse(respuesta);
+			list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
+			return list;
         }
 
         public static List<string> Get_Descripciones()

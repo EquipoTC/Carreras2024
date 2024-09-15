@@ -9,6 +9,7 @@ using DispositivoManager;
 using API;
 using System.Threading;
 using System.IO;
+using System.Net.Http;
 
 namespace Mapa
 {
@@ -36,16 +37,17 @@ namespace Mapa
             try
             {
                 await Update_Dispositivos();
-            }
-            catch
+				MessageBox.Show("Cargado con exito.");
+			}
+            catch (TimeoutException)
             {
-                MessageBox.Show("Cargado con exito. No se encontraron dispositivos.");
-                SwitchFreezeUI();
-                await Task.Run(() => Cronometro_Tick());
-                return;
+                MessageBox.Show("La solicitud ha excedido el tiempo límite. No se encontraron dispositivos.");
             }
+			catch (Exception)
+			{
+				MessageBox.Show("Fallo en la solicitud HTTP. No se encontraron dispositivos.");
+			}
             SwitchFreezeUI();
-            MessageBox.Show("Cargado con exito.");
             await Task.Run(() => Cronometro_Tick());
         }
 
@@ -56,7 +58,8 @@ namespace Mapa
             Action[] settings = new Action[]
             {
                 () => API.APIRequests.api_url = lines[0].Remove(0, lines[0].IndexOf(':')+1),
-            };
+				() => API.APIRequests.timeoutResponseSeconds = double.Parse(lines[1].Remove(0, lines[1].IndexOf(':')+1)),
+			};
             foreach (Action setting in settings)
             {
                 setting();
@@ -75,6 +78,7 @@ namespace Mapa
             using (StreamWriter sw = new StreamWriter(Path.Combine(configDirectory, "config.txt")))
             {
                 sw.WriteLine("API:" + API.APIRequests.api_url);
+				sw.WriteLine("Timeout response(seconds):" + 30);
             }
         }
 
@@ -242,7 +246,10 @@ namespace Mapa
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
             SwitchFreezeUI();
-            playBtn_Click(this, EventArgs.Empty);
+			if (cronometro.IsRunning)
+			{
+				playBtn_Click(this, EventArgs.Empty);
+			}
             try
             {
                 await Update_Dispositivos();
@@ -269,6 +276,7 @@ namespace Mapa
 internal class LapInfo
 {
     public int Id { get; set; }
+	public int Disp_Id { get; set; }
     public TimeSpan Elapsed_Time { get; set; }
     public TimeSpan Total_Time = TimeSpan.Zero;
     public LapInfo(int a_Id, TimeSpan a_Elapsed_Time)
