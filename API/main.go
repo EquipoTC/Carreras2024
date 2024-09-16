@@ -32,6 +32,7 @@ func main() {
 	router.HandleFunc("/info/{dispID}", app.ObtenerInfoDispositivo)
 	router.HandleFunc("/disp", app.ObtenerDispositivos)
 	router.HandleFunc("/disp/ingresar", app.InsertarDispositivo).Methods("POST")
+	router.HandleFunc("/vuelta/ingresar", app.InsertarVuelta).Methods("POST")
 	router.HandleFunc("/", app.Inicio) // Muestra un mensaje en pantalla
 	/*router.HandleFunc("/index", app.Index)                                // Muestra una pagina web utilizando templates
 	router.HandleFunc("/sucesos", app.ObtenerSucesos)                     // Obtiene el listado de sucesos en JSON
