@@ -106,7 +106,7 @@ func InsertarVuelta(w http.ResponseWriter, r *http.Request) {
 		tiempo := ObtenerParametroPOST(body, "tiempo")
 		tiempoCronometro := ObtenerParametroPOST(body, "tiempoCronometro")
 
-		query := "CALL sp_add_vuelta(" + dispID + ", " + tiempo + ", " + tiempoCronometro + ")"
+		query := "CALL sp_add_vuelta(" + dispID + ", " + Comillas(tiempo) + ", " + Comillas(tiempoCronometro) + ")"
 		ObtenerConsultaJSON(w, r, query)
 	} else {
 		http.Error(w, "No se puede leer el body", http.StatusBadRequest)
