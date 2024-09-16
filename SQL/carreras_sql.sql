@@ -29,7 +29,7 @@ CREATE TABLE info_dispositivo(
 	PRIMARY KEY(info_id)
 );
 
-CREATE TABLE info_vuelta(
+CREATE TABLE vuelta(
 	vuelta_id INT UNSIGNED AUTO_INCREMENT,
 	vuelta_dispId INT UNSIGNED NOT NULL,
 	vuelta_tiempo TIME NOT NULL,
@@ -169,20 +169,20 @@ BEGIN
 	DROP TABLE IF EXISTS ultima_informacion;
 END //
 
-# INFORMACION VUELTAS
+# VUELTAS
 
-CREATE PROCEDURE sp_add_info_vuelta(
+CREATE PROCEDURE sp_add_vuelta(
 	IN 
-		a_vuelta_dispId INT UNSIGNED, a_vuelta_tiempo TIME, a_vuelta_tiempoCronometro TIME,
+		a_vuelta_dispId INT UNSIGNED, a_vuelta_tiempo TIME, a_vuelta_tiempoCronometro TIME
 	)
 BEGIN
-	INSERT INTO info_vuelta(
+	INSERT INTO vuelta(
 		vuelta_dispId, vuelta_tiempo, vuelta_tiempoCronometro
 	) 
 	VALUES(
 		a_vuelta_dispId,
 		a_vuelta_tiempo,
-		a_vuelta_tiempoCronometro,
+		a_vuelta_tiempoCronometro
 	);
 END //
 
