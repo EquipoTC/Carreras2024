@@ -32,8 +32,8 @@ CREATE TABLE info_dispositivo(
 CREATE TABLE vuelta(
 	vuelta_id INT UNSIGNED AUTO_INCREMENT,
 	vuelta_dispId INT UNSIGNED NOT NULL,
-	vuelta_tiempo TIME NOT NULL,
-	vuelta_tiempoCronometro TIME NOT NULL,
+	vuelta_tiempo TIME(3) NOT NULL,
+	vuelta_tiempoCronometro TIME(3) NOT NULL,
 	PRIMARY KEY(vuelta_id)
 );
 
