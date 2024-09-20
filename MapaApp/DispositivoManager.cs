@@ -16,10 +16,23 @@ namespace DispositivoManager
 
         public static async Task<List<DispositivoModel>> Create_List()
         {
-			string respuesta = await APIRequests.GetHttp("/disp", APIRequests.api_url);
-			JObject json = JObject.Parse(respuesta);
-			list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
-			return list;
+			try
+			{
+				string respuesta = await APIRequests.GetHttp("disp", APIRequests.api_url);
+				JObject json = JObject.Parse(respuesta);
+				list = JsonConvert.DeserializeObject<List<DispositivoModel>>(json["data"].ToString());
+				if(list == null)
+				{
+					throw new Exception("La lista es nula");
+				}
+				return list;
+			}
+			catch
+			{
+				list = null;
+				current = new DispositivoModel();
+				throw;
+			}
         }
 
         public static List<string> Get_Descripciones()
@@ -64,17 +77,29 @@ namespace DispositivoManager
 
         public async Task<List<InformationModel>> Update_Information()
         {
-            string respuesta = await APIRequests.GetHttp("/info/" + Id, APIRequests.api_url);
-            JObject json = JObject.Parse(respuesta);
-            Information = JsonConvert.DeserializeObject<List<InformationModel>>(json["data"].ToString());
-            Latitud_Actual = Information[Information.Count-1].Latitud;
-            Longitud_Actual = Information[Information.Count-1].Longitud;
-            return Information;
+			try
+			{
+				string respuesta = await APIRequests.GetHttp("info/" + Id, APIRequests.api_url);
+				JObject json = JObject.Parse(respuesta);
+				List<InformationModel>  infoDisp = JsonConvert.DeserializeObject<List<InformationModel>>(json["data"].ToString());
+				if(infoDisp == null)
+				{
+					throw new Exception("La informacion es nula");
+				}
+				Information = infoDisp;
+				Latitud_Actual = Information[Information.Count - 1].Latitud;
+				Longitud_Actual = Information[Information.Count - 1].Longitud;
+				return Information;
+			}
+			catch
+			{
+				throw;
+			}
         }
 
         public InformationModel Get_Last_Information()
         {
-            if (Information.Count == 0 || Information == null) { return null; }
+            if (Information.Count == 0) { return null; }
             return Information[Information.Count-1];
         }
 
