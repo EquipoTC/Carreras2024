@@ -40,5 +40,40 @@ namespace API
 				}
 			}
 		}
-    }
+		public static async Task<string> PostHttp(string url, string api, string jsonContent)
+		{
+			TimeSpan timeout = TimeSpan.FromSeconds(timeoutResponseSeconds);
+
+			using (HttpClient client = new HttpClient())
+			{
+				client.Timeout = timeout;
+				try
+				{
+					HttpContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+					HttpResponseMessage response = await client.PostAsync(api + url, content);
+					response.EnsureSuccessStatusCode();
+					string responseJson = await response.Content.ReadAsStringAsync();
+					return responseJson;
+				}
+				catch (TaskCanceledException ex)
+				{
+					if (!ex.CancellationToken.IsCancellationRequested)
+					{
+						Console.WriteLine("La solicitud ha excedido el tiempo límite.");
+						throw new TimeoutException("La solicitud HTTP ha excedido el tiempo límite.", ex);
+					}
+					else
+					{
+						Console.WriteLine("La solicitud fue cancelada.");
+						throw new Exception("La solicitud fue cancelada.", ex);
+					}
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Error en la solicitud HTTP: " + ex.Message);
+					throw new Exception("Error en la solicitud HTTP.", ex);
+				}
+			}
+		}
+	}
 }
