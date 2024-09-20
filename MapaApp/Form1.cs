@@ -11,6 +11,8 @@ using System.Threading;
 using System.IO;
 using System.Net.Http;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Mapa
 {
@@ -34,21 +36,8 @@ namespace Mapa
             map.Set_Map_Zoom(trackZoom.Value);
             Set_App_Config();
             await Task.Delay(500);
-            SwitchFreezeUI();
-            try
-            {
-                await Update_Dispositivos();
-				MessageBox.Show("Cargado con exito.");
-			}
-            catch (TimeoutException)
-            {
-                MessageBox.Show("La solicitud ha excedido el tiempo límite. No se encontraron dispositivos.");
-            }
-			catch (Exception)
-			{
-				MessageBox.Show("Fallo en la solicitud HTTP. No se encontraron dispositivos.");
-			}
-            SwitchFreezeUI();
+            btnActualizar_Click(this, EventArgs.Empty);
+			MessageBox.Show("Cargado con exito.");
             await Task.Run(() => Cronometro_Tick());
         }
 
@@ -93,13 +82,19 @@ namespace Mapa
         public async void Update_Current_Information()
         {
             Console.WriteLine("Actualizando Informacion Dispositivos...");
-            await Dispositivos.current.Update_Information();
-            Console.WriteLine("Informacion actualizada.");
+			try
+			{
+				await Dispositivos.current.Update_Information();
+				Console.WriteLine("Informacion actualizada.");
+			}
+			catch
+			{
+				Console.WriteLine("La informacion fue nula.");
+			}
         }
 
         public async Task Update_Dispositivos()
         {
-           MapTimer.Stop();
            Console.WriteLine("Actualizando Dispositivos...");
            List<DispositivoModel> result = await Dispositivos.Create_List();
            await Task.Run(() =>
@@ -110,12 +105,12 @@ namespace Mapa
                });
            });
            Fill_Dispositivo_Box();
-           MapTimer.Start();
            Console.WriteLine("Dispositivos Actualizados.");
         }
 
         public void Fill_Dispositivo_Box()
         {
+			int beforeIndex = comboDisp.SelectedIndex;
             if(comboDisp.Items.Count > 0) // Por alguna razon hay que checkear si tiene items si no se rompe.
             {
                 comboDisp.Items.Clear();
@@ -124,19 +119,35 @@ namespace Mapa
             {
                 comboDisp.Items.Add(dispositivo_desc);
             }
-            comboDisp.SelectedIndex = 0;
+			Console.WriteLine("INDEX:" + comboDisp.SelectedIndex);
+            if(Dispositivos.list.Count >= beforeIndex && beforeIndex != -1)
+			{
+				comboDisp.SelectedIndex = beforeIndex;
+				return;
+			}
+			comboDisp.SelectedIndex = 0;
         }
 
         private void Search_Selected_Dispositivo()
         {
-            map.Overlays_Tick();
-            InformationModel info = Dispositivos.current.Get_Last_Information();
-            if (info == null) { return; }
-            // Texts
-            txtLatitud.Text = info.Latitud.ToString();
+			map.Overlays_Tick();
+			InformationModel info = Dispositivos.current.Get_Last_Information();
+            if (info == null) {
+				txtLatitud.Text = "";
+				txtLongitud.Text = "";
+				txtVelGPS.Text = "";
+				txtVelGPSPromedio.Text = "";
+				txtVelDisp.Text = "";
+				txtCorriente.Text = "";
+				txtTension.Text = "";
+				txtPotencia.Text = "";
+				return; 
+			}
+			// Texts
+			txtLatitud.Text = info.Latitud.ToString();
             txtLongitud.Text = info.Longitud.ToString();
             txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current) + " km/h";
-            txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current, 5) + " km/h";
+            txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current, 10) + " km/h";
             txtVelDisp.Text = info.Velocidad.ToString() + " km/h";
             txtCorriente.Text = info.Corriente.ToString() + " A";
             txtTension.Text = info.Tension.ToString() + " V";
@@ -187,7 +198,7 @@ namespace Mapa
 			{
 				return;
 			}
-			lapList.Insert(0, new LapInfo(lapListBox.Items.Count, cronometro.Elapsed));
+			lapList.Insert(0, new LapInfo(lapListBox.Items.Count, Dispositivos.current.Id, cronometro.Elapsed));
 			if (lapList.Count == 1)
 			{
 				lapList[0].Total_Time = cronometro.Elapsed;
@@ -204,6 +215,7 @@ namespace Mapa
             lapList[0].Total_Time = cronometro.Elapsed;
 			lapList[0].Elapsed_Time = lapList[0].Total_Time - lapList[1].Total_Time;
 			lapListBox.Items.Insert(0, lapList[0].ToString());
+			Task.Run(() => lapList[0].PostLap());	
         }
 
         private async Task Cronometro_Tick()
@@ -248,6 +260,8 @@ namespace Mapa
         private async void btnActualizar_Click(object sender, EventArgs e)
         {
             SwitchFreezeUI();
+			MapTimer.Stop();
+			int currentBefore = Dispositivos.current.Id;
 			if (cronometro.IsRunning)
 			{
 				playBtn_Click(this, EventArgs.Empty);
@@ -255,15 +269,19 @@ namespace Mapa
             try
             {
                 await Update_Dispositivos();
-            }
+				MessageBox.Show("Se actualizo la lista de dispositivos.");
+			}
             catch (Exception ex)
             {
                 MessageBox.Show("No se encontraron dispositivos: " + ex.Message);
-                SwitchFreezeUI();
-                return;
+				comboDisp.Items.Clear();
             }
-            SwitchFreezeUI();
-            MessageBox.Show("Se actualizo la lista de dispositivos.");
+			if(Dispositivos.current.Id != currentBefore)
+			{
+				cronometroText_Update("00:00:00:000");
+			}
+			MapTimer.Start();
+			SwitchFreezeUI();
         }
 
         private void SwitchFreezeUI()
@@ -277,15 +295,46 @@ namespace Mapa
 
 internal class LapInfo
 {
-    public int Id { get; set; }
+	[JsonProperty("id")]
+	public int Id { get; set; }
+
+	[JsonProperty("dispID")]
 	public int Disp_Id { get; set; }
-    public TimeSpan Elapsed_Time { get; set; }
-    public TimeSpan Total_Time = TimeSpan.Zero;
-    public LapInfo(int a_Id, TimeSpan a_Elapsed_Time)
+
+	[JsonProperty("tiempo")]
+	public TimeSpan Elapsed_Time { get; set; }
+
+	[JsonProperty("tiempoCronometro")]
+	public TimeSpan Total_Time = TimeSpan.Zero;
+
+    public LapInfo(int a_Id, int a_Disp_Id, TimeSpan a_Elapsed_Time)
     {
-        Id = a_Id;
+		Id = a_Id;
+		Disp_Id = a_Disp_Id;
         Elapsed_Time = a_Elapsed_Time;
     }
+
+	public async Task PostLap()
+	{
+		try
+		{
+			JObject jsonObject = new JObject
+			{
+				{ "dispID", Disp_Id },
+				{ "tiempo", Elapsed_Time.ToString() },
+				{ "tiempoCronometro", Total_Time.ToString() }
+			};
+			await APIRequests.PostHttp("vuelta/ingresar", APIRequests.api_url, jsonObject.ToString());
+		}
+		catch (TimeoutException ex)
+		{
+			Console.WriteLine("La solicitud HTTP ha excedido el tiempo límite.");
+		}
+		catch(Exception ex)
+		{
+			Console.WriteLine("Error en la solicitud HTTP:" + ex.Message);
+		}
+	}
     public override string ToString()
     {
         return $"Vuelta {Id+1}: + {Elapsed_Time.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {Total_Time.ToString(@"hh\:mm\:ss\:fff")}";

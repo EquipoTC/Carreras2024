@@ -1,0 +1,2 @@
+API:https://carreras2024.onrender.com/
+Timeout response(seconds):30
