@@ -173,7 +173,7 @@ END //
 
 CREATE PROCEDURE sp_add_vuelta(
 	IN 
-		a_vuelta_dispId INT UNSIGNED, a_vuelta_tiempo TIME, a_vuelta_tiempoCronometro TIME
+		a_vuelta_dispId INT UNSIGNED, a_vuelta_tiempo TIME(3), a_vuelta_tiempoCronometro TIME(3)
 	)
 BEGIN
 	INSERT INTO vuelta(
