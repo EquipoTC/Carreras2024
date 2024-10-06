@@ -203,6 +203,7 @@ namespace Mapa
 			{
 				lapList[0].Total_Time = cronometro.Elapsed;
 				lapListBox.Items.Insert(0, lapList[0].ToString());
+				Task.Run(() => lapList[0].PostLap());
 				return;
 			}
 			if (cronometro.Elapsed - lapList[1].Total_Time == TimeSpan.Zero)
@@ -210,6 +211,7 @@ namespace Mapa
 				lapList[0].Total_Time = cronometro.Elapsed;
 				lapList[0].Elapsed_Time = TimeSpan.Zero;
 				lapListBox.Items.Insert(0, lapList[0].ToString());
+				Task.Run(() => lapList[0].PostLap());
 				return;
 			}
             lapList[0].Total_Time = cronometro.Elapsed;
@@ -290,7 +292,21 @@ namespace Mapa
             panelMain.Enabled = !panelMain.Enabled;
             panelConfig.Enabled = !panelConfig.Enabled;
         }
-    }
+
+		private void resetBtn_Click(object sender, EventArgs e)
+		{
+			if (cronometro.IsRunning)
+			{
+				cronometro.Restart();
+			}
+			else
+			{
+				cronometro.Reset();
+			}
+			lapList.Insert(0, new LapInfo(lapListBox.Items.Count, Dispositivos.current.Id, TimeSpan.Zero));
+			cronometroText_Update(cronometro.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
+		}
+	}
 }
 
 internal class LapInfo
@@ -321,9 +337,10 @@ internal class LapInfo
 			JObject jsonObject = new JObject
 			{
 				{ "dispID", Disp_Id },
-				{ "tiempo", Elapsed_Time.ToString() },
-				{ "tiempoCronometro", Total_Time.ToString() }
+				{ "tiempo", Elapsed_Time.ToString(@"hh\:mm\:ss\.fff") },
+				{ "tiempoCronometro", Total_Time.ToString(@"hh\:mm\:ss\.fff") }
 			};
+			Console.WriteLine("Vuelta:" + jsonObject.ToString());
 			await APIRequests.PostHttp("vuelta/ingresar", APIRequests.api_url, jsonObject.ToString());
 		}
 		catch (TimeoutException ex)

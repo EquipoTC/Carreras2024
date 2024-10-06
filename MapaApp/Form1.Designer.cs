@@ -34,6 +34,9 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.lapListBox = new System.Windows.Forms.ListBox();
 			this.panelMain = new System.Windows.Forms.Panel();
+			this.panelConfig = new System.Windows.Forms.Panel();
+			this.txtAPIUrl = new System.Windows.Forms.TextBox();
+			this.labelAPIUrl = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.configIcon = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -65,15 +68,13 @@
 			this.txtLongitud = new System.Windows.Forms.TextBox();
 			this.btnActualizar = new System.Windows.Forms.Button();
 			this.configTransition = new System.Windows.Forms.Timer(this.components);
-			this.labelAPIUrl = new System.Windows.Forms.Label();
-			this.txtAPIUrl = new System.Windows.Forms.TextBox();
-			this.panelConfig = new System.Windows.Forms.Panel();
+			this.resetBtn = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panelMain.SuspendLayout();
+			this.panelConfig.SuspendLayout();
 			this.panel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.configIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackZoom)).BeginInit();
-			this.panelConfig.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// gmapControl
@@ -131,6 +132,7 @@
 			// 
 			// panelMain
 			// 
+			this.panelMain.Controls.Add(this.resetBtn);
 			this.panelMain.Controls.Add(this.panelConfig);
 			this.panelMain.Controls.Add(this.panel3);
 			this.panelMain.Controls.Add(this.txtPotencia);
@@ -165,6 +167,39 @@
 			this.panelMain.Name = "panelMain";
 			this.panelMain.Size = new System.Drawing.Size(531, 327);
 			this.panelMain.TabIndex = 31;
+			// 
+			// panelConfig
+			// 
+			this.panelConfig.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.panelConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.panelConfig.Controls.Add(this.txtAPIUrl);
+			this.panelConfig.Controls.Add(this.labelAPIUrl);
+			this.panelConfig.Location = new System.Drawing.Point(0, 28);
+			this.panelConfig.Name = "panelConfig";
+			this.panelConfig.Size = new System.Drawing.Size(531, 48);
+			this.panelConfig.TabIndex = 58;
+			this.panelConfig.Visible = false;
+			// 
+			// txtAPIUrl
+			// 
+			this.txtAPIUrl.Enabled = false;
+			this.txtAPIUrl.Location = new System.Drawing.Point(71, 16);
+			this.txtAPIUrl.Name = "txtAPIUrl";
+			this.txtAPIUrl.Size = new System.Drawing.Size(255, 20);
+			this.txtAPIUrl.TabIndex = 1;
+			// 
+			// labelAPIUrl
+			// 
+			this.labelAPIUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.labelAPIUrl.AutoSize = true;
+			this.labelAPIUrl.Location = new System.Drawing.Point(13, 19);
+			this.labelAPIUrl.Name = "labelAPIUrl";
+			this.labelAPIUrl.Size = new System.Drawing.Size(52, 13);
+			this.labelAPIUrl.TabIndex = 0;
+			this.labelAPIUrl.Text = "API URL:";
+			this.labelAPIUrl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// panel3
 			// 
@@ -453,38 +488,15 @@
 			this.configTransition.Interval = 10;
 			this.configTransition.Tick += new System.EventHandler(this.configTransition_Tick);
 			// 
-			// labelAPIUrl
+			// resetBtn
 			// 
-			this.labelAPIUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelAPIUrl.AutoSize = true;
-			this.labelAPIUrl.Location = new System.Drawing.Point(13, 19);
-			this.labelAPIUrl.Name = "labelAPIUrl";
-			this.labelAPIUrl.Size = new System.Drawing.Size(52, 13);
-			this.labelAPIUrl.TabIndex = 0;
-			this.labelAPIUrl.Text = "API URL:";
-			this.labelAPIUrl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// txtAPIUrl
-			// 
-			this.txtAPIUrl.Enabled = false;
-			this.txtAPIUrl.Location = new System.Drawing.Point(71, 16);
-			this.txtAPIUrl.Name = "txtAPIUrl";
-			this.txtAPIUrl.Size = new System.Drawing.Size(255, 20);
-			this.txtAPIUrl.TabIndex = 1;
-			// 
-			// panelConfig
-			// 
-			this.panelConfig.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.panelConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.panelConfig.Controls.Add(this.txtAPIUrl);
-			this.panelConfig.Controls.Add(this.labelAPIUrl);
-			this.panelConfig.Location = new System.Drawing.Point(0, 28);
-			this.panelConfig.Name = "panelConfig";
-			this.panelConfig.Size = new System.Drawing.Size(531, 48);
-			this.panelConfig.TabIndex = 58;
-			this.panelConfig.Visible = false;
+			this.resetBtn.Location = new System.Drawing.Point(433, 297);
+			this.resetBtn.Name = "resetBtn";
+			this.resetBtn.Size = new System.Drawing.Size(75, 23);
+			this.resetBtn.TabIndex = 59;
+			this.resetBtn.Text = "Reset";
+			this.resetBtn.UseVisualStyleBackColor = true;
+			this.resetBtn.Click += new System.EventHandler(this.resetBtn_Click);
 			// 
 			// Form1
 			// 
@@ -498,12 +510,12 @@
 			this.panel1.ResumeLayout(false);
 			this.panelMain.ResumeLayout(false);
 			this.panelMain.PerformLayout();
+			this.panelConfig.ResumeLayout(false);
+			this.panelConfig.PerformLayout();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.configIcon)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackZoom)).EndInit();
-			this.panelConfig.ResumeLayout(false);
-			this.panelConfig.PerformLayout();
 			this.ResumeLayout(false);
 
         }
@@ -549,6 +561,7 @@
 		private System.Windows.Forms.Panel panelConfig;
 		private System.Windows.Forms.TextBox txtAPIUrl;
 		private System.Windows.Forms.Label labelAPIUrl;
+		private System.Windows.Forms.Button resetBtn;
 	}
 }
 
