@@ -93,6 +93,8 @@
     </Compile>
     <Compile Include="GoogleMapControl.cs" />
     <Compile Include="MapControl.cs" />
+    <Compile Include="Models\DispositivoModel.cs" />
+    <Compile Include="Models\InfoDispositivoModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
