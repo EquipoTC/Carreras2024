@@ -18,16 +18,16 @@ namespace Mapa.Models
 		public string Description { get; set; }
 
 		[JsonProperty("disp_latitud_actual")]
-		public double Current_Latitude { get; set; }
+		public double CurrentLatitude { get; set; }
 
 		[JsonProperty("disp_longitud_actual")]
-		public double Current_Longitude { get; set; }
+		public double CurrentLongitude { get; set; }
 
 		[JsonProperty("disp_fecha_ingreso")]
-		public DateTime Entry_Date { get; set; }
+		public DateTime EntryDate { get; set; }
 
 		[JsonProperty("disp_fecha_modificacion")]
-		public DateTime? Modification_Date { get; set; }
+		public DateTime? ModificationDate { get; set; }
 
 		[JsonProperty("disp_habilitado")]
 		public bool Enabled { get; set; }

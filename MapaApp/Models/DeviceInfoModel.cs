@@ -13,7 +13,7 @@ namespace Mapa.Models
 		public int Id { get; set; }
 
 		[JsonProperty("info_disp_id")]
-		public string Device_Id { get; set; }
+		public string DeviceId { get; set; }
 
 		[JsonProperty("info_latitud")]
 		public double Latitude { get; set; }

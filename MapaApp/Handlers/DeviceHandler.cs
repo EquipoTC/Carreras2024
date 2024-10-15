@@ -49,7 +49,7 @@ namespace Mapa.Handlers
 		}
 		public static LatLng GetCurrentDevicePosition()
 		{
-			return new LatLng(current.Current_Latitude, current.Current_Longitude);
+			return new LatLng(current.CurrentLatitude, current.CurrentLongitude);
 		}
 		public static DeviceInfoModel GetCurrentDeviceInformation()
 		{
@@ -58,7 +58,7 @@ namespace Mapa.Handlers
 
 		public static string GetCurrentDevicePositionMessage()
 		{
-			return current.Description + "\n Latitud:" + current.Current_Latitude + "\n Longitud:" + current.Current_Longitude;
+			return current.Description + "\n Latitud:" + current.CurrentLatitude + "\n Longitud:" + current.CurrentLongitude;
 		}
 	}
 }
