@@ -12,7 +12,7 @@ namespace API
     internal class APIRequests
     {
         
-        public static string api_url = "https://carreras2024.onrender.com/";
+        public static string apiUrl = "https://carreras2024.onrender.com/";
 		public static double timeoutResponseSeconds = 30;
         //Verbs
         public static async Task<string> GetHttp(string url, string api)

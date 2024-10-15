@@ -47,14 +47,14 @@ namespace Mapa
             string[] lines = File.ReadAllLines(Path.Combine(Application.StartupPath, "Config", "config.txt"));
             Action[] settings = new Action[]
             {
-                () => API.APIRequests.api_url = lines[0].Remove(0, lines[0].IndexOf(':')+1),
+                () => API.APIRequests.apiUrl = lines[0].Remove(0, lines[0].IndexOf(':')+1),
 				() => API.APIRequests.timeoutResponseSeconds = double.Parse(lines[1].Remove(0, lines[1].IndexOf(':')+1)),
 			};
             foreach (Action setting in settings)
             {
                 setting();
             }
-            txtAPIUrl.Text = APIRequests.api_url;
+            txtAPIUrl.Text = APIRequests.apiUrl;
         }
 
         private void Create_Config_File()
@@ -67,7 +67,7 @@ namespace Mapa
             Directory.CreateDirectory(configDirectory);
             using (StreamWriter sw = new StreamWriter(Path.Combine(configDirectory, "config.txt")))
             {
-                sw.WriteLine("API:" + API.APIRequests.api_url);
+                sw.WriteLine("API:" + API.APIRequests.apiUrl);
 				sw.WriteLine("Timeout response(seconds):" + 30);
             }
         }
@@ -341,7 +341,7 @@ internal class LapInfo
 				{ "tiempoCronometro", Total_Time.ToString(@"hh\:mm\:ss\.fff") }
 			};
 			Console.WriteLine("Vuelta:" + jsonObject.ToString());
-			await APIRequests.PostHttp("vuelta/ingresar", APIRequests.api_url, jsonObject.ToString());
+			await APIRequests.PostHttp("vuelta/ingresar", APIRequests.apiUrl, jsonObject.ToString());
 		}
 		catch (TimeoutException ex)
 		{

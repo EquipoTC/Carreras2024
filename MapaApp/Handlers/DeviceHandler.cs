@@ -19,7 +19,7 @@ namespace Mapa.Handlers
 		{
 			try
 			{
-				string response = await APIRequests.GetHttp("disp", APIRequests.api_url);
+				string response = await APIRequests.GetHttp("disp", APIRequests.apiUrl);
 				JObject json = JObject.Parse(response);
 				list = JsonConvert.DeserializeObject<List<DeviceModel>>(json["data"].ToString());
 				if (list == null)

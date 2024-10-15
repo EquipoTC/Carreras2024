@@ -16,7 +16,7 @@ namespace Mapa.Handlers
 		{
 			try
 			{
-				string response = await APIRequests.GetHttp("info/" + deviceId, APIRequests.api_url);
+				string response = await APIRequests.GetHttp("info/" + deviceId, APIRequests.apiUrl);
 				JObject json = JObject.Parse(response);
 				List<DeviceInfoModel> infoDevice = JsonConvert.DeserializeObject<List<DeviceInfoModel>>(json["data"].ToString());
 				if (infoDevice == null)
