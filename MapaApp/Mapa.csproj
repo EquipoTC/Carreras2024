@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiRequests.cs" />
-    <Compile Include="Handlers\DispositivoHandler.cs" />
+    <Compile Include="Handlers\DeviceHandler.cs" />
     <Compile Include="DispositivoManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
