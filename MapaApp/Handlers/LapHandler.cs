@@ -11,6 +11,7 @@ namespace Mapa.Handlers
 {
 	internal class LapHandler
 	{
+		public static List<LapModel> list;
 		public static async Task PostLap(LapModel lap)
 		{
 			try
