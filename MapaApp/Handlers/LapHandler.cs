@@ -11,7 +11,7 @@ namespace Mapa.Handlers
 {
 	internal class LapHandler
 	{
-		public async Task PostLap(LapModel lap)
+		public static async Task PostLap(LapModel lap)
 		{
 			try
 			{
@@ -33,7 +33,7 @@ namespace Mapa.Handlers
 				Console.WriteLine("Error en la solicitud HTTP:" + ex.Message);
 			}
 		}
-		public string GetLapMessage(LapModel lap)
+		public static string GetLapMessage(LapModel lap)
 		{
 			return $"Vuelta {lap.Id + 1}: + {lap.ElapsedTime.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {lap.TotalTime.ToString(@"hh\:mm\:ss\:fff")}";
 		}
