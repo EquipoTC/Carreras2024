@@ -7,36 +7,36 @@ using System.Threading.Tasks;
 
 namespace Mapa.Models
 {
-	internal class InfoDispositivoModel
+	internal class DeviceInfoModel
 	{
 		[JsonProperty("info_id")]
 		public int Id { get; set; }
 
 		[JsonProperty("info_disp_id")]
-		public string Disp_Id { get; set; }
+		public string Device_Id { get; set; }
 
 		[JsonProperty("info_latitud")]
-		public double Latitud { get; set; }
+		public double Latitude { get; set; }
 
 		[JsonProperty("info_longitud")]
-		public double Longitud { get; set; }
+		public double Longitude { get; set; }
 
 		[JsonProperty("info_fecha_ingreso")]
-		public DateTime Fecha_Ingreso { get; set; }
+		public DateTime Entry_Date { get; set; }
 
 		[JsonProperty("info_corriente")]
-		public double Corriente { get; set; }
+		public double Current { get; set; }
 
 		[JsonProperty("info_tension")]
-		public double Tension { get; set; }
+		public double Voltage { get; set; }
 
 		[JsonProperty("info_energia")]
-		public double Energia { get; set; }
+		public double Energy { get; set; }
 
 		[JsonProperty("info_potencia")]
-		public double Potencia { get; set; }
+		public double Power { get; set; }
 
 		[JsonProperty("info_velocidad")]
-		public double Velocidad { get; set; }
+		public double Speed { get; set; }
 	}
 }
