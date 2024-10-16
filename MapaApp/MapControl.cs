@@ -2,7 +2,7 @@
 
 namespace Mapa
 {
-    internal class LatLng
+    public class LatLng
     {
         public double lat = 0.0;
 
