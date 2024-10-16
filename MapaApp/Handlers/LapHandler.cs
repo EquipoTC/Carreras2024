@@ -3,25 +3,25 @@ using Mapa.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Mapa.Handlers
 {
-	internal class LapHandler
+	public class LapHandler
 	{
-		public static List<LapModel> list;
-		public static async Task PostLap(LapModel lap)
+		public async Task PostHandler(LapModel lap)
 		{
 			try
 			{
 				JObject jsonObject = new JObject
-			{
-				{ "dispID", lap.DeviceId },
-				{ "tiempo", lap.ElapsedTime.ToString(@"hh\:mm\:ss\.fff") },
-				{ "tiempoCronometro", lap.TotalTime.ToString(@"hh\:mm\:ss\.fff") }
-			};
+				{
+					{ "dispID", lap.DeviceId },
+					{ "tiempo", lap.ElapsedTime.ToString(@"hh\:mm\:ss\.fff") },
+					{ "tiempoCronometro", lap.TotalTime.ToString(@"hh\:mm\:ss\.fff") }
+				};
 				Console.WriteLine("Vuelta:" + jsonObject.ToString());
 				await APIRequests.PostHttp("vuelta/ingresar", APIRequests.apiUrl, jsonObject.ToString());
 			}
