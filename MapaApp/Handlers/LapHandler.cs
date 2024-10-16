@@ -34,9 +34,5 @@ namespace Mapa.Handlers
 				Console.WriteLine("Error en la solicitud HTTP:" + ex.Message);
 			}
 		}
-		public static string GetLapMessage(LapModel lap)
-		{
-			return $"Vuelta {lap.Id + 1}: + {lap.ElapsedTime.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {lap.TotalTime.ToString(@"hh\:mm\:ss\:fff")}";
-		}
 	}
 }
