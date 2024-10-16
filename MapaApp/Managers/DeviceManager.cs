@@ -21,9 +21,10 @@ namespace Mapa.Managers
 			this.deviceHandler = deviceHandler;
 		}
 
-		public async void CreateDeviceList()
+		public async Task<List<DeviceModel>> CreateDeviceList()
 		{
 			deviceList = await deviceHandler.GetHandler();
+			return deviceList;
 		}
 		public List<string> GetDeviceDescriptions()
 		{
