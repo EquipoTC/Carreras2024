@@ -10,18 +10,15 @@ using Mapa.Models;
 
 namespace Mapa.Handlers
 {
-	internal class DeviceHandler
+	public class DeviceHandler
 	{
-		public static List<DeviceModel> list = new List<DeviceModel>();
-		public static DeviceModel current = new DeviceModel();
-
-		public static async Task<List<DeviceModel>> CreateDeviceListAsync()
+		public async Task<List<DeviceModel>> GetHandler()
 		{
 			try
 			{
 				string response = await APIRequests.GetHttp("disp", APIRequests.apiUrl);
 				JObject json = JObject.Parse(response);
-				list = JsonConvert.DeserializeObject<List<DeviceModel>>(json["data"].ToString());
+				List<DeviceModel> list = JsonConvert.DeserializeObject<List<DeviceModel>>(json["data"].ToString());
 				if (list == null)
 				{
 					throw new Exception("La lista es nula");
@@ -30,35 +27,8 @@ namespace Mapa.Handlers
 			}
 			catch
 			{
-				list = null;
 				throw;
 			}
-		}
-		public static List<string> GetDeviceDescriptions()
-		{
-			List<string> descList = new List<string>();
-			if (list == null)
-			{
-				return descList;
-			}
-			foreach (var desc in list)
-			{
-				descList.Add(desc.Description);
-			}
-			return descList;
-		}
-		public static LatLng GetCurrentDevicePosition()
-		{
-			return new LatLng(current.CurrentLatitude, current.CurrentLongitude);
-		}
-		public static DeviceInfoModel GetCurrentDeviceInformation()
-		{
-			return current.Information[current.Information.Count - 1];
-		}
-
-		public static string GetCurrentDevicePositionMessage()
-		{
-			return current.Description + "\n Latitud:" + current.CurrentLatitude + "\n Longitud:" + current.CurrentLongitude;
 		}
 	}
 }
