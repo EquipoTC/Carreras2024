@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Mapa.Managers;
+using Mapa.Services;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows.Forms;
 
 namespace Mapa
 {
     internal static class Program
     {
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-        }
+		public static IServiceProvider ServiceProvider { get; private set; }
+		[STAThread]
+		static void Main()
+		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new Form1());
+			ServiceCollection services = new ServiceCollection();
+			services.AddSingleton<ILapService, LapManager>();
+			ServiceProvider = services.BuildServiceProvider();
+
+		}
     }
 }
