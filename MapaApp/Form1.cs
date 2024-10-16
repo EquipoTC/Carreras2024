@@ -18,12 +18,18 @@ namespace Mapa
 		//API o Dependencia que se usa
 		private readonly ILapService lapManager;
         GoogleMapControl map;
+		private readonly IDeviceService deviceManager;
+		private readonly IDeviceInfoService deviceInfoManager;
+		GoogleMapControl map;
 
         Stopwatch stopwatch = new Stopwatch();
 
         public Form1(ILapService lapManager)
+        public Form1(ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
 			this.lapManager = lapManager;
+			this.deviceManager = deviceManager;
+			this.deviceInfoManager = deviceInfoManager;
 			InitializeComponent();
             Start_Program();
         }
