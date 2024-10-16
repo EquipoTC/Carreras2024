@@ -24,7 +24,6 @@ namespace Mapa
         GoogleMapControl map;
 
         Stopwatch cronometro = new Stopwatch();
-        List<LapInfo> lapList = new List<LapInfo>();
 
         public Form1()
         {
