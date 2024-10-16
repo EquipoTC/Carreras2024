@@ -182,15 +182,15 @@ namespace Mapa
 
         private void playBtn_Click(object sender, EventArgs e)
         {
-            if (!cronometro.IsRunning)
+            if (!stopwatch.IsRunning)
 			{
-				cronometro.Start();
+				stopwatch.Start();
                 playBtn.Text = "Stop";
                 return;
             }
             playBtn.Text = "Play";
-            cronometro.Stop();
-			cronometroText_Update(cronometro.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
+			stopwatch.Stop();
+			cronometroText_Update(stopwatch.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
 		}
 
 		private void lapBtn_Click(object sender, EventArgs e)
@@ -225,8 +225,8 @@ namespace Mapa
             while (true)
             {
                 await Task.Delay(50);
-                if (!cronometro.IsRunning) { continue; }
-				TimeSpan time = cronometro.Elapsed;
+                if (!stopwatch.IsRunning) { continue; }
+				TimeSpan time = stopwatch.Elapsed;
                 cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
             }
         }
@@ -264,7 +264,7 @@ namespace Mapa
             SwitchFreezeUI();
 			MapTimer.Stop();
 			int currentBefore = Dispositivos.current.Id;
-			if (cronometro.IsRunning)
+			if (stopwatch.IsRunning)
 			{
 				playBtn_Click(this, EventArgs.Empty);
 			}
@@ -295,16 +295,16 @@ namespace Mapa
 
 		private void resetBtn_Click(object sender, EventArgs e)
 		{
-			if (cronometro.IsRunning)
+			if (stopwatch.IsRunning)
 			{
-				cronometro.Restart();
+				stopwatch.Restart();
 			}
 			else
 			{
-				cronometro.Reset();
+				stopwatch.Reset();
 			}
-			lapList.Insert(0, new LapInfo(lapListBox.Items.Count, Dispositivos.current.Id, TimeSpan.Zero));
-			cronometroText_Update(cronometro.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
+			lapManager.InsertLap(new LapModel(lapListBox.Items.Count, Dispositivos.current.Id, TimeSpan.Zero));
+			cronometroText_Update(stopwatch.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
 		}
 	}
 }
