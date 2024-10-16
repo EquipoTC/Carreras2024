@@ -1,5 +1,4 @@
-﻿using Mapa.Managers;
-using Mapa.Services;
+﻿using Mapa.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Forms;
@@ -12,12 +11,13 @@ namespace Mapa
 		[STAThread]
 		static void Main()
 		{
+			ServiceCollection services = new ServiceCollection();
+			ServicesRegistry.RegisterServices(services);
+			services.AddTransient<Form1>();
+			ServiceProvider = services.BuildServiceProvider();
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
-			ServiceCollection services = new ServiceCollection();
-			services.AddSingleton<ILapService, LapManager>();
-			ServiceProvider = services.BuildServiceProvider();
+			Application.Run(ServiceProvider.GetRequiredService<Form1>());
 
 		}
     }
