@@ -193,33 +193,32 @@ namespace Mapa
 			cronometroText_Update(cronometro.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
 		}
 
-        private void lapBtn_Click(object sender, EventArgs e)
-        {
-			if (cronometro.ElapsedMilliseconds == 0)
+		private void lapBtn_Click(object sender, EventArgs e)
+		{
+			if (stopwatch.ElapsedMilliseconds == 0)
 			{
 				return;
 			}
-			lapList.Insert(0, new LapInfo(lapListBox.Items.Count, Dispositivos.current.Id, cronometro.Elapsed));
-			if (lapList.Count == 1)
+			LapModel newLap = new LapModel(lapListBox.Items.Count, Dispositivos.current.Id, stopwatch.Elapsed);
+			if (lapManager.lapList.Count > 0)
 			{
-				lapList[0].Total_Time = cronometro.Elapsed;
-				lapListBox.Items.Insert(0, lapList[0].ToString());
-				Task.Run(() => lapList[0].PostLap());
+				newLap.TotalTime = stopwatch.Elapsed;
+				lapManager.InsertLap(newLap);
 				return;
 			}
-			if (cronometro.Elapsed - lapList[1].Total_Time == TimeSpan.Zero)
+			if (stopwatch.Elapsed - lapManager.lapList[1].TotalTime == TimeSpan.Zero)
 			{
-				lapList[0].Total_Time = cronometro.Elapsed;
-				lapList[0].Elapsed_Time = TimeSpan.Zero;
-				lapListBox.Items.Insert(0, lapList[0].ToString());
-				Task.Run(() => lapList[0].PostLap());
+				newLap.TotalTime = stopwatch.Elapsed;
+				newLap.ElapsedTime = TimeSpan.Zero;
+				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
+				lapManager.InsertLap(newLap);
 				return;
 			}
-            lapList[0].Total_Time = cronometro.Elapsed;
-			lapList[0].Elapsed_Time = lapList[0].Total_Time - lapList[1].Total_Time;
-			lapListBox.Items.Insert(0, lapList[0].ToString());
-			Task.Run(() => lapList[0].PostLap());	
-        }
+			newLap.TotalTime = stopwatch.Elapsed;
+			newLap.ElapsedTime = stopwatch.Elapsed - lapManager.lapList[1].TotalTime;
+			lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
+			lapManager.InsertLap(newLap);
+		}
 
         private async Task Cronometro_Tick()
         {
