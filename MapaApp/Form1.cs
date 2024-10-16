@@ -17,29 +17,27 @@ namespace Mapa
     {
 		//API o Dependencia que se usa
 		private readonly ILapService lapManager;
-		public Form1(ILapService lapManager)
-		{
-			this.lapManager = lapManager;
-		}
         GoogleMapControl map;
 
         Stopwatch stopwatch = new Stopwatch();
 
-        public Form1()
+        public Form1(ILapService lapManager)
         {
-            InitializeComponent();
+			this.lapManager = lapManager;
+			InitializeComponent();
             Start_Program();
         }
 
         private async void Start_Program()
         {
-            map = new GoogleMapControl(gmapControl);
+			Console.WriteLine("Existe el manager? " + lapManager);
+            /*map = new GoogleMapControl(gmapControl);
             map.Set_Map_Zoom(trackZoom.Value);
             Set_App_Config();
             await Task.Delay(500);
             btnActualizar_Click(this, EventArgs.Empty);
 			MessageBox.Show("Cargado con exito.");
-            await Task.Run(() => Cronometro_Tick());
+            await Task.Run(() => Cronometro_Tick());*/
         }
 
         private void Set_App_Config()
