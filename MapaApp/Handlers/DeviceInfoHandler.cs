@@ -10,9 +10,9 @@ using Mapa.Models;
 
 namespace Mapa.Handlers
 {
-	internal class DeviceInfoHandler
+	public class DeviceInfoHandler
 	{
-		public static async Task<List<DeviceInfoModel>> UpdateDeviceInfoByIdAsync(int deviceId)
+		public async Task<List<DeviceInfoModel>> GetByIdHandler(int deviceId)
 		{
 			try
 			{
@@ -29,16 +29,6 @@ namespace Mapa.Handlers
 			{
 				throw;
 			}
-		}
-
-		public static DeviceInfoModel GetDeviceLastInformation(DeviceModel device)
-		{
-			return device.Information[device.Information.Count - 1];
-		}
-
-		public static LatLng GetDevicePastPositionsbyId(DeviceModel device, int id)
-		{
-			return new LatLng(device.Information[id].Latitude, device.Information[id].Longitude);
 		}
 	}
 }
