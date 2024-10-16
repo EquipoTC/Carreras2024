@@ -14,8 +14,15 @@ namespace Mapa.Services
 	{
 		public static void RegisterServices(IServiceCollection services)
 		{
+			RegisterHandlers(services);
+			RegisterManagers(services);
+		}
+		public static void RegisterHandlers(IServiceCollection services)
+		{
 			services.AddSingleton<LapHandler>();
+		}
+		public static void RegisterManagers(IServiceCollection services)
+		{
 			services.AddSingleton<ILapService, LapManager>();
 		}
-	}
 }
