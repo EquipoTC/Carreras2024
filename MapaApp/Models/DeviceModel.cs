@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Mapa.Models
 {
-	internal class DeviceModel
+	public class DeviceModel
 	{
 		[JsonProperty("disp_id")]
 		public int Id { get; set; }

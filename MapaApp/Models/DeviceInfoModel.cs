@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mapa.Models
 {
-	internal class DeviceInfoModel
+	public class DeviceInfoModel
 	{
 		[JsonProperty("info_id")]
 		public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace Mapa.Models
 		public double Longitude { get; set; }
 
 		[JsonProperty("info_fecha_ingreso")]
-		public DateTime Entry_Date { get; set; }
+		public DateTime EntryDate { get; set; }
 
 		[JsonProperty("info_corriente")]
 		public double Current { get; set; }

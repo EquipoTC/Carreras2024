@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Mapa.Models
 {
-	internal class LapModel
+	public class LapModel
 	{
 		[JsonProperty("id")]
 		public int Id { get; set; }
