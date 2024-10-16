@@ -20,9 +20,11 @@ namespace Mapa.Services
 		public static void RegisterHandlers(IServiceCollection services)
 		{
 			services.AddSingleton<LapHandler>();
+			services.AddSingleton<DeviceHandler>();
 		}
 		public static void RegisterManagers(IServiceCollection services)
 		{
 			services.AddSingleton<ILapService, LapManager>();
+			services.AddSingleton<IDeviceService, DeviceManager>();
 		}
 }
