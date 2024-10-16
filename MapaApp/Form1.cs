@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 // Dependencias
 using DispositivoManager;
 using API;
-using System.Threading;
 using System.IO;
-using System.Net.Http;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+using Mapa.Models;
+using Mapa.Services;
 
 namespace Mapa
 {
     public partial class Form1 : Form
     {
-        //API o Dependencia que se usa
+		//API o Dependencia que se usa
+		private readonly ILapService lapManager;
+		public Form1(ILapService lapManager)
+		{
+			this.lapManager = lapManager;
+		}
         GoogleMapControl map;
 
         Stopwatch cronometro = new Stopwatch();
