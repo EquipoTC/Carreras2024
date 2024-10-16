@@ -23,7 +23,7 @@ namespace Mapa
 		}
         GoogleMapControl map;
 
-        Stopwatch cronometro = new Stopwatch();
+        Stopwatch stopwatch = new Stopwatch();
 
         public Form1()
         {
