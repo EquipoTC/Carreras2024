@@ -94,11 +94,15 @@
     </Compile>
     <Compile Include="GoogleMapControl.cs" />
     <Compile Include="Handlers\DeviceInfoHandler.cs" />
+    <Compile Include="Handlers\LapHandler.cs" />
+    <Compile Include="Managers\LapManager.cs" />
     <Compile Include="MapControl.cs" />
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceInfoModel.cs" />
+    <Compile Include="Models\LapModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ILapService.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
