@@ -12,6 +12,7 @@ namespace Mapa.Services
 		List<DeviceModel> deviceList { get; }
 		DeviceModel current { get; }
 		Task<List<DeviceModel>> UpdateDeviceList();
+		void ChangeCurrentDevice(int toDeviceId);
 		List<string> GetDeviceDescriptions();
 		LatLng GetCurrentDevicePosition();
 		DeviceInfoModel GetCurrentDeviceInformation();

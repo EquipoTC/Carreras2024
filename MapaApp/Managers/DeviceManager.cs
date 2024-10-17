@@ -12,7 +12,7 @@ namespace Mapa.Managers
 	public class DeviceManager : IDeviceService
 	{
 		public List<DeviceModel> deviceList { get; private set; }
-		public DeviceModel current { get; }
+		public DeviceModel current { get; private set; }
 		private readonly DeviceHandler deviceHandler;
 		public DeviceManager(DeviceHandler deviceHandler)
 		{
@@ -26,6 +26,12 @@ namespace Mapa.Managers
 			deviceList = await deviceHandler.GetHandler();
 			return deviceList;
 		}
+
+		public void ChangeCurrentDevice(int toDeviceId)
+		{
+			current = deviceList[toDeviceId];
+		}
+
 		public List<string> GetDeviceDescriptions()
 		{
 			List<string> descList = new List<string>();
