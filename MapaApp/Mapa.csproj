@@ -119,6 +119,8 @@
     <Compile Include="Models\LapModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IDeviceInfoService.cs" />
+    <Compile Include="Services\IDeviceService.cs" />
     <Compile Include="Services\ILapService.cs" />
     <Compile Include="Services\ServicesRegistry.cs" />
     <EmbeddedResource Include="Form1.resx">
