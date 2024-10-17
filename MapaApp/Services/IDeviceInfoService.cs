@@ -9,7 +9,7 @@ namespace Mapa.Services
 {
 	public interface IDeviceInfoService
 	{
-		Task<List<DeviceInfoModel>> GetInfoByDeviceId(int deviceId);
+		Task<List<DeviceInfoModel>> UpdateInfoByDeviceId(int deviceId);
 		DeviceInfoModel GetDeviceLastInformation(DeviceModel device);
 
 		LatLng GetDevicePastPositionsbyId(DeviceModel device, int id);
