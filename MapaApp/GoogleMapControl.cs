@@ -45,7 +45,7 @@ namespace Mapa
             control.Overlays.Clear();
             control.Overlays.Add(markerOverlay);
             control.Overlays.Add(rutaOverlay);
-            Draw_Route_of_Dispositivo(Dispositivos.current, 5);
+            Draw_Route_of_Dispositivo(deviceManager.current, 5);
             Set_Marker_on_Current();
             
         }
@@ -55,7 +55,7 @@ namespace Mapa
             control.DragButton = MouseButtons.Left;
             control.CanDragMap = false;
             control.MapProvider = GMapProviders.GoogleMap;
-            control.Position = PointConvert(Dispositivos.current.Get_Current_Position());
+            control.Position = PointConvert(deviceManager.GetCurrentDevicePosition());
             control.MinZoom = 1;
             control.MaxZoom = 18;
             control.Zoom = 16;
@@ -73,9 +73,9 @@ namespace Mapa
         public void Set_Marker_on_Current()
         {
             marker.ToolTipMode = MarkerTooltipMode.Always;
-            marker.ToolTipText = Dispositivos.current.Get_Position_Message();
-            marker.Position = PointConvert(Dispositivos.current.Get_Current_Position());
-            Console.WriteLine("Posición:" + Dispositivos.current.Get_Current_Position());
+			marker.ToolTipText = deviceManager.GetCurrentDevicePositionMessage();
+            marker.Position = PointConvert(deviceManager.GetCurrentDevicePosition());
+            Console.WriteLine("Posición:" + deviceManager.GetCurrentDevicePosition());
         }
 
         public void Set_Map_Position(LatLng point)
@@ -99,21 +99,21 @@ namespace Mapa
             return 0;
         }
 
-        public double Calculate_Velocity_of_Dispositivo(DispositivoModel disp, int end = 1)
+        public double Calculate_Velocity_of_Dispositivo(DeviceModel device, int end = 1)
         {
-            if (disp.Information.Count < 2)
+            if (device.Information.Count < 2)
             {
                 return 0;
             }
             double totalDistance = 0;
             double totalTime = 0;
-            for (int i = disp.Information.Count - 1; i > 0; i--)
+            for (int i = device.Information.Count - 1; i > 0; i--)
             {
-                PointLatLng point1 = PointConvert(disp.Get_Position_by_Id(i));
-                PointLatLng point2 = PointConvert(disp.Get_Position_by_Id(i - 1));
+                PointLatLng point1 = PointConvert(deviceInfoManager.GetDevicePastPositionsbyId(deviceManager.current, i));
+                PointLatLng point2 = PointConvert(deviceInfoManager.GetDevicePastPositionsbyId(deviceManager.current, i - 1));
                 totalDistance += GMapProviders.EmptyProvider.Projection.GetDistance(point1, point2); // KM
-                totalTime += (disp.Information[i].Fecha_Ingreso - disp.Information[i - 1].Fecha_Ingreso).TotalHours;
-                if (i == (disp.Information.Count - end))
+                totalTime += (device.Information[i].EntryDate - device.Information[i - 1].EntryDate).TotalHours;
+                if (i == (device.Information.Count - end))
                 {
                     break;
                 }
@@ -124,24 +124,24 @@ namespace Mapa
             }
             return totalDistance / totalTime;
         }
-        public void Draw_Route_of_Dispositivo(DispositivoModel disp, int end = 1)
+        public void Draw_Route_of_Dispositivo(DeviceModel device, int end = 1)
         {
             rutaOverlay.Routes.Clear();
-            if (disp.Information.Count < 2)
+            if (device.Information.Count < 2)
             {
                 return;
             }
-            List<PointLatLng> puntos = new List<PointLatLng>();
-            for (int i = disp.Information.Count - 1; i > 0; i--)
+            List<PointLatLng> points = new List<PointLatLng>();
+            for (int i = device.Information.Count - 1; i > 0; i--)
             {
-                puntos.Add(PointConvert(disp.Get_Position_by_Id(i)));
-                if (i == (disp.Information.Count - end))
+				points.Add(PointConvert(deviceInfoManager.GetDevicePastPositionsbyId(deviceManager.current, i)));
+                if (i == (device.Information.Count - end))
                 {
                     break;
                 }
             }
-            GMapRoute rutaPuntos = new GMapRoute(puntos, "Ruta");
-            rutaOverlay.Routes.Add(rutaPuntos);
+            GMapRoute routePoints = new GMapRoute(points, "Ruta");
+            rutaOverlay.Routes.Add(routePoints);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DispositivoManager;
+﻿using Mapa.Models;
 
 namespace Mapa
 {
@@ -27,7 +27,7 @@ namespace Mapa
         void Set_Map_Zoom(double zoom);
         void Toggle_Movement();
         double Calculate_Distance(LatLng point1, LatLng point2);
-        void Draw_Route_of_Dispositivo(DispositivoModel disp, int end = 1);
-        double Calculate_Velocity_of_Dispositivo(DispositivoModel disp, int end = 1);
+        void Draw_Route_of_Dispositivo(DeviceModel disp, int end = 1);
+        double Calculate_Velocity_of_Dispositivo(DeviceModel disp, int end = 1);
     }
 }
