@@ -8,6 +8,9 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using DispositivoManager;
+using Mapa.Models;
+using Mapa.Services;
+using Mapa.Managers;
 
 namespace Mapa
 {
@@ -18,9 +21,14 @@ namespace Mapa
         GMapOverlay markerOverlay;
         GMapOverlay rutaOverlay;
 
-        public GoogleMapControl(GMapControl map_control)
+		IDeviceService deviceManager;
+		IDeviceInfoService deviceInfoManager;
+
+		public GoogleMapControl(GMapControl map_control, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
             control = map_control;
+			this.deviceManager = deviceManager;
+			this.deviceInfoManager = deviceInfoManager;
             rutaOverlay = new GMapOverlay("Ruta");
             Setup_Map();
             Setup_Marker();
