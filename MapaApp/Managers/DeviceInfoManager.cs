@@ -23,7 +23,7 @@ namespace Mapa.Managers
 		}
 		public DeviceInfoModel GetDeviceLastInformation(DeviceModel device)
 		{
-			return device.Information[device.Information.Count - 1];
+			return device.Information == null || device.Information.Count == 0 ? null : device.Information[device.Information.Count - 1];
 		}
 
 		public LatLng GetDevicePastPositionsbyId(DeviceModel device, int id)
