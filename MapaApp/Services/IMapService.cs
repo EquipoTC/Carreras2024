@@ -20,4 +20,19 @@ namespace Mapa.Services
 		void DrawRouteofDevice(DeviceModel disp, int end = 1);
 		double CalculateVelocityofDevice(DeviceModel disp, int end = 1);
 	}
+	public class LatLng
+	{
+		public double lat = 0.0;
+
+		public double lng = 0.0;
+		public LatLng(double a_lat, double a_lng)
+		{
+			lat = a_lat;
+			lng = a_lng;
+		}
+		public override string ToString()
+		{
+			return "(Lat:" + lat + ", Lng:" + lng + ")";
+		}
+	}
 }
