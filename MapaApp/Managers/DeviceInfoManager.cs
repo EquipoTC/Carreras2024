@@ -17,7 +17,7 @@ namespace Mapa.Managers
 			this.deviceInfoHandler = deviceInfoHandler;
 		}
 
-		public async Task<List<DeviceInfoModel>> GetInfoByDeviceId(int deviceId)
+		public async Task<List<DeviceInfoModel>> UpdateInfoByDeviceId(int deviceId)
 		{
 			return await deviceInfoHandler.GetByIdHandler(deviceId);
 		}
