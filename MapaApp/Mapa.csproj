@@ -122,6 +122,7 @@
     <Compile Include="Services\IDeviceInfoService.cs" />
     <Compile Include="Services\IDeviceService.cs" />
     <Compile Include="Services\ILapService.cs" />
+    <Compile Include="Services\IMapService.cs" />
     <Compile Include="Services\ServicesRegistry.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
