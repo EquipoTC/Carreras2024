@@ -18,11 +18,11 @@ namespace Mapa
 		private readonly ILapService lapManager;
 		private readonly IDeviceService deviceManager;
 		private readonly IDeviceInfoService deviceInfoManager;
-		GoogleMapControl map;
+		private readonly IMapService mapManager;
 
         Stopwatch stopwatch = new Stopwatch();
 
-        public Form1(ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
+        public Form1(IMapService mapManager, ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
 			this.lapManager = lapManager;
 			this.deviceManager = deviceManager;
@@ -33,8 +33,7 @@ namespace Mapa
 
         private async void Start_Program()
         {
-            map = new GoogleMapControl(gmapControl);
-            map.Set_Map_Zoom(trackZoom.Value);
+            mapManager.SetMapZoom(trackZoom.Value);
             Set_App_Config();
             await Task.Delay(500);
             btnActualizar_Click(this, EventArgs.Empty);
@@ -131,7 +130,7 @@ namespace Mapa
 
         private void Search_Selected_Dispositivo()
         {
-			map.Overlays_Tick();
+			mapManager.OverlaysTick();
 			DeviceInfoModel info = deviceInfoManager.GetDeviceLastInformation(deviceManager.current);
             if (info == null) {
 				txtLatitud.Text = "";
@@ -147,8 +146,8 @@ namespace Mapa
 			// Texts
 			txtLatitud.Text = info.Latitude.ToString();
             txtLongitud.Text = info.Longitude.ToString();
-            txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(deviceManager.current) + " km/h";
-            txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(deviceManager.current, 10) + " km/h";
+            txtVelGPS.Text = mapManager.CalculateVelocityofDevice(deviceManager.current) + " km/h";
+            txtVelGPSPromedio.Text = mapManager.CalculateVelocityofDevice(deviceManager.current, 10) + " km/h";
             txtVelDisp.Text = info.Speed.ToString() + " km/h";
             txtCorriente.Text = info.Intensity.ToString() + " A";
             txtTension.Text = info.Voltage.ToString() + " V";
@@ -156,7 +155,7 @@ namespace Mapa
             txtPotencia.Text = info.Power.ToString() + " W";
             // Pins
             if (!checkPinPos.Checked) { return; }
-            map.Set_Map_Position(new LatLng(info.Latitude, info.Longitude));
+            mapManager.SetMapPosition(new LatLng(info.Latitude, info.Longitude));
         }
 
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
@@ -167,11 +166,11 @@ namespace Mapa
 
         private void checkPinPosition_Changed(object sender, EventArgs e)
         {
-            map.Toggle_Movement();
+            mapManager.ToggleMovement();
             if (checkPinPos.Checked)
             {
-                map.Set_Map_Position(deviceManager.GetCurrentDevicePosition());
-                map.Set_Map_Zoom(trackZoom.Value);
+                mapManager.SetMapPosition(deviceManager.GetCurrentDevicePosition());
+                mapManager.SetMapZoom(trackZoom.Value);
             }
         }
 

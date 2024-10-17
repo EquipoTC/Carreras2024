@@ -14,43 +14,43 @@ using Mapa.Managers;
 
 namespace Mapa
 {
-    internal class GoogleMapControl : MapControl
+    internal class GoogleMapControl : IMapService
     {
         GMapControl control;
         GMarkerGoogle marker;
         GMapOverlay markerOverlay;
-        GMapOverlay rutaOverlay;
+        GMapOverlay routeOverlay;
 
 		IDeviceService deviceManager;
 		IDeviceInfoService deviceInfoManager;
 
-		public GoogleMapControl(GMapControl map_control, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
+		public GoogleMapControl(GMapControl mapControl, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
-            control = map_control;
+            control = mapControl;
 			this.deviceManager = deviceManager;
 			this.deviceInfoManager = deviceInfoManager;
-            rutaOverlay = new GMapOverlay("Ruta");
-            Setup_Map();
-            Setup_Marker();
+			routeOverlay = new GMapOverlay("Ruta");
+            SetupMap();
+            SetupMarker();
         }
 
 
-        public PointLatLng PointConvert(LatLng point) 
+        private PointLatLng PointConvert(LatLng point) 
         {
             return new PointLatLng(point.lat, point.lng);
         }
 
-        public void Overlays_Tick()
+        public void OverlaysTick()
         {
             control.Overlays.Clear();
             control.Overlays.Add(markerOverlay);
-            control.Overlays.Add(rutaOverlay);
-            Draw_Route_of_Dispositivo(deviceManager.current, 5);
-            Set_Marker_on_Current();
+            control.Overlays.Add(routeOverlay);
+            DrawRouteofDevice(deviceManager.current, 5);
+            SetMarkeronCurrentDevice();
             
         }
 
-        public void Setup_Map()
+        public void SetupMap()
         {
             control.DragButton = MouseButtons.Left;
             control.CanDragMap = false;
@@ -63,14 +63,14 @@ namespace Mapa
             control.AutoScroll = true;
         }
 
-        public void Setup_Marker()
+        public void SetupMarker()
         {
             markerOverlay = new GMapOverlay("Marcador");
             marker = new GMarkerGoogle(new PointLatLng(0, 0), GMarkerGoogleType.red);
             markerOverlay.Markers.Add(marker);
         }
 
-        public void Set_Marker_on_Current()
+        public void SetMarkeronCurrentDevice()
         {
             marker.ToolTipMode = MarkerTooltipMode.Always;
 			marker.ToolTipText = deviceManager.GetCurrentDevicePositionMessage();
@@ -78,28 +78,28 @@ namespace Mapa
             Console.WriteLine("Posición:" + deviceManager.GetCurrentDevicePosition());
         }
 
-        public void Set_Map_Position(LatLng point)
+        public void SetMapPosition(LatLng point)
         {
             control.Position = PointConvert(point);
         }
 
-        public void Set_Map_Zoom(double zoom)
+        public void SetMapZoom(double zoom)
         {
             control.Zoom = zoom;
         }
 
-        public void Toggle_Movement()
+        public void ToggleMovement()
         {
             control.MouseWheelZoomEnabled = !control.MouseWheelZoomEnabled;
             control.CanDragMap = !control.CanDragMap;
         }
 
-        public double Calculate_Distance(LatLng point1, LatLng point2)
+        public double CalculateDistance(LatLng point1, LatLng point2)
         {
             return 0;
         }
 
-        public double Calculate_Velocity_of_Dispositivo(DeviceModel device, int end = 1)
+        public double CalculateVelocityofDevice(DeviceModel device, int end = 1)
         {
             if (device.Information.Count < 2)
             {
@@ -124,9 +124,9 @@ namespace Mapa
             }
             return totalDistance / totalTime;
         }
-        public void Draw_Route_of_Dispositivo(DeviceModel device, int end = 1)
+        public void DrawRouteofDevice(DeviceModel device, int end = 1)
         {
-            rutaOverlay.Routes.Clear();
+            routeOverlay.Routes.Clear();
             if (device.Information.Count < 2)
             {
                 return;
@@ -141,7 +141,7 @@ namespace Mapa
                 }
             }
             GMapRoute routePoints = new GMapRoute(points, "Ruta");
-            rutaOverlay.Routes.Add(routePoints);
+			routeOverlay.Routes.Add(routePoints);
         }
     }
 }
