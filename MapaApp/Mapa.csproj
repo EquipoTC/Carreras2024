@@ -100,7 +100,6 @@
   <ItemGroup>
     <Compile Include="ApiRequests.cs" />
     <Compile Include="Handlers\DeviceHandler.cs" />
-    <Compile Include="DispositivoManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,7 +112,6 @@
     <Compile Include="Managers\DeviceInfoManager.cs" />
     <Compile Include="Managers\DeviceManager.cs" />
     <Compile Include="Managers\LapManager.cs" />
-    <Compile Include="MapControl.cs" />
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\DeviceInfoModel.cs" />
     <Compile Include="Models\LapModel.cs" />
