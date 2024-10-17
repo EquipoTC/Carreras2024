@@ -25,7 +25,7 @@ namespace Mapa.Models
 		public DateTime EntryDate { get; set; }
 
 		[JsonProperty("info_corriente")]
-		public double Current { get; set; }
+		public double Intensity { get; set; }
 
 		[JsonProperty("info_tension")]
 		public double Voltage { get; set; }
