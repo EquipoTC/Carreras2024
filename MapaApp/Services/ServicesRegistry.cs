@@ -27,4 +27,5 @@ namespace Mapa.Services
 			services.AddSingleton<ILapService, LapManager>();
 			services.AddSingleton<IDeviceService, DeviceManager>();
 		}
+	}
 }
