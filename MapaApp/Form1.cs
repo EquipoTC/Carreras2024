@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 // Dependencias
-using DispositivoManager;
 using API;
 using System.IO;
 using Mapa.Models;
@@ -86,7 +85,7 @@ namespace Mapa
             Console.WriteLine("Actualizando Informacion Dispositivos...");
 			try
 			{
-				await Dispositivos.current.Update_Information();
+				await deviceInfoManager.UpdateInfoByDeviceId(deviceManager.current.Id);
 				Console.WriteLine("Informacion actualizada.");
 			}
 			catch
@@ -98,12 +97,12 @@ namespace Mapa
         public async Task Update_Dispositivos()
         {
            Console.WriteLine("Actualizando Dispositivos...");
-           List<DispositivoModel> result = await Dispositivos.Create_List();
+			List<DeviceModel> result = await deviceManager.UpdateDeviceList();
            await Task.Run(() =>
            {
-               Parallel.ForEach(Dispositivos.list, async disp =>
+               Parallel.ForEach(deviceManager.deviceList, async device =>
                {
-                   await disp.Update_Information();
+				   await deviceInfoManager.UpdateInfoByDeviceId(device.Id);
                });
            });
            Fill_Dispositivo_Box();
@@ -117,12 +116,12 @@ namespace Mapa
             {
                 comboDisp.Items.Clear();
             }
-            foreach (string dispositivo_desc in Dispositivos.Get_Descripciones())
+            foreach (string device_desc in deviceManager.GetDeviceDescriptions())
             {
-                comboDisp.Items.Add(dispositivo_desc);
+                comboDisp.Items.Add(device_desc);
             }
 			Console.WriteLine("INDEX:" + comboDisp.SelectedIndex);
-            if(Dispositivos.list.Count >= beforeIndex && beforeIndex != -1)
+            if(deviceManager.deviceList.Count >= beforeIndex && beforeIndex != -1)
 			{
 				comboDisp.SelectedIndex = beforeIndex;
 				return;
@@ -133,7 +132,7 @@ namespace Mapa
         private void Search_Selected_Dispositivo()
         {
 			map.Overlays_Tick();
-			InformationModel info = Dispositivos.current.Get_Last_Information();
+			DeviceInfoModel info = deviceInfoManager.GetDeviceLastInformation(deviceManager.current);
             if (info == null) {
 				txtLatitud.Text = "";
 				txtLongitud.Text = "";
@@ -146,23 +145,23 @@ namespace Mapa
 				return; 
 			}
 			// Texts
-			txtLatitud.Text = info.Latitud.ToString();
-            txtLongitud.Text = info.Longitud.ToString();
-            txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current) + " km/h";
-            txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(Dispositivos.current, 10) + " km/h";
-            txtVelDisp.Text = info.Velocidad.ToString() + " km/h";
-            txtCorriente.Text = info.Corriente.ToString() + " A";
-            txtTension.Text = info.Tension.ToString() + " V";
-            txtEnergia.Text = info.Energia.ToString() + " kWh";
-            txtPotencia.Text = info.Potencia.ToString() + " W";
+			txtLatitud.Text = info.Latitude.ToString();
+            txtLongitud.Text = info.Longitude.ToString();
+            txtVelGPS.Text = map.Calculate_Velocity_of_Dispositivo(deviceManager.current) + " km/h";
+            txtVelGPSPromedio.Text = map.Calculate_Velocity_of_Dispositivo(deviceManager.current, 10) + " km/h";
+            txtVelDisp.Text = info.Speed.ToString() + " km/h";
+            txtCorriente.Text = info.Intensity.ToString() + " A";
+            txtTension.Text = info.Voltage.ToString() + " V";
+            txtEnergia.Text = info.Energy.ToString() + " kWh";
+            txtPotencia.Text = info.Power.ToString() + " W";
             // Pins
             if (!checkPinPos.Checked) { return; }
-            map.Set_Map_Position(new LatLng(info.Latitud, info.Longitud));
+            map.Set_Map_Position(new LatLng(info.Latitude, info.Longitude));
         }
 
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
         {
-            Dispositivos.current = Dispositivos.list[comboDisp.SelectedIndex];
+			deviceManager.ChangeCurrentDevice(comboDisp.SelectedIndex);
             Search_Selected_Dispositivo();
         }
 
@@ -171,7 +170,7 @@ namespace Mapa
             map.Toggle_Movement();
             if (checkPinPos.Checked)
             {
-                map.Set_Map_Position(Dispositivos.current.Get_Current_Position());
+                map.Set_Map_Position(deviceManager.GetCurrentDevicePosition());
                 map.Set_Map_Zoom(trackZoom.Value);
             }
         }
@@ -200,7 +199,7 @@ namespace Mapa
 			{
 				return;
 			}
-			LapModel newLap = new LapModel(lapListBox.Items.Count, Dispositivos.current.Id, stopwatch.Elapsed);
+			LapModel newLap = new LapModel(lapListBox.Items.Count, deviceManager.current.Id, stopwatch.Elapsed);
 			if (lapManager.lapList.Count > 0)
 			{
 				newLap.TotalTime = stopwatch.Elapsed;
@@ -264,7 +263,7 @@ namespace Mapa
         {
             SwitchFreezeUI();
 			MapTimer.Stop();
-			int currentBefore = Dispositivos.current.Id;
+			int currentBefore = deviceManager.current.Id;
 			if (stopwatch.IsRunning)
 			{
 				playBtn_Click(this, EventArgs.Empty);
@@ -279,7 +278,7 @@ namespace Mapa
                 MessageBox.Show("No se encontraron dispositivos: " + ex.Message);
 				comboDisp.Items.Clear();
             }
-			if(Dispositivos.current.Id != currentBefore)
+			if(deviceManager.current.Id != currentBefore)
 			{
 				cronometroText_Update("00:00:00:000");
 			}
@@ -304,7 +303,7 @@ namespace Mapa
 			{
 				stopwatch.Reset();
 			}
-			lapManager.InsertLap(new LapModel(lapListBox.Items.Count, Dispositivos.current.Id, TimeSpan.Zero));
+			lapManager.InsertLap(new LapModel(lapListBox.Items.Count, deviceManager.current.Id, TimeSpan.Zero));
 			cronometroText_Update(stopwatch.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
 		}
 	}
