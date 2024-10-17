@@ -107,7 +107,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GoogleMapControl.cs" />
+    <Compile Include="Managers\GoogleMapManager.cs" />
     <Compile Include="Handlers\DeviceInfoHandler.cs" />
     <Compile Include="Handlers\LapHandler.cs" />
     <Compile Include="Managers\DeviceInfoManager.cs" />

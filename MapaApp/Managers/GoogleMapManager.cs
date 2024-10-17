@@ -32,7 +32,6 @@ namespace Mapa
             SetupMarker();
         }
 
-
         private PointLatLng PointConvert(LatLng point) 
         {
             return new PointLatLng(point.lat, point.lng);
