@@ -7,14 +7,12 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-using DispositivoManager;
 using Mapa.Models;
 using Mapa.Services;
-using Mapa.Managers;
 
 namespace Mapa
 {
-    internal class GoogleMapControl : IMapService
+    internal class GoogleMapManager : IMapService
     {
         GMapControl control;
         GMarkerGoogle marker;
@@ -24,7 +22,7 @@ namespace Mapa
 		IDeviceService deviceManager;
 		IDeviceInfoService deviceInfoManager;
 
-		public GoogleMapControl(GMapControl mapControl, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
+		public GoogleMapManager(GMapControl mapControl, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
             control = mapControl;
 			this.deviceManager = deviceManager;
