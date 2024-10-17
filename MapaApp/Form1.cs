@@ -24,6 +24,7 @@ namespace Mapa
 
         public Form1(IMapService mapManager, ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
+			this.mapManager = mapManager;
 			this.lapManager = lapManager;
 			this.deviceManager = deviceManager;
 			this.deviceInfoManager = deviceInfoManager;

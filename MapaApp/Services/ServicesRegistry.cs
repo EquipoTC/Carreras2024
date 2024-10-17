@@ -1,4 +1,5 @@
-﻿using Mapa.Handlers;
+﻿using GMap.NET.WindowsForms;
+using Mapa.Handlers;
 using Mapa.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
@@ -21,11 +22,13 @@ namespace Mapa.Services
 		{
 			services.AddSingleton<LapHandler>();
 			services.AddSingleton<DeviceHandler>();
+			services.AddSingleton<GMapControl>();
 		}
 		public static void RegisterManagers(IServiceCollection services)
 		{
 			services.AddSingleton<ILapService, LapManager>();
 			services.AddSingleton<IDeviceService, DeviceManager>();
+			services.AddSingleton<IMapService, GoogleMapManager>();
 		}
 	}
 }
