@@ -110,6 +110,8 @@
     <Compile Include="GoogleMapControl.cs" />
     <Compile Include="Handlers\DeviceInfoHandler.cs" />
     <Compile Include="Handlers\LapHandler.cs" />
+    <Compile Include="Managers\DeviceInfoManager.cs" />
+    <Compile Include="Managers\DeviceManager.cs" />
     <Compile Include="Managers\LapManager.cs" />
     <Compile Include="MapControl.cs" />
     <Compile Include="Models\DeviceModel.cs" />
