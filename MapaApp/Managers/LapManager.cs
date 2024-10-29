@@ -9,18 +9,19 @@ namespace Mapa.Managers
 {
 	public class LapManager : ILapService
 	{
-		public List<LapModel> lapList { get; }
 		private LapHandler lapHandler { get; }
 		public LapManager(LapHandler handler) 
 		{
-			lapList = new List<LapModel>();
 			this.lapHandler = handler;
 		}
-		public void InsertLap(LapModel model)
+		public void InsertLap(LapModel lap)
 		{
-			lapList.Insert(0, model);
-			Task.Run(() => lapHandler.PostHandler(model));
+			Task.Run(() => lapHandler.PostHandler(lap));
 		}
+		public async Task<List<LapModel>> GetLapsByDeviceId(int deviceId)
+		{
+			return await lapHandler.GetByIdHandler(deviceId);
+		} 
 		public string GetLapMessage(LapModel lap)
 		{
 			return $"Vuelta {lap.Id + 1}: + {lap.ElapsedTime.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {lap.TotalTime.ToString(@"hh\:mm\:ss\:fff")}";
