@@ -22,6 +22,7 @@ namespace Mapa
 		private readonly GoogleMapManager mapManager;
 
         Stopwatch stopwatch = new Stopwatch();
+		TimeSpan timeBegin = TimeSpan.Zero;
 
         public Form1(GoogleMapManager mapManager, ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
@@ -130,12 +131,11 @@ namespace Mapa
 			lapListBox.Items.Clear();
 			foreach (LapModel lap in deviceManager.current.Laps)
 			{
-				lapListBox.Items.Add(lapManager.GetLapMessage(lap));
+				lapListBox.Items.Insert(0, lapManager.GetLapMessage(lap));
 			}
 			if(lapListBox.Items.Count > 0)
 			{
-				TimeSpan time = deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
-				cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
+				timeBegin = deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace Mapa
             }
             playBtn.Text = "Play";
 			stopwatch.Stop();
-			cronometroText_Update(stopwatch.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
+			cronometroText_Update(stopwatch.Elapsed);
 		}
 
 		private void lapBtn_Click(object sender, EventArgs e)
@@ -209,27 +209,27 @@ namespace Mapa
 			if (deviceManager.current.Laps.Count == 0)
 			{
 				newLap.TotalTime = stopwatch.Elapsed;
-				deviceManager.current.Laps.Insert(0, newLap);
+				deviceManager.current.Laps.Add(newLap);
 				lapManager.InsertLap(newLap);
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 				return;
 			}
-			if (stopwatch.Elapsed - deviceManager.current.Laps[0].TotalTime == TimeSpan.Zero)
+			if (stopwatch.Elapsed - deviceManager.current.Laps[deviceManager.current.Laps.Count-1].TotalTime == TimeSpan.Zero)
 			{
-				if(deviceManager.current.Laps[0].ElapsedTime == TimeSpan.Zero)
+				if(deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].ElapsedTime == TimeSpan.Zero)
 				{
 					return;
 				}
 				newLap.TotalTime = stopwatch.Elapsed;
 				newLap.ElapsedTime = TimeSpan.Zero;
-				deviceManager.current.Laps.Insert(0, newLap);
+				deviceManager.current.Laps.Add(newLap);
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 				lapManager.InsertLap(newLap);
 				return;
 			}
 			newLap.TotalTime = stopwatch.Elapsed;
-			newLap.ElapsedTime = stopwatch.Elapsed - deviceManager.current.Laps[0].TotalTime;
-			deviceManager.current.Laps.Insert(0, newLap);
+			newLap.ElapsedTime = stopwatch.Elapsed - deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
+			deviceManager.current.Laps.Add(newLap);
 			lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 			lapManager.InsertLap(newLap);
 		}
@@ -241,19 +241,19 @@ namespace Mapa
                 await Task.Delay(50);
                 if (!stopwatch.IsRunning) { continue; }
 				TimeSpan time = stopwatch.Elapsed;
-                cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
+                cronometroText_Update(time);
             }
         }
         
-        private void cronometroText_Update(string time)
+        private void cronometroText_Update(TimeSpan time)
         {
             if (cronometroTextBox.InvokeRequired)
             {
-                cronometroTextBox.Invoke(new Action<string>(cronometroText_Update), time);
+                cronometroTextBox.Invoke(new Action<TimeSpan>(cronometroText_Update), time);
             }
             else
             {
-                cronometroTextBox.Text = time;
+                cronometroTextBox.Text = (time + timeBegin).ToString(@"hh\:mm\:ss\:fff");
             }
         }
 
@@ -295,7 +295,7 @@ namespace Mapa
             }
 			if(deviceManager.current.Id != currentBefore)
 			{
-				cronometroText_Update("00:00:00:000");
+				cronometroText_Update(TimeSpan.Zero);
 			}
 			MapTimer.Start();
 			SwitchFreezeUI();
@@ -312,17 +312,27 @@ namespace Mapa
 		{
 			if (stopwatch.IsRunning)
 			{
+				timeBegin = TimeSpan.Zero;
 				stopwatch.Restart();
 			}
 			else
 			{
+				timeBegin = TimeSpan.Zero;
 				stopwatch.Reset();
+			}
+			cronometroText_Update(stopwatch.Elapsed);
+			if(lapListBox.Items.Count == 0 || deviceManager.current.Laps.Count == 0)
+			{
+				return;
+			}
+			if(deviceManager.current.Laps[deviceManager.current.Laps.Count-1].TotalTime == TimeSpan.Zero)
+			{
+				return;
 			}
 			LapModel lap = new LapModel(lapListBox.Items.Count, deviceManager.current.Id, TimeSpan.Zero);
 			lapManager.InsertLap(lap);
-			deviceManager.current.Laps.Insert(0, lap);
+			deviceManager.current.Laps.Add(lap);
 			lapListBox.Items.Insert(0, lapManager.GetLapMessage(lap));
-			cronometroText_Update(stopwatch.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
 		}
 	}
 }
