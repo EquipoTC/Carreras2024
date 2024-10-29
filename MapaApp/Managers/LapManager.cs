@@ -24,7 +24,7 @@ namespace Mapa.Managers
 		} 
 		public string GetLapMessage(LapModel lap)
 		{
-			return $"Vuelta {lap.Id + 1}: + {lap.ElapsedTime.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {lap.TotalTime.ToString(@"hh\:mm\:ss\:fff")}";
+			return $"Vuelta {lap.Number + 1}: + {lap.ElapsedTime.ToString(@"hh\:mm\:ss\:fff")} / Cronometro: {lap.TotalTime.ToString(@"hh\:mm\:ss\:fff")}";
 		}
 	}
 }

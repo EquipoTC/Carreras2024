@@ -11,21 +11,24 @@ namespace Mapa.Models
 {
 	public class LapModel
 	{
-		[JsonProperty("id")]
+		[JsonProperty("vuelta_id")]
 		public int Id { get; set; }
 
-		[JsonProperty("dispID")]
+		[JsonProperty("vuelta_numero")]
+		public int Number { get; set; }
+
+		[JsonProperty("vuelta_dispId")]
 		public int DeviceId { get; set; }
 
-		[JsonProperty("tiempo")]
+		[JsonProperty("vuelta_tiempo")]
 		public TimeSpan ElapsedTime { get; set; }
 
-		[JsonProperty("tiempoCronometro")]
+		[JsonProperty("vuelta_tiempoCronometro")]
 		public TimeSpan TotalTime = TimeSpan.Zero;
 
-		public LapModel(int aId, int aDeviceId, TimeSpan aElapsedTime)
+		public LapModel(int aNumber, int aDeviceId, TimeSpan aElapsedTime)
 		{
-			Id = aId;
+			Number = aNumber;
 			DeviceId = aDeviceId;
 			ElapsedTime = aElapsedTime;
 		}

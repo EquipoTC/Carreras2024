@@ -19,7 +19,7 @@ namespace Mapa.Handlers
 			{
 				JObject jsonObject = new JObject
 				{
-					{ "dispID", lap.DeviceId },
+					{ "numero", lap.Number},
 					{ "tiempo", lap.ElapsedTime.ToString(@"hh\:mm\:ss\.fff") },
 					{ "tiempoCronometro", lap.TotalTime.ToString(@"hh\:mm\:ss\.fff") }
 				};
