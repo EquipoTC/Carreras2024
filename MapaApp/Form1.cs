@@ -88,7 +88,7 @@ namespace Mapa
         {
 			try
 			{
-				await deviceInfoManager.UpdateInfoByDeviceId(deviceManager.current.Id);
+				deviceManager.current.Information = await deviceInfoManager.UpdateInfoByDeviceId(deviceManager.current.Id);
 			}
 			catch
 			{
@@ -178,7 +178,7 @@ namespace Mapa
             mapManager.ToggleMovement();
             if (checkPinPos.Checked)
             {
-                mapManager.SetMapPosition(deviceManager.GetCurrentDevicePosition());
+                mapManager.SetMapPosition(deviceInfoManager.GetCurrentDevicePosition(deviceManager.current));
                 mapManager.SetMapZoom(trackZoom.Value);
             }
         }
