@@ -128,9 +128,10 @@ namespace Mapa
 
 		public void Fill_Lap_Box()
 		{
+			lapListBox.Items.Clear();
 			foreach (LapModel lap in deviceManager.current.Laps)
 			{
-				lapListBox.Items.Insert(0, lapManager.GetLapMessage(lap));
+				lapListBox.Items.Add(lapManager.GetLapMessage(lap));
 			}
 		}
 
@@ -167,7 +168,8 @@ namespace Mapa
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
         {
 			deviceManager.ChangeCurrentDevice(comboDisp.SelectedIndex);
-            Search_Selected_Dispositivo();
+			Fill_Lap_Box();
+			Search_Selected_Dispositivo();
         }
 
         private void checkPinPosition_Changed(object sender, EventArgs e)
@@ -212,6 +214,7 @@ namespace Mapa
 			if (deviceManager.current.Laps.Count == 0)
 			{
 				newLap.TotalTime = stopwatch.Elapsed;
+				deviceManager.current.Laps.Insert(0, newLap);
 				lapManager.InsertLap(newLap);
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 				return;
@@ -224,12 +227,14 @@ namespace Mapa
 				}
 				newLap.TotalTime = stopwatch.Elapsed;
 				newLap.ElapsedTime = TimeSpan.Zero;
+				deviceManager.current.Laps.Insert(0, newLap);
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 				lapManager.InsertLap(newLap);
 				return;
 			}
 			newLap.TotalTime = stopwatch.Elapsed;
 			newLap.ElapsedTime = stopwatch.Elapsed - deviceManager.current.Laps[0].TotalTime;
+			deviceManager.current.Laps.Insert(0, newLap);
 			lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 			lapManager.InsertLap(newLap);
 		}
@@ -318,7 +323,10 @@ namespace Mapa
 			{
 				stopwatch.Reset();
 			}
-			lapManager.InsertLap(new LapModel(lapListBox.Items.Count, deviceManager.current.Id, TimeSpan.Zero));
+			LapModel lap = new LapModel(lapListBox.Items.Count, deviceManager.current.Id, TimeSpan.Zero);
+			lapManager.InsertLap(lap);
+			deviceManager.current.Laps.Insert(0, lap);
+			lapListBox.Items.Insert(0, lapManager.GetLapMessage(lap));
 			cronometroText_Update(stopwatch.Elapsed.ToString(@"hh\:mm\:ss\:fff"));
 		}
 	}
