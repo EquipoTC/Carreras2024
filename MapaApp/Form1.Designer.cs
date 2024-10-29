@@ -34,6 +34,7 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.lapListBox = new System.Windows.Forms.ListBox();
 			this.panelMain = new System.Windows.Forms.Panel();
+			this.resetBtn = new System.Windows.Forms.Button();
 			this.panelConfig = new System.Windows.Forms.Panel();
 			this.txtAPIUrl = new System.Windows.Forms.TextBox();
 			this.labelAPIUrl = new System.Windows.Forms.Label();
@@ -68,13 +69,14 @@
 			this.txtLongitud = new System.Windows.Forms.TextBox();
 			this.btnActualizar = new System.Windows.Forms.Button();
 			this.configTransition = new System.Windows.Forms.Timer(this.components);
-			this.resetBtn = new System.Windows.Forms.Button();
+			this.panel2 = new System.Windows.Forms.Panel();
 			this.panel1.SuspendLayout();
 			this.panelMain.SuspendLayout();
 			this.panelConfig.SuspendLayout();
 			this.panel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.configIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackZoom)).BeginInit();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// gmapControl
@@ -100,7 +102,7 @@
 			this.gmapControl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.gmapControl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.gmapControl.ShowTileGridLines = false;
-			this.gmapControl.Size = new System.Drawing.Size(984, 561);
+			this.gmapControl.Size = new System.Drawing.Size(453, 761);
 			this.gmapControl.TabIndex = 0;
 			this.gmapControl.Zoom = 0D;
 			// 
@@ -116,7 +118,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.panel1.Location = new System.Drawing.Point(453, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(531, 561);
+			this.panel1.Size = new System.Drawing.Size(531, 761);
 			this.panel1.TabIndex = 17;
 			// 
 			// lapListBox
@@ -127,7 +129,7 @@
 			this.lapListBox.ItemHeight = 16;
 			this.lapListBox.Location = new System.Drawing.Point(0, 327);
 			this.lapListBox.Name = "lapListBox";
-			this.lapListBox.Size = new System.Drawing.Size(531, 234);
+			this.lapListBox.Size = new System.Drawing.Size(531, 434);
 			this.lapListBox.TabIndex = 32;
 			// 
 			// panelMain
@@ -167,6 +169,16 @@
 			this.panelMain.Name = "panelMain";
 			this.panelMain.Size = new System.Drawing.Size(531, 327);
 			this.panelMain.TabIndex = 31;
+			// 
+			// resetBtn
+			// 
+			this.resetBtn.Location = new System.Drawing.Point(433, 297);
+			this.resetBtn.Name = "resetBtn";
+			this.resetBtn.Size = new System.Drawing.Size(75, 23);
+			this.resetBtn.TabIndex = 59;
+			this.resetBtn.Text = "Reset";
+			this.resetBtn.UseVisualStyleBackColor = true;
+			this.resetBtn.Click += new System.EventHandler(this.resetBtn_Click);
 			// 
 			// panelConfig
 			// 
@@ -488,22 +500,21 @@
 			this.configTransition.Interval = 10;
 			this.configTransition.Tick += new System.EventHandler(this.configTransition_Tick);
 			// 
-			// resetBtn
+			// panel2
 			// 
-			this.resetBtn.Location = new System.Drawing.Point(433, 297);
-			this.resetBtn.Name = "resetBtn";
-			this.resetBtn.Size = new System.Drawing.Size(75, 23);
-			this.resetBtn.TabIndex = 59;
-			this.resetBtn.Text = "Reset";
-			this.resetBtn.UseVisualStyleBackColor = true;
-			this.resetBtn.Click += new System.EventHandler(this.resetBtn_Click);
+			this.panel2.Controls.Add(this.gmapControl);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(453, 761);
+			this.panel2.TabIndex = 18;
 			// 
 			// Form1
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-			this.ClientSize = new System.Drawing.Size(984, 561);
+			this.ClientSize = new System.Drawing.Size(984, 761);
+			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.gmapControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "Form1";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -516,6 +527,7 @@
 			this.panel3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.configIcon)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackZoom)).EndInit();
+			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -562,6 +574,7 @@
 		private System.Windows.Forms.TextBox txtAPIUrl;
 		private System.Windows.Forms.Label labelAPIUrl;
 		private System.Windows.Forms.Button resetBtn;
+		private System.Windows.Forms.Panel panel2;
 	}
 }
 
