@@ -137,6 +137,10 @@ namespace Mapa
 			{
 				timeBegin = deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
 			}
+			else
+			{
+				timeBegin = TimeSpan.Zero;
+			}
 		}
 
 		private void Search_Selected_Dispositivo()
@@ -163,9 +167,11 @@ namespace Mapa
         private void Combo_Dispositivo_Changed(object sender, EventArgs e)
         {
 			deviceManager.ChangeCurrentDevice(comboDisp.SelectedIndex);
+			stopwatch.Reset();
 			Fill_Lap_Box();
 			Search_Selected_Dispositivo();
-        }
+			cronometroText_Update(TimeSpan.Zero);
+		}
 
         private void checkPinPosition_Changed(object sender, EventArgs e)
         {
@@ -208,7 +214,7 @@ namespace Mapa
 			LapModel newLap = new LapModel(lapListBox.Items.Count, deviceManager.current.Id, stopwatch.Elapsed);
 			if (deviceManager.current.Laps.Count == 0)
 			{
-				newLap.TotalTime = stopwatch.Elapsed;
+				newLap.TotalTime = stopwatch.Elapsed + timeBegin;
 				deviceManager.current.Laps.Add(newLap);
 				lapManager.InsertLap(newLap);
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
@@ -220,15 +226,15 @@ namespace Mapa
 				{
 					return;
 				}
-				newLap.TotalTime = stopwatch.Elapsed;
+				newLap.TotalTime = stopwatch.Elapsed + timeBegin;
 				newLap.ElapsedTime = TimeSpan.Zero;
 				deviceManager.current.Laps.Add(newLap);
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 				lapManager.InsertLap(newLap);
 				return;
 			}
-			newLap.TotalTime = stopwatch.Elapsed;
-			newLap.ElapsedTime = stopwatch.Elapsed - deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
+			newLap.TotalTime = stopwatch.Elapsed + timeBegin;
+			newLap.ElapsedTime = (stopwatch.Elapsed + timeBegin) - deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
 			deviceManager.current.Laps.Add(newLap);
 			lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 			lapManager.InsertLap(newLap);
