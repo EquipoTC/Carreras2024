@@ -1,5 +1,6 @@
 ﻿using API;
 using Mapa.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,27 @@ namespace Mapa.Handlers
 				};
 				await APIRequests.PostHttp("vuelta/ingresar", APIRequests.apiUrl, jsonObject.ToString());
 			}
-			catch (TimeoutException ex)
+			catch
 			{
+				throw;
 			}
-			catch (Exception ex)
+		}
+		public async Task<List<LapModel>> GetByIdHandler(int deviceId)
+		{
+			try
 			{
+				string response = await APIRequests.GetHttp("vuelta/" + deviceId, APIRequests.apiUrl);
+				JObject json = JObject.Parse(response);
+				List<LapModel> lapList = JsonConvert.DeserializeObject<List<LapModel>>(json["data"].ToString());
+				if (lapList == null)
+				{
+					return new List<LapModel>();
+				}
+				return lapList;
+			}
+			catch
+			{
+				throw;
 			}
 		}
 	}
