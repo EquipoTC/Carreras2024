@@ -178,9 +178,10 @@ CREATE PROCEDURE sp_add_vuelta(
 	)
 BEGIN
 	INSERT INTO vuelta(
-		vuelta_numero, vuelta_tiempo, vuelta_tiempoCronometro
+		a_vuelta_dispId, vuelta_numero, vuelta_tiempo, vuelta_tiempoCronometro
 	) 
 	VALUES(
+		a_vuelta_dispId,
 		a_vuelta_numero,
 		a_vuelta_tiempo,
 		a_vuelta_tiempoCronometro

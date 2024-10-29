@@ -102,11 +102,12 @@ func InsertarDispositivo(w http.ResponseWriter, r *http.Request) {
 func InsertarVuelta(w http.ResponseWriter, r *http.Request) {
 
 	if body := GetBody(r); body != nil {
+		dispID := ObtenerParametroPOST(body, "dispID")
 		numero := ObtenerParametroPOST(body, "numero")
 		tiempo := ObtenerParametroPOST(body, "tiempo")
 		tiempoCronometro := ObtenerParametroPOST(body, "tiempoCronometro")
 
-		query := "CALL sp_add_vuelta(" + numero + ", " + Comillas(tiempo) + ", " + Comillas(tiempoCronometro) + ")"
+		query := "CALL sp_add_vuelta(" + dispID + ", " + numero + ", " + Comillas(tiempo) + ", " + Comillas(tiempoCronometro) + ")"
 		ObtenerConsultaJSON(w, r, query)
 	} else {
 		http.Error(w, "No se puede leer el body", http.StatusBadRequest)

@@ -104,7 +104,6 @@ namespace Mapa
 				device.Laps = await lapManager.GetLapsByDeviceId(device.Id);
 			}));
 			Fill_Dispositivo_Box();
-			Fill_Lap_Box();
         }
 
         public void Fill_Dispositivo_Box()
@@ -133,8 +132,11 @@ namespace Mapa
 			{
 				lapListBox.Items.Add(lapManager.GetLapMessage(lap));
 			}
-			TimeSpan time = deviceManager.current.Laps[deviceManager.current.Laps.Count].TotalTime;
-			cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
+			if(lapListBox.Items.Count > 0)
+			{
+				TimeSpan time = deviceManager.current.Laps[deviceManager.current.Laps.Count - 1].TotalTime;
+				cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
+			}
 		}
 
 		private void Search_Selected_Dispositivo()
