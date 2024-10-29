@@ -12,24 +12,21 @@ using Mapa.Services;
 
 namespace Mapa
 {
-    internal class GoogleMapManager : IMapService
+    public class GoogleMapManager : IMapService
     {
-        GMapControl control;
-        GMarkerGoogle marker;
+        public GMapControl control;
+		GMarkerGoogle marker;
         GMapOverlay markerOverlay;
         GMapOverlay routeOverlay;
 
 		IDeviceService deviceManager;
 		IDeviceInfoService deviceInfoManager;
 
-		public GoogleMapManager(GMapControl mapControl, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
+		public GoogleMapManager(IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
-            control = mapControl;
 			this.deviceManager = deviceManager;
 			this.deviceInfoManager = deviceInfoManager;
 			routeOverlay = new GMapOverlay("Ruta");
-            SetupMap();
-            SetupMarker();
         }
 
         private PointLatLng PointConvert(LatLng point) 
