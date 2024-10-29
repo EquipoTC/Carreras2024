@@ -9,6 +9,7 @@ using API;
 using System.IO;
 using Mapa.Models;
 using Mapa.Services;
+using System.Linq;
 
 namespace Mapa
 {
@@ -97,18 +98,13 @@ namespace Mapa
         public async Task Update_Dispositivos()
         {
 			List<DeviceModel> result = await deviceManager.UpdateDeviceList();
-			await Task.Run(() =>
+			await Task.WhenAll(deviceManager.deviceList.Select(async device =>
 			{
-				Parallel.ForEach(deviceManager.deviceList, async device =>
-				{
-					device.Information = await deviceInfoManager.UpdateInfoByDeviceId(device.Id);
-					device.Laps = await lapManager.GetLapsByDeviceId(device.Id);
-				});
-			});
+				device.Information = await deviceInfoManager.UpdateInfoByDeviceId(device.Id);
+				device.Laps = await lapManager.GetLapsByDeviceId(device.Id);
+			}));
 			Fill_Dispositivo_Box();
-			deviceManager.ChangeCurrentDevice(comboDisp.SelectedIndex);
 			Fill_Lap_Box();
-			await Task.Delay(100);
         }
 
         public void Fill_Dispositivo_Box()
