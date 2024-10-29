@@ -41,20 +41,10 @@
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.configIcon = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.txtPotencia = new System.Windows.Forms.TextBox();
-			this.labelPotencia = new System.Windows.Forms.Label();
-			this.txtEnergia = new System.Windows.Forms.TextBox();
-			this.labelEnergia = new System.Windows.Forms.Label();
-			this.txtTension = new System.Windows.Forms.TextBox();
-			this.labelTension = new System.Windows.Forms.Label();
 			this.txtVelGPSPromedio = new System.Windows.Forms.TextBox();
 			this.labelVelGPSProm = new System.Windows.Forms.Label();
 			this.txtVelGPS = new System.Windows.Forms.TextBox();
 			this.labelVelGPS = new System.Windows.Forms.Label();
-			this.txtCorriente = new System.Windows.Forms.TextBox();
-			this.txtVelDisp = new System.Windows.Forms.TextBox();
-			this.labelCorriente = new System.Windows.Forms.Label();
-			this.labelVelDisp = new System.Windows.Forms.Label();
 			this.lapBtn = new System.Windows.Forms.Button();
 			this.playBtn = new System.Windows.Forms.Button();
 			this.cronometroLabel = new System.Windows.Forms.Label();
@@ -127,9 +117,9 @@
 			this.lapListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lapListBox.FormattingEnabled = true;
 			this.lapListBox.ItemHeight = 16;
-			this.lapListBox.Location = new System.Drawing.Point(0, 327);
+			this.lapListBox.Location = new System.Drawing.Point(0, 278);
 			this.lapListBox.Name = "lapListBox";
-			this.lapListBox.Size = new System.Drawing.Size(531, 434);
+			this.lapListBox.Size = new System.Drawing.Size(531, 483);
 			this.lapListBox.TabIndex = 32;
 			// 
 			// panelMain
@@ -137,20 +127,10 @@
 			this.panelMain.Controls.Add(this.resetBtn);
 			this.panelMain.Controls.Add(this.panelConfig);
 			this.panelMain.Controls.Add(this.panel3);
-			this.panelMain.Controls.Add(this.txtPotencia);
-			this.panelMain.Controls.Add(this.labelPotencia);
-			this.panelMain.Controls.Add(this.txtEnergia);
-			this.panelMain.Controls.Add(this.labelEnergia);
-			this.panelMain.Controls.Add(this.txtTension);
-			this.panelMain.Controls.Add(this.labelTension);
 			this.panelMain.Controls.Add(this.txtVelGPSPromedio);
 			this.panelMain.Controls.Add(this.labelVelGPSProm);
 			this.panelMain.Controls.Add(this.txtVelGPS);
 			this.panelMain.Controls.Add(this.labelVelGPS);
-			this.panelMain.Controls.Add(this.txtCorriente);
-			this.panelMain.Controls.Add(this.txtVelDisp);
-			this.panelMain.Controls.Add(this.labelCorriente);
-			this.panelMain.Controls.Add(this.labelVelDisp);
 			this.panelMain.Controls.Add(this.lapBtn);
 			this.panelMain.Controls.Add(this.playBtn);
 			this.panelMain.Controls.Add(this.cronometroLabel);
@@ -167,12 +147,12 @@
 			this.panelMain.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelMain.Location = new System.Drawing.Point(0, 0);
 			this.panelMain.Name = "panelMain";
-			this.panelMain.Size = new System.Drawing.Size(531, 327);
+			this.panelMain.Size = new System.Drawing.Size(531, 278);
 			this.panelMain.TabIndex = 31;
 			// 
 			// resetBtn
 			// 
-			this.resetBtn.Location = new System.Drawing.Point(433, 297);
+			this.resetBtn.Location = new System.Drawing.Point(424, 244);
 			this.resetBtn.Name = "resetBtn";
 			this.resetBtn.Size = new System.Drawing.Size(75, 23);
 			this.resetBtn.TabIndex = 59;
@@ -246,57 +226,6 @@
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Carreras | Escuela de Educación Tecnica N°2";
 			// 
-			// txtPotencia
-			// 
-			this.txtPotencia.Location = new System.Drawing.Point(332, 202);
-			this.txtPotencia.Name = "txtPotencia";
-			this.txtPotencia.ReadOnly = true;
-			this.txtPotencia.Size = new System.Drawing.Size(100, 20);
-			this.txtPotencia.TabIndex = 56;
-			// 
-			// labelPotencia
-			// 
-			this.labelPotencia.AutoSize = true;
-			this.labelPotencia.Location = new System.Drawing.Point(332, 186);
-			this.labelPotencia.Name = "labelPotencia";
-			this.labelPotencia.Size = new System.Drawing.Size(49, 13);
-			this.labelPotencia.TabIndex = 55;
-			this.labelPotencia.Text = "Potencia";
-			// 
-			// txtEnergia
-			// 
-			this.txtEnergia.Location = new System.Drawing.Point(226, 202);
-			this.txtEnergia.Name = "txtEnergia";
-			this.txtEnergia.ReadOnly = true;
-			this.txtEnergia.Size = new System.Drawing.Size(100, 20);
-			this.txtEnergia.TabIndex = 54;
-			// 
-			// labelEnergia
-			// 
-			this.labelEnergia.AutoSize = true;
-			this.labelEnergia.Location = new System.Drawing.Point(223, 186);
-			this.labelEnergia.Name = "labelEnergia";
-			this.labelEnergia.Size = new System.Drawing.Size(45, 13);
-			this.labelEnergia.TabIndex = 53;
-			this.labelEnergia.Text = "Energía";
-			// 
-			// txtTension
-			// 
-			this.txtTension.Location = new System.Drawing.Point(120, 202);
-			this.txtTension.Name = "txtTension";
-			this.txtTension.ReadOnly = true;
-			this.txtTension.Size = new System.Drawing.Size(100, 20);
-			this.txtTension.TabIndex = 52;
-			// 
-			// labelTension
-			// 
-			this.labelTension.AutoSize = true;
-			this.labelTension.Location = new System.Drawing.Point(117, 186);
-			this.labelTension.Name = "labelTension";
-			this.labelTension.Size = new System.Drawing.Size(45, 13);
-			this.labelTension.TabIndex = 51;
-			this.labelTension.Text = "Tensión";
-			// 
 			// txtVelGPSPromedio
 			// 
 			this.txtVelGPSPromedio.Location = new System.Drawing.Point(120, 155);
@@ -331,43 +260,9 @@
 			this.labelVelGPS.TabIndex = 47;
 			this.labelVelGPS.Text = "Velocidad GPS";
 			// 
-			// txtCorriente
-			// 
-			this.txtCorriente.Location = new System.Drawing.Point(14, 202);
-			this.txtCorriente.Name = "txtCorriente";
-			this.txtCorriente.ReadOnly = true;
-			this.txtCorriente.Size = new System.Drawing.Size(100, 20);
-			this.txtCorriente.TabIndex = 46;
-			// 
-			// txtVelDisp
-			// 
-			this.txtVelDisp.Location = new System.Drawing.Point(226, 155);
-			this.txtVelDisp.Name = "txtVelDisp";
-			this.txtVelDisp.ReadOnly = true;
-			this.txtVelDisp.Size = new System.Drawing.Size(100, 20);
-			this.txtVelDisp.TabIndex = 45;
-			// 
-			// labelCorriente
-			// 
-			this.labelCorriente.AutoSize = true;
-			this.labelCorriente.Location = new System.Drawing.Point(11, 186);
-			this.labelCorriente.Name = "labelCorriente";
-			this.labelCorriente.Size = new System.Drawing.Size(49, 13);
-			this.labelCorriente.TabIndex = 44;
-			this.labelCorriente.Text = "Corriente";
-			// 
-			// labelVelDisp
-			// 
-			this.labelVelDisp.AutoSize = true;
-			this.labelVelDisp.Location = new System.Drawing.Point(223, 126);
-			this.labelVelDisp.Name = "labelVelDisp";
-			this.labelVelDisp.Size = new System.Drawing.Size(74, 26);
-			this.labelVelDisp.TabIndex = 43;
-			this.labelVelDisp.Text = "Velocidad del \r\nDispositivo";
-			// 
 			// lapBtn
 			// 
-			this.lapBtn.Location = new System.Drawing.Point(327, 297);
+			this.lapBtn.Location = new System.Drawing.Point(318, 244);
 			this.lapBtn.Name = "lapBtn";
 			this.lapBtn.Size = new System.Drawing.Size(75, 23);
 			this.lapBtn.TabIndex = 42;
@@ -377,7 +272,7 @@
 			// 
 			// playBtn
 			// 
-			this.playBtn.Location = new System.Drawing.Point(225, 297);
+			this.playBtn.Location = new System.Drawing.Point(216, 244);
 			this.playBtn.Name = "playBtn";
 			this.playBtn.Size = new System.Drawing.Size(75, 23);
 			this.playBtn.TabIndex = 41;
@@ -388,7 +283,7 @@
 			// cronometroLabel
 			// 
 			this.cronometroLabel.AutoSize = true;
-			this.cronometroLabel.Location = new System.Drawing.Point(77, 274);
+			this.cronometroLabel.Location = new System.Drawing.Point(68, 221);
 			this.cronometroLabel.Name = "cronometroLabel";
 			this.cronometroLabel.Size = new System.Drawing.Size(61, 13);
 			this.cronometroLabel.TabIndex = 40;
@@ -397,7 +292,7 @@
 			// cronometroTextBox
 			// 
 			this.cronometroTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cronometroTextBox.Location = new System.Drawing.Point(16, 290);
+			this.cronometroTextBox.Location = new System.Drawing.Point(7, 237);
 			this.cronometroTextBox.Multiline = true;
 			this.cronometroTextBox.Name = "cronometroTextBox";
 			this.cronometroTextBox.ReadOnly = true;
@@ -409,7 +304,7 @@
 			// labelZoom
 			// 
 			this.labelZoom.AutoSize = true;
-			this.labelZoom.Location = new System.Drawing.Point(13, 233);
+			this.labelZoom.Location = new System.Drawing.Point(14, 189);
 			this.labelZoom.Name = "labelZoom";
 			this.labelZoom.Size = new System.Drawing.Size(37, 13);
 			this.labelZoom.TabIndex = 37;
@@ -417,7 +312,7 @@
 			// 
 			// trackZoom
 			// 
-			this.trackZoom.Location = new System.Drawing.Point(56, 233);
+			this.trackZoom.Location = new System.Drawing.Point(57, 189);
 			this.trackZoom.Maximum = 18;
 			this.trackZoom.Minimum = 6;
 			this.trackZoom.Name = "trackZoom";
@@ -543,10 +438,6 @@
         private System.Windows.Forms.Label labelVelGPSProm;
         private System.Windows.Forms.TextBox txtVelGPS;
         private System.Windows.Forms.Label labelVelGPS;
-        private System.Windows.Forms.TextBox txtCorriente;
-        private System.Windows.Forms.TextBox txtVelDisp;
-        private System.Windows.Forms.Label labelCorriente;
-        private System.Windows.Forms.Label labelVelDisp;
         private System.Windows.Forms.Button lapBtn;
         private System.Windows.Forms.Button playBtn;
         private System.Windows.Forms.Label cronometroLabel;
@@ -559,12 +450,6 @@
         private System.Windows.Forms.TextBox txtLatitud;
         private System.Windows.Forms.Label labelLongitud;
         private System.Windows.Forms.TextBox txtLongitud;
-        private System.Windows.Forms.TextBox txtTension;
-        private System.Windows.Forms.Label labelTension;
-        private System.Windows.Forms.TextBox txtPotencia;
-        private System.Windows.Forms.Label labelPotencia;
-        private System.Windows.Forms.TextBox txtEnergia;
-        private System.Windows.Forms.Label labelEnergia;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox configIcon;

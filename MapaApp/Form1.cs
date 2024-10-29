@@ -148,10 +148,6 @@ namespace Mapa
 				txtLongitud.Text = "";
 				txtVelGPS.Text = "";
 				txtVelGPSPromedio.Text = "";
-				txtVelDisp.Text = "";
-				txtCorriente.Text = "";
-				txtTension.Text = "";
-				txtPotencia.Text = "";
 				return; 
 			}
 			// Texts
@@ -159,11 +155,6 @@ namespace Mapa
             txtLongitud.Text = info.Longitude.ToString();
             txtVelGPS.Text = mapManager.CalculateVelocityofDevice(deviceManager.current) + " km/h";
             txtVelGPSPromedio.Text = mapManager.CalculateVelocityofDevice(deviceManager.current, 10) + " km/h";
-            txtVelDisp.Text = info.Speed.ToString() + " km/h";
-            txtCorriente.Text = info.Intensity.ToString() + " A";
-            txtTension.Text = info.Voltage.ToString() + " V";
-            txtEnergia.Text = info.Energy.ToString() + " kWh";
-            txtPotencia.Text = info.Power.ToString() + " W";
             // Pins
             if (!checkPinPos.Checked) { return; }
             mapManager.SetMapPosition(new LatLng(info.Latitude, info.Longitude));
