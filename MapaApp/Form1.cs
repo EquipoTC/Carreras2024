@@ -78,18 +78,15 @@ namespace Mapa
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine("Timer Tick");
             Task update_information = Task.Run(() => Update_Current_Information());
             Search_Selected_Dispositivo();
         }
 
         public async void Update_Current_Information()
         {
-            Console.WriteLine("Actualizando Informacion Dispositivos...");
 			try
 			{
 				await deviceInfoManager.UpdateInfoByDeviceId(deviceManager.current.Id);
-				Console.WriteLine("Informacion actualizada.");
 			}
 			catch
 			{
@@ -99,7 +96,6 @@ namespace Mapa
 
         public async Task Update_Dispositivos()
         {
-           Console.WriteLine("Actualizando Dispositivos...");
 			List<DeviceModel> result = await deviceManager.UpdateDeviceList();
            await Task.Run(() =>
            {
@@ -109,7 +105,6 @@ namespace Mapa
                });
            });
            Fill_Dispositivo_Box();
-           Console.WriteLine("Dispositivos Actualizados.");
         }
 
         public void Fill_Dispositivo_Box()
@@ -123,7 +118,6 @@ namespace Mapa
             {
                 comboDisp.Items.Add(device_desc);
             }
-			Console.WriteLine("INDEX:" + comboDisp.SelectedIndex);
             if(deviceManager.deviceList.Count >= beforeIndex && beforeIndex != -1)
 			{
 				comboDisp.SelectedIndex = beforeIndex;

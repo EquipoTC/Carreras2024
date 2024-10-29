@@ -22,16 +22,13 @@ namespace Mapa.Handlers
 					{ "tiempo", lap.ElapsedTime.ToString(@"hh\:mm\:ss\.fff") },
 					{ "tiempoCronometro", lap.TotalTime.ToString(@"hh\:mm\:ss\.fff") }
 				};
-				Console.WriteLine("Vuelta:" + jsonObject.ToString());
 				await APIRequests.PostHttp("vuelta/ingresar", APIRequests.apiUrl, jsonObject.ToString());
 			}
 			catch (TimeoutException ex)
 			{
-				Console.WriteLine("La solicitud HTTP ha excedido el tiempo límite:" + ex.Message);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Error en la solicitud HTTP:" + ex.Message);
 			}
 		}
 	}

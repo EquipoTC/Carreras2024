@@ -72,7 +72,6 @@ namespace Mapa
             marker.ToolTipMode = MarkerTooltipMode.Always;
 			marker.ToolTipText = deviceManager.GetCurrentDevicePositionMessage();
             marker.Position = PointConvert(deviceManager.GetCurrentDevicePosition());
-            Console.WriteLine("Posición:" + deviceManager.GetCurrentDevicePosition());
         }
 
         public void SetMapPosition(LatLng point)
