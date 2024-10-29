@@ -25,6 +25,14 @@ namespace Mapa.Managers
 		{
 			return device.Information == null || device.Information.Count == 0 ? null : device.Information[device.Information.Count - 1];
 		}
+		public LatLng GetCurrentDevicePosition(DeviceModel device)
+		{
+			if(device.Information == null || device.Information.Count == 0)
+			{
+				return new LatLng(0,0);
+			}
+			return new LatLng(device.Information[device.Information.Count - 1].Latitude, device.Information[device.Information.Count - 1].Longitude);
+		}
 
 		public LatLng GetDevicePastPositionsbyId(DeviceModel device, int id)
 		{

@@ -11,7 +11,7 @@ namespace Mapa.Services
 	{
 		Task<List<DeviceInfoModel>> UpdateInfoByDeviceId(int deviceId);
 		DeviceInfoModel GetDeviceLastInformation(DeviceModel device);
-
+		LatLng GetCurrentDevicePosition(DeviceModel device);
 		LatLng GetDevicePastPositionsbyId(DeviceModel device, int id);
 	}
 }

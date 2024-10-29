@@ -39,7 +39,7 @@ namespace Mapa
             control.Overlays.Clear();
             control.Overlays.Add(markerOverlay);
             control.Overlays.Add(routeOverlay);
-            DrawRouteofDevice(deviceManager.current, 5);
+            DrawRouteofDevice(deviceManager.current, 10);
             SetMarkeronCurrentDevice();
             
         }
@@ -49,7 +49,7 @@ namespace Mapa
             control.DragButton = MouseButtons.Left;
             control.CanDragMap = false;
             control.MapProvider = GMapProviders.GoogleMap;
-            control.Position = PointConvert(deviceManager.GetCurrentDevicePosition());
+            control.Position = PointConvert(deviceInfoManager.GetCurrentDevicePosition(deviceManager.current));
             control.MinZoom = 1;
             control.MaxZoom = 18;
             control.Zoom = 16;
@@ -68,7 +68,7 @@ namespace Mapa
         {
             marker.ToolTipMode = MarkerTooltipMode.Always;
 			marker.ToolTipText = deviceManager.GetCurrentDevicePositionMessage();
-            marker.Position = PointConvert(deviceManager.GetCurrentDevicePosition());
+            marker.Position = PointConvert(deviceInfoManager.GetCurrentDevicePosition(deviceManager.current));
         }
 
         public void SetMapPosition(LatLng point)

@@ -46,11 +46,6 @@ namespace Mapa.Managers
 			return descList;
 		}
 
-		public LatLng GetCurrentDevicePosition()
-		{
-			return new LatLng(current.CurrentLatitude, current.CurrentLongitude);
-		}
-
 		public DeviceInfoModel GetCurrentDeviceInformation()
 		{
 			return current.Information[current.Information.Count - 1];
