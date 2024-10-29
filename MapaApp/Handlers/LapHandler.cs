@@ -39,13 +39,13 @@ namespace Mapa.Handlers
 				List<LapModel> lapList = JsonConvert.DeserializeObject<List<LapModel>>(json["data"].ToString());
 				if (lapList == null)
 				{
-					return new List<LapModel>();
+					throw new Exception();
 				}
 				return lapList;
 			}
 			catch
 			{
-				throw;
+				return new List<LapModel>();
 			}
 		}
 	}
