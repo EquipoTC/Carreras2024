@@ -33,5 +33,6 @@ namespace Mapa.Models
 		public bool Enabled { get; set; }
 
 		public List<DeviceInfoModel> Information = new List<DeviceInfoModel>();
+		public List<LapModel> Laps = new List<LapModel>();
 	}
 }
