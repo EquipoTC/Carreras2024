@@ -97,14 +97,18 @@ namespace Mapa
         public async Task Update_Dispositivos()
         {
 			List<DeviceModel> result = await deviceManager.UpdateDeviceList();
-           await Task.Run(() =>
-           {
-               Parallel.ForEach(deviceManager.deviceList, async device =>
-               {
-				   await deviceInfoManager.UpdateInfoByDeviceId(device.Id);
-               });
-           });
-           Fill_Dispositivo_Box();
+			await Task.Run(() =>
+			{
+				Parallel.ForEach(deviceManager.deviceList, async device =>
+				{
+					device.Information = await deviceInfoManager.UpdateInfoByDeviceId(device.Id);
+					device.Laps = await lapManager.GetLapsByDeviceId(device.Id);
+				});
+			});
+			Fill_Dispositivo_Box();
+			deviceManager.ChangeCurrentDevice(comboDisp.SelectedIndex);
+			Fill_Lap_Box();
+			await Task.Delay(100);
         }
 
         public void Fill_Dispositivo_Box()
@@ -126,7 +130,15 @@ namespace Mapa
 			comboDisp.SelectedIndex = 0;
         }
 
-        private void Search_Selected_Dispositivo()
+		public void Fill_Lap_Box()
+		{
+			foreach (LapModel lap in deviceManager.current.Laps)
+			{
+				lapListBox.Items.Insert(0, lapManager.GetLapMessage(lap));
+			}
+		}
+
+		private void Search_Selected_Dispositivo()
         {
 			mapManager.OverlaysTick();
 			DeviceInfoModel info = deviceInfoManager.GetDeviceLastInformation(deviceManager.current);
