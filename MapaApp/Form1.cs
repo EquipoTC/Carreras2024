@@ -18,17 +18,20 @@ namespace Mapa
 		private readonly ILapService lapManager;
 		private readonly IDeviceService deviceManager;
 		private readonly IDeviceInfoService deviceInfoManager;
-		private readonly IMapService mapManager;
+		private readonly GoogleMapManager mapManager;
 
         Stopwatch stopwatch = new Stopwatch();
 
-        public Form1(IMapService mapManager, ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
+        public Form1(GoogleMapManager mapManager, ILapService lapManager, IDeviceService deviceManager, IDeviceInfoService deviceInfoManager)
         {
+			InitializeComponent();
+			mapManager.control = gmapControl;
 			this.mapManager = mapManager;
 			this.lapManager = lapManager;
 			this.deviceManager = deviceManager;
 			this.deviceInfoManager = deviceInfoManager;
-			InitializeComponent();
+			mapManager.SetupMap();
+			mapManager.SetupMarker();
             Start_Program();
         }
 

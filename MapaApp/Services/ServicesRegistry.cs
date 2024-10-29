@@ -23,14 +23,13 @@ namespace Mapa.Services
 			services.AddSingleton<LapHandler>();
 			services.AddSingleton<DeviceHandler>();
 			services.AddSingleton<DeviceInfoHandler>();
-			services.AddSingleton<GMapControl>();
 		}
 		public static void RegisterManagers(IServiceCollection services)
 		{
 			services.AddSingleton<ILapService, LapManager>();
 			services.AddSingleton<IDeviceService, DeviceManager>();
 			services.AddSingleton<IDeviceInfoService, DeviceInfoManager>();
-			services.AddSingleton<IMapService, GoogleMapManager>();
+			services.AddSingleton<GoogleMapManager>();
 		}
 	}
 }
