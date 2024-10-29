@@ -133,6 +133,8 @@ namespace Mapa
 			{
 				lapListBox.Items.Add(lapManager.GetLapMessage(lap));
 			}
+			TimeSpan time = deviceManager.current.Laps[deviceManager.current.Laps.Count].TotalTime;
+			cronometroText_Update(time.ToString(@"hh\:mm\:ss\:fff"));
 		}
 
 		private void Search_Selected_Dispositivo()
