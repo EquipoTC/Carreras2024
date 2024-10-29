@@ -31,6 +31,7 @@ CREATE TABLE info_dispositivo(
 
 CREATE TABLE vuelta(
 	vuelta_id INT UNSIGNED AUTO_INCREMENT,
+	vuelta_numero INT UNSIGNED,
 	vuelta_dispId INT UNSIGNED NOT NULL,
 	vuelta_tiempo TIME(3) NOT NULL,
 	vuelta_tiempoCronometro TIME(3) NOT NULL,
@@ -173,14 +174,14 @@ END //
 
 CREATE PROCEDURE sp_add_vuelta(
 	IN 
-		a_vuelta_dispId INT UNSIGNED, a_vuelta_tiempo TIME(3), a_vuelta_tiempoCronometro TIME(3)
+		a_vuelta_numero INT UNSIGNED, a_vuelta_tiempo TIME(3), a_vuelta_tiempoCronometro TIME(3)
 	)
 BEGIN
 	INSERT INTO vuelta(
-		vuelta_dispId, vuelta_tiempo, vuelta_tiempoCronometro
+		vuelta_numero, vuelta_tiempo, vuelta_tiempoCronometro
 	) 
 	VALUES(
-		a_vuelta_dispId,
+		a_vuelta_numero,
 		a_vuelta_tiempo,
 		a_vuelta_tiempoCronometro
 	);
@@ -199,3 +200,6 @@ CALL sp_add_dispositivo('Jeremias', 10.712316, 100.676532, TRUE, 0, 2, 10, 2, 20
 
 CALL sp_add_info_dispositivo(1, -34.697520342012, -58.459875233068644, 0, 1, 25, 30, 20);
 CALL sp_add_info_dispositivo(1, -34.697461087381946, -58.45931763026985, 0, 1, 25, 30, 20);
+
+DELETE FROM vuelta WHERE TRUE = TRUE;
+
