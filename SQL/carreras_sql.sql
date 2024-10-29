@@ -186,6 +186,11 @@ BEGIN
 	);
 END //
 
+CREATE PROCEDURE sp_read_vueltas_dispositivo(IN disp_id INT UNSIGNED)
+BEGIN
+	SELECT * FROM vuelta WHERE disp_id = vuelta_dispId;
+END //
+
 DELIMITER ;
 
 CALL sp_add_dispositivo('Auto 1', -34.697542172654494, -58.460152137859886, TRUE, 10, 20, 30, 50, 5);
