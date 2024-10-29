@@ -142,7 +142,7 @@ namespace Mapa
         {
 			mapManager.OverlaysTick();
 			DeviceInfoModel info = deviceInfoManager.GetDeviceLastInformation(deviceManager.current);
-            if (info == null) {
+			if (info == null) {
 				txtLatitud.Text = "";
 				txtLongitud.Text = "";
 				txtVelGPS.Text = "";
@@ -204,19 +204,28 @@ namespace Mapa
 
 		private void lapBtn_Click(object sender, EventArgs e)
 		{
+			if(deviceManager.deviceList.Count == 0)
+			{
+				return;
+			}
 			if (stopwatch.ElapsedMilliseconds == 0)
 			{
 				return;
 			}
 			LapModel newLap = new LapModel(lapListBox.Items.Count, deviceManager.current.Id, stopwatch.Elapsed);
-			if (lapManager.lapList.Count > 0)
+			if (deviceManager.current.Laps.Count == 0)
 			{
 				newLap.TotalTime = stopwatch.Elapsed;
 				lapManager.InsertLap(newLap);
+				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 				return;
 			}
-			if (stopwatch.Elapsed - lapManager.lapList[1].TotalTime == TimeSpan.Zero)
+			if (stopwatch.Elapsed - deviceManager.current.Laps[0].TotalTime == TimeSpan.Zero)
 			{
+				if(deviceManager.current.Laps[0].ElapsedTime == TimeSpan.Zero)
+				{
+					return;
+				}
 				newLap.TotalTime = stopwatch.Elapsed;
 				newLap.ElapsedTime = TimeSpan.Zero;
 				lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
@@ -224,7 +233,7 @@ namespace Mapa
 				return;
 			}
 			newLap.TotalTime = stopwatch.Elapsed;
-			newLap.ElapsedTime = stopwatch.Elapsed - lapManager.lapList[1].TotalTime;
+			newLap.ElapsedTime = stopwatch.Elapsed - deviceManager.current.Laps[0].TotalTime;
 			lapListBox.Items.Insert(0, lapManager.GetLapMessage(newLap));
 			lapManager.InsertLap(newLap);
 		}
@@ -281,6 +290,7 @@ namespace Mapa
             {
                 await Update_Dispositivos();
 				MessageBox.Show("Se actualizo la lista de dispositivos.");
+				Search_Selected_Dispositivo();
 			}
             catch (Exception ex)
             {
@@ -298,7 +308,7 @@ namespace Mapa
         private void SwitchFreezeUI()
         {
             this.UseWaitCursor = !this.UseWaitCursor;
-            panelMain.Enabled = !panelMain.Enabled;
+			panelMain.Enabled = !panelMain.Enabled;
             panelConfig.Enabled = !panelConfig.Enabled;
         }
 
