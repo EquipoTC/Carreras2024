@@ -195,12 +195,3 @@ END //
 
 DELIMITER ;
 
-CALL sp_add_dispositivo('Auto 1', -34.697542172654494, -58.460152137859886, TRUE, 10, 20, 30, 50, 5);
-CALL sp_add_dispositivo('Stefano', 30.160236, -60.61532, TRUE, 30, 20, 30, 10, 8);
-CALL sp_add_dispositivo('Jeremias', 10.712316, 100.676532, TRUE, 0, 2, 10, 2, 20);
-
-CALL sp_add_info_dispositivo(1, -34.697520342012, -58.459875233068644, 0, 1, 25, 30, 20);
-CALL sp_add_info_dispositivo(1, -34.697461087381946, -58.45931763026985, 0, 1, 25, 30, 20);
-
-DELETE FROM vuelta WHERE TRUE = TRUE;
-
